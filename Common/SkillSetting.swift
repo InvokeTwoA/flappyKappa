@@ -20,6 +20,8 @@ class SkillSetting {
             name = "吸血"
         case "zombi":
             name = "河童オブ・ザ・デッド"
+        case "shoes":
+            name = "縮地"
         default:
             name = ""
         }
@@ -45,8 +47,8 @@ class SkillSetting {
             name = "敵を撃破する度にHPが回復するようになります。\n回復量はレベル依存です。\n\n異名がゾンビの時だけ有効になります。"
         case "zombi":
             name = "回復アイテムを取ると大ダメージを受けてしまいます。\n\n異名がゾンビの時だけ有効になります。"
-
-            
+        case "shoes":
+            name = "戦闘中の敏捷が255になる。\n速すぎるので注意"
         default:
             name = ""
         }

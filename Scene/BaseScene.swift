@@ -44,6 +44,9 @@ class BaseScene: SKScene, NADViewDelegate {
         // 所持金を表示
         var gold : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
         var gold_value : Int = CommonData.getDataByInt("gold")
+        
+        print("gold=\(gold_value) \n")
+        
         gold.text = CommonUtil.displayMoney(gold_value)
         gold.fontSize = 18
         gold.position = CGPointMake(0, -45)
@@ -54,7 +57,9 @@ class BaseScene: SKScene, NADViewDelegate {
         self.addChild(background)
 
         let adTime : NSTimeInterval = CommonData.getData("adTime") as! NSTimeInterval
-        var timer = NSTimer.scheduledTimerWithTimeInterval(adTime, target: self, selector: Selector("showAd"), userInfo: nil, repeats: false)
+//        if adTime != 0.0 {
+            NSTimer.scheduledTimerWithTimeInterval(adTime, target: self, selector: Selector("showAd"), userInfo: nil, repeats: false)
+//        }
     }
     
     func showAd() {
@@ -96,7 +101,20 @@ class BaseScene: SKScene, NADViewDelegate {
         let startButton: SKSpriteNode = CommonUI.normalButton(display_name, name: key_name, point: point)
         self.addChild(startButton)
     }
+    
+    func setText(text: String, key_name: String, point_y : CGFloat){
+        let point : CGPoint = CGPoint(x:CGRectGetMinX(self.frame) + 100, y:point_y)
+        let startButton: SKLabelNode = CommonUI.normalText(text, name: key_name, point: point)
+        self.addChild(startButton)
+    }
 
+    func setPicture(path : String){
+        var kappa : SKSpriteNode = SKSpriteNode(imageNamed: path)
+        let point : CGPoint = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight * 2 + 80))
+        kappa.position = point
+        self.addChild(kappa)
+    }
+    
     // 確率で異名を変更
     func changeNickname(nickname :String, percent : Int){
         if CommonUtil.rnd(100) < percent {
@@ -143,6 +161,8 @@ class BaseScene: SKScene, NADViewDelegate {
         if(_nadView == nil){
             return
         }
+
+//        CommonData.setData("adTime", value: 0.0)
         
         saveMoney()
         let skView = self.view! as SKView

@@ -16,7 +16,8 @@ class AppleNode: SKSpriteNode {
         physic.affectedByGravity = false
         physic.allowsRotation = false
         physic.categoryBitMask = itemCategory
-        physic.collisionBitMask = worldCategory
+        physic.contactTestBitMask = horizonWorldCategory
+        physic.collisionBitMask = worldCategory | downWorldCategory
         physic.linearDamping = 0
         physic.friction = 0
         physic.velocity = CGVectorMake(-20, 0)

@@ -8,14 +8,17 @@ class ShopWeaponScene: BaseScene {
         self.backgroundColor = UIColor(red:0.0,green:0.5,blue:1.0,alpha:1.0)
         setHeader()
         setMoney()
-
         if CommonData.getDataByInt("buy_complete") == 1 {
             self.showAlert(WeaponSetting.getName("おあがりよー！"), text:"大事に使ってくれよ。", ok_text: "これで俺も最強だ！")
             CommonData.setData("buy_complete", value: 0)
         }
         
         let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*2)
+        let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight * 2)
+        let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight * 2)
         setWeapon("long", point_y: point_y1)
+        setWeapon("katana", point_y: point_y2)
+        setWeapon("shoes", point_y: point_y3)
         setBackButton("あばよ！")
     }
     
@@ -65,10 +68,20 @@ class ShopWeaponScene: BaseScene {
         if (touchedNode.name != nil) {
             if touchedNode.name == "hatena_long" {
                 showAlert(WeaponSetting.getName("long"), text: WeaponSetting.getExplain("long"), ok_text: "なるほどねー")
-                CommonData.setData("weapon_long", value: 1)
+            } else if touchedNode.name == "hatena_katana" {
+                showAlert(WeaponSetting.getName("katana"), text: WeaponSetting.getExplain("katana"), ok_text: "へぇー")
+            } else if touchedNode.name == "hatena_shoes" {
+                showAlert(WeaponSetting.getName("shoes"), text: WeaponSetting.getExplain("katana"), ok_text: "そうなんだー")
             } else if touchedNode.name == "buy_long" {
                 _buy_name = "long"
                 buyConfirm()
+            } else if touchedNode.name == "buy_katana" {
+                _buy_name = "katana"
+                buyConfirm()
+            } else if touchedNode.name == "buy_shoes" {
+                _buy_name = "shoes"
+                buyConfirm()
+                
             } else if touchedNode.name == "back" {
                 goShopScene()
             }
@@ -87,7 +100,8 @@ class ShopWeaponScene: BaseScene {
             handler:{
                 (action:UIAlertAction!) -> Void in
                 CommonData.setData(self._buy_name, value: 1)
-                CommonData.plus("gold", value: -1*WeaponSetting.getCost(self._buy_name))
+                CommonData.minus("gold", value: WeaponSetting.getCost(self._buy_name))
+                self.setMoney()
                 CommonData.setData("buy_complete", value: 1)
                 CommonData.setData("weapon_\(self._buy_name)", value: 1)
                 self.reloadScene()

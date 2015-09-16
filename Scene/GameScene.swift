@@ -13,6 +13,7 @@ class GameScene: BaseScene {
         setShopButton()
         setAdventureButton()
         setStatusButton()
+        setEquipButton()
     }
     
     func setKapppaNomi(){
@@ -44,6 +45,14 @@ class GameScene: BaseScene {
         let startButton: SKSpriteNode = CommonUI.normalButton("人生を見直す", name: "status", point: point)
         self.addChild(startButton)
     }
+    
+    // 装備画面へ遷移するボタンを設置
+    func setEquipButton() {
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)  - CGFloat(CommonConst.textBlankHeight*7))
+        let startButton: SKSpriteNode = CommonUI.normalButton("装備を整える", name: "equip", point: point)
+        self.addChild(startButton)
+    }
+
 
     // タッチイベント
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -57,6 +66,8 @@ class GameScene: BaseScene {
                 goAdventure()
             } else if touchedNode.name == "status" {
                 goStatus()
+            } else if touchedNode.name == "equip" {
+                goEquip()
             }
         }
     }
@@ -81,6 +92,14 @@ class GameScene: BaseScene {
         let tr = SKTransition.doorsOpenHorizontalWithDuration(1)
         changeSceneWithLongDuration(secondScene, tr: tr)
     }
+
+    // 装備画面へ
+    func goEquip(){
+        let secondScene = EquipScene(size: self.frame.size)
+        let tr = SKTransition.doorsOpenHorizontalWithDuration(1)
+        changeSceneWithLongDuration(secondScene, tr: tr)
+    }
+    
     
     override func update(currentTime: CFTimeInterval) {
     }

@@ -29,14 +29,24 @@ class CommonUtil {
         }
     }
     
-    // お金の桁数表示
+    // お金の桁数表示（と年数表示）
     // 2,000,000 のように３桁ずつカンマで表示
     class func displayMoney(gold: Int) -> String {
         var formatter = NSNumberFormatter()
         formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         formatter.groupingSeparator = ","
         formatter.groupingSize = 3
-        var str : String = "所持金: \(formatter.stringFromNumber(gold)!)　ゴールド"
+        var str = ""
+        if gold >= 0 {
+            str = "所持金: \(formatter.stringFromNumber(gold)!)"
+        } else {
+            str = "所持金：　文無し"
+            CommonData.setData("gold", value: 0)
+        }
+        // 年数の表示
+        var day = CommonData.getDataByInt("day")
+        var year : Int = (day/365) + 1
+        str = "\(year)年 \(day)日目  \(str)"
         return str
     }
 }

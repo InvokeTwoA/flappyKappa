@@ -1,38 +1,31 @@
 import SpriteKit
-class SlimeStageScene: PlayScene {
+class MaoStageScene: PlayScene {
     
     override func setStageValue() {
-        _distance = 2000
+//        _distance = 3000
+        _distance = 3
     }
     
     // 敵を作成
     override func generateNormalEnemy(){
         makeApple()
-        makeBlock(10)
-        makeSlime(40)
-        makeCat(10)
+        makeBlock(7)
     }
     
     override func generateHardEnemy(){
         makeApple()
-        makeBlock(9)
-        makeSlime(60)
-        makeCat(30)
+        makeBlock(6)
     }
     
     override func generateSpecialEnemy(){
         makeApple()
-        makeBlock(7)
-        makeSlime(85)
-        makeSkelton(85, lv: 1)
+        makeBlock(5)
     }
     
     override func makeBoss(){
-        var enemy = BigCatNode.makeEnemy()
+        var enemy = MaoNode.makeEnemy()
         let point : CGPoint = CGPointMake(CGRectGetMaxX(self.frame) - CGFloat(enemy.half_height - 2), CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + enemy.half_height))
         enemy.position = point
-        _bossName = "巨大ネコ"
-        _bossHP = enemy.userData?.valueForKey("hp") as! Int
         self.addChild(enemy)
     }
 }

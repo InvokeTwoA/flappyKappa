@@ -152,7 +152,6 @@ class JobBaseScene: BaseScene {
             handler:{
                 (action:UIAlertAction!) -> Void in
                 CommonData.forgetSkill()
-                CommonData.change_job_status()
                 self.setJobSkill()
                 self.changeStatus()
                 self.jobChanged()

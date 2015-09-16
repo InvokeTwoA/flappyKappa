@@ -16,7 +16,7 @@ class JobWizardScene : JobBaseScene {
     
     // 転職後のパラメーター変化
     override func setJobSkill() {
-        CommonData.setData("skill_fire", value: 1)
+        CommonData.setData("skill_wizard", value: 1)
     }
     
     override func changeNickname() {

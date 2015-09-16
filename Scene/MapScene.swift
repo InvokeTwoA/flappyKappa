@@ -13,13 +13,15 @@ class MapScene: BaseScene {
         let point_y2 = point_y1 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y3 = point_y2 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y4 = point_y3 - CGFloat(CommonConst.textBlankHeight*2)
-        let point_back = CGRectGetMinY(self.frame) + CGFloat(CommonConst.textBlankHeight) * 2
+        let point_y5 = point_y4 - CGFloat(CommonConst.textBlankHeight*2)
+        let point_y6 = point_y5 - CGFloat(CommonConst.textBlankHeight*2)
         
         setButton("チュートリアル",   key_name: "tutorial",  point_y: point_y1)
         setButton("スライムの洞窟",   key_name: "slime",     point_y: point_y2)
-        setButton("古代遺跡",        key_name: "golem",     point_y: point_y3)
-        setButton("ゴーレム道場",     key_name: "dojo_g",    point_y: point_y4)
-
+        setButton("タヌキ平原",      key_name: "tanuki",     point_y: point_y3)
+        setButton("古代遺跡",        key_name: "golem",     point_y: point_y4)
+        setButton("ゴーレム道場",     key_name: "dojo_g",    point_y: point_y5)
+        setButton("ラスボス（魔王城）", key_name: "maou",    point_y: point_y6)
         setBackButton("街に戻るンゴ")
     }
     
@@ -29,18 +31,26 @@ class MapScene: BaseScene {
         let location = touch!.locationInNode(self)
         let touchedNode = self.nodeAtPoint(location)
         if (touchedNode.name != nil) {
+            CommonData.setData("stage_name", value: touchedNode.name!)
+            
             if touchedNode.name == "tutorial" {
                 _nextScene = TutorialStageScene(size: self.frame.size)
                 showAlert()
             } else if touchedNode.name == "slime" {
                 _nextScene = SlimeStageScene(size: self.frame.size)
                 showAlert()
+            } else if touchedNode.name == "tanuki" {
+                _nextScene = TanukiStageScene(size: self.frame.size)
+                showAlert()
             } else if touchedNode.name == "golem" {
                 _nextScene = GolemStageScene(size: self.frame.size)
                 showAlert()
             } else if touchedNode.name == "dojo_g" {
                 _nextScene = DojoGStageScene(size: self.frame.size)
-                showAlert()                
+                showAlert()
+            } else if touchedNode.name == "maou" {
+                _nextScene = MaoStageScene(size: self.frame.size)
+                showAlert()
             } else if touchedNode.name == "back" {
                 backAdventure()
             }

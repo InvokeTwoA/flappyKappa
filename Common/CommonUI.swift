@@ -42,6 +42,18 @@ class CommonUI {
         return background
     }
     
+    class func normalText(text: String, name: String, point: CGPoint) -> SKLabelNode {
+        // ボタン
+        var button : SKLabelNode = SKLabelNode(fontNamed:CommonConst.font_regular)
+        button.text = text
+        button.fontSize = 18
+        button.position = point;
+        button.fontColor = UIColor.whiteColor()
+        button.name = name
+        
+        return button
+    }
+    
     /*
      * alertダイアログを表示(特にコールバック処理などしない表示オンリーの場合)
      * title : alertダイアログのtitle

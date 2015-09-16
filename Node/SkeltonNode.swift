@@ -14,8 +14,8 @@ class SkeltonNode: SKSpriteNode {
                 "str" : 5+LV*2,
                 "def": 20+LV*3,
                 "mdef": 2,
-                "gold": 3500+LV*100,
-                "score": 30+LV*2
+                "gold": 10,
+                "score": 30
         ]
         enemy.name = "enemy"
         return enemy
@@ -28,7 +28,7 @@ class SkeltonNode: SKSpriteNode {
         physic.allowsRotation = false
         physic.categoryBitMask = enemyCategory
         physic.contactTestBitMask = fireCategory | swordCategory | worldCategory
-        physic.collisionBitMask = heroCategory | worldCategory
+        physic.collisionBitMask = heroCategory | worldCategory | downWorldCategory | horizonWorldCategory
         physic.linearDamping = 0
         physic.friction = 0
         physic.velocity = CGVectorMake(-24, 0)

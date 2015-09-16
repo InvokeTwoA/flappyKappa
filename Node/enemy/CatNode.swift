@@ -13,7 +13,7 @@ class CatNode: SKSpriteNode {
                 "hp" : 8,
                 "str" : 2,
                 "def": 2,
-                "gold": 20,
+                "gold": 3,
                 "score": 20
         ]
         enemy.name = "enemy"
@@ -29,7 +29,7 @@ class CatNode: SKSpriteNode {
         physic.allowsRotation = false
         physic.categoryBitMask = enemyCategory
         physic.contactTestBitMask = fireCategory | swordCategory | worldCategory
-        physic.collisionBitMask = heroCategory | worldCategory
+        physic.collisionBitMask = heroCategory | worldCategory | downWorldCategory | horizonWorldCategory
         physic.linearDamping = 0
         physic.friction = 0
         

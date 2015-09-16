@@ -1,29 +1,23 @@
 // ステータス表示
 import SpriteKit
 class StatusScene: BaseScene {
+    var _cost : Int = 0
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.1,green:0.0,blue:0.1,alpha:1.0)
         setMoney()
         setHeader()
         
-        var titleLabel : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_bold)
-        titleLabel.text = CommonUI.displayName()
-        titleLabel.fontSize = 18
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight))
-        titleLabel.position = point
-        self.addChild(titleLabel)
+        _cost = CommonData.getDataByInt("lv") * 10
         
         var lvLabel : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
         let lv : Int = CommonData.getData("lv") as! Int
         lvLabel.text = "LV : \(lv)"
-        lvLabel.fontSize = 18
-        let y2  = point.y - CGFloat(CommonConst.textBlankHeight)
-        lvLabel.position = CGPointMake(CGRectGetMidX(self.frame), y2)
+        lvLabel.fontSize = CGFloat(CommonConst.font_size_normal)
+        let y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight)
+        lvLabel.position = CGPointMake(CGRectGetMidX(self.frame), y1)
         self.addChild(lvLabel)
 
-        var lvUp = CommonUI.normalButton("LVアップする", name: "lv_up", point: CGPointMake(lvLabel.position.x + lvLabel.frame.width/2 + 90, y2 + 10))
-        self.addChild(lvUp)
-
+        let y2 = y1 - CGFloat(CommonConst.textBlankHeight)
         let y3 = y2 - CGFloat(CommonConst.textBlankHeight)
         let y4 = y3 - CGFloat(CommonConst.textBlankHeight)
         let y5 = y4 - CGFloat(CommonConst.textBlankHeight)
@@ -31,6 +25,11 @@ class StatusScene: BaseScene {
         let y7 = y6 - CGFloat(CommonConst.textBlankHeight)
         let y8 = y7 - CGFloat(CommonConst.textBlankHeight)
         let y9 = y8 - CGFloat(CommonConst.textBlankHeight)
+        let y10 = y9 -  CGFloat(CommonConst.textBlankHeight)
+        let y11 = y10 - CGFloat(CommonConst.textBlankHeight)
+        let y12 = y11 - CGFloat(CommonConst.textBlankHeight)
+        let y13 = y12 - CGFloat(CommonConst.textBlankHeight + 10)
+
         
         showStatusWithoutUp("hp",               display_key: "HP",  y: y3)
         showStatus("str",   up_key: "str_up",   display_key: "筋力", y: y4)
@@ -42,22 +41,33 @@ class StatusScene: BaseScene {
         
         var label : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
         label.text = "※ カッコ内の数字は成長率"
-        label.fontSize = 18
-        label.position = CGPointMake(CGRectGetMidX(self.frame), y9-CGFloat(CommonConst.textBlankHeight))
+        label.fontSize = CGFloat(CommonConst.font_size_normal)
+        label.position = CGPointMake(CGRectGetMidX(self.frame), y10)
         self.addChild(label)
         
-        setBackButton()
-        setSkillButton()
+        var costLabel : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
+        costLabel.text = "LVアップに必要な金： \(_cost)"
+        costLabel.fontSize = CGFloat(CommonConst.font_size_normal)
+        costLabel.position = CGPointMake(CGRectGetMidX(self.frame), y11)
+        self.addChild(costLabel)
+
+        if CommonData.getDataByInt("gold") >= _cost {
+            var lvUp = CommonUI.normalButton("LVアップする", name: "lv_up", point: CGPointMake(CGRectGetMidX(self.frame), y12))
+            self.addChild(lvUp)
+        }
+        
+        setRealButton(y13)
+        setSkillButton(y13)
     }
     
-    func setBackButton() {
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) - 70, y:CGRectGetMinY(self.frame) + 50)
+    func setRealButton(point_y : CGFloat) {
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) - 70, y: point_y)
         let startButton: SKSpriteNode = CommonUI.normalButton("現実に戻る", name: "back", point: point)
         self.addChild(startButton)
     }
     
-    func setSkillButton() {
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) + 70, y:CGRectGetMinY(self.frame) + 50)
+    func setSkillButton(point_y : CGFloat) {
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) + 70, y:point_y)
         let startButton: SKSpriteNode = CommonUI.normalButton("スキルを見る", name: "skill", point: point)
         self.addChild(startButton)
     }
@@ -67,7 +77,7 @@ class StatusScene: BaseScene {
         let val : Int = CommonData.getData(key) as! Int
         let up_val : Int = CommonData.getData(up_key) as! Int
         label.text = "\(display_key) : \(val) (\(up_val))"
-        label.fontSize = 18
+        label.fontSize = CGFloat(CommonConst.font_size_normal)
         label.position = CGPointMake(CGRectGetMidX(self.frame), y)
         self.addChild(label)
     }
@@ -76,7 +86,7 @@ class StatusScene: BaseScene {
         var label : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
         let val : Int = CommonData.getData(key) as! Int
         label.text = "\(display_key) : \(val)"
-        label.fontSize = 18
+        label.fontSize = CGFloat(CommonConst.font_size_normal)
         label.position = CGPointMake(CGRectGetMidX(self.frame), y)
         self.addChild(label)
     }
@@ -107,10 +117,11 @@ class StatusScene: BaseScene {
     // レベルアップを行うと画面更新のため、いまいる画面に遷移する
     func levelUp(){
         CommonData.lvUp()
-        let skView = self.view! as SKView
+        CommonData.minus("gold", value: _cost)
+        setMoney()
+        
         let secondScene = StatusScene(size: self.frame.size)
-        secondScene.scaleMode = SKSceneScaleMode.AspectFill
-        skView.presentScene(secondScene)
+        changeSceneWithoutTr(secondScene)
     }
     
     // スキルページへと繊維。ページ数は1
