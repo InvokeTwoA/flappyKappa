@@ -12,14 +12,11 @@ class GameClearScene: BaseScene, GKGameCenterControllerDelegate {
         self.addChild(kappa)
 */
         CommonData.dayPast()
-        setHeader()
-        setMoney()
+        setBaseSetting()
         
         let y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight)
         let y2 = y1 - CGFloat(CommonConst.textBlankHeight)
         let y3 = y2 - CGFloat(CommonConst.textBlankHeight)
-        
-
         
         var end_text = SKLabelNode(fontNamed: CommonConst.font_regular)
         end_text.text = "カッパは居酒屋にたどり着いた！"
@@ -33,7 +30,7 @@ class GameClearScene: BaseScene, GKGameCenterControllerDelegate {
         score_text.fontSize = 18
         score_text.position = CGPoint(x:CGRectGetMidX(self.frame), y:y2)
         self.addChild(score_text)
-        self.reportScore(score)
+        //self.reportScore(score)
         
         var get_gold : Int = 0
 
@@ -47,21 +44,16 @@ class GameClearScene: BaseScene, GKGameCenterControllerDelegate {
         self.addChild(gold_text)
         
         
-        setButton("ハイスコアを見る", key_name: "high_score", point_y: y3)
+        // setButton("ハイスコアを見る", key_name: "high_score", point_y: y3)
         setBackButton("今夜は焼肉だー！")
     }
     
     // タッチイベント
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as? UITouch
-        let location = touch!.locationInNode(self)
-        let touchedNode = self.nodeAtPoint(location)
-        if (touchedNode.name != nil) {
-            if touchedNode.name == "back" {
-                goAdventure()
-            } else if touchedNode.name == "high_score" {
-                showLeaderboardScore()
-            }
+    override func checkTochEvent(name: String) {
+        if name == "back" {
+            goAdventure()
+        } else if name == "high_score" {
+            showLeaderboardScore()
         }
     }
 
@@ -76,7 +68,11 @@ class GameClearScene: BaseScene, GKGameCenterControllerDelegate {
     }
     
     
+    // GameCenterにハイスコア送信
+    // 廃止
     func reportScore(score : Int) {
+        return;
+        /*
         // スコアを送信するGKScoreクラスを生成
         let stage_name = CommonData.getDataByString("stage_name")
         let stage = "\(stage_name)_score"
@@ -95,6 +91,7 @@ class GameClearScene: BaseScene, GKGameCenterControllerDelegate {
                 print("game center send success")
             }
         })
+        */
     }
 
     // FIXME

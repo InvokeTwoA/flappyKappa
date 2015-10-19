@@ -1,6 +1,35 @@
 import Foundation
+import SpriteKit
 
-class WeaponSetting {
+class MapSetting {
+    class func nextScene(size : CGSize) -> SKScene {
+        var nextScene : SKScene
+        let name : String = CommonData.getDataByString("stage_name")
+        if name == "tutorial" {
+            nextScene = TutorialStageScene(size: size)
+            return nextScene
+        } else if name == "slime" {
+            nextScene = SlimeStageScene(size: size)
+            return nextScene
+        } else if name == "tanuki" {
+            nextScene = TanukiStageScene(size: size)
+            return nextScene
+        } else if name == "golem" {
+            nextScene = GolemStageScene(size: size)
+            return nextScene
+        } else if name == "dojo_g" {
+            nextScene = DojoGStageScene(size: size)
+            return nextScene
+        } else if name == "maou" {
+            nextScene = MaoStageScene(size: size)
+            return nextScene
+        } else {
+            nextScene = SlimeStageScene(size: size)
+            return nextScene
+        }
+    }
+    
+    
     
     class func getName(key_name :String) -> String {
         var name : String
@@ -18,7 +47,7 @@ class WeaponSetting {
         }
         return name
     }
-
+    
     class func getCost(key_name :String) -> Int {
         var cost : Int
         switch key_name {

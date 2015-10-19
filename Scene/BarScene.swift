@@ -6,16 +6,13 @@ class BarScene: BaseScene {
     
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.0,green:0.5,blue:1.0,alpha:1.0)
-        setHeader()
-        setMoney()
+        setBaseSetting()
         
         let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*2)
         let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight*2)
-
-        
         
         setButton("酔っぱらい冒険者", key_name: "yoi",   point_y: point_y1)
         setButton("謎の男",         key_name: "zombi", point_y: point_y2)
@@ -27,24 +24,19 @@ class BarScene: BaseScene {
     }
     
     // タッチイベント
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as? UITouch
-        let location = touch!.locationInNode(self)
-        let touchedNode = self.nodeAtPoint(location)
-        if (touchedNode.name != nil) {
-            if touchedNode.name == "yoi" {
-                talkYoi()
-            } else if touchedNode.name == "zombi" {
-                talkZombi()
-            } else if touchedNode.name == "yonige" {
-                talkYonige()
-            } else if touchedNode.name == "kane" {
-                talkKane()
-            } else if touchedNode.name == "kami" {
-                talkKami()
-            } else if touchedNode.name == "back" {
-                goShopScene()
-            }
+    override func checkTochEvent(name: String) {
+        if name == "yoi" {
+            talkYoi()
+        } else if name == "zombi" {
+            talkZombi()
+        } else if name == "yonige" {
+            talkYonige()
+        } else if name == "kane" {
+            talkKane()
+            } else if name == "kami" {
+            talkKami()
+        } else if name == "back" {
+            goShopScene()
         }
     }
     

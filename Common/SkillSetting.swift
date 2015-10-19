@@ -48,7 +48,8 @@ class SkillSetting {
         case "zombi":
             name = "回復アイテムを取ると大ダメージを受けてしまいます。\n\n異名がゾンビの時だけ有効になります。"
         case "shoes":
-            name = "戦闘中の敏捷が255になる。\n速すぎるので注意"
+            let agi_max = CommonConst.agi_max
+            name = "戦闘中の敏捷が\(agi_max)になる。\n速すぎるので注意"
         default:
             name = ""
         }

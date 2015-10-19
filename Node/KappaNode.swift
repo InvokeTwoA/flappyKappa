@@ -3,7 +3,8 @@ import SpriteKit
 class KappaNode: SKSpriteNode {    
     class func makeKappa() -> KappaNode {
 //        var kappa : KappaNode = KappaNode(imageNamed: "kappa_play")
-        var kappa : KappaNode = KappaNode(imageNamed: "kappa_76_88")
+//        var kappa : KappaNode = KappaNode(imageNamed: "kappa_76_88")
+        var kappa : KappaNode = KappaNode(imageNamed: "kappa_64_64")
         kappa.name = "kappa"
         return kappa
     }
@@ -11,7 +12,8 @@ class KappaNode: SKSpriteNode {
     // 物理を適用
     func setPhysic() {
 //        let physic = SKPhysicsBody(rectangleOfSize: CGSizeMake(60,92))
-        let physic = SKPhysicsBody(rectangleOfSize: CGSizeMake(46,88))
+//        let physic = SKPhysicsBody(rectangleOfSize: CGSizeMake(46,88))
+        let physic = SKPhysicsBody(rectangleOfSize: CGSizeMake(64,64))
         physic.affectedByGravity = true
         physic.allowsRotation = false
         physic.categoryBitMask = heroCategory

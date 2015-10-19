@@ -14,21 +14,33 @@ class CommonUI {
      * point: 座標
      */
     class func normalButton(text: String, name: String, point: CGPoint) -> SKSpriteNode {
-        var size : CGSize;
+        var size : CGSize
+        let width : CGFloat
+        let height : CGFloat = 30
         //print("文字の長さは \(text.utf16Count)\n")
         if count(text.utf16) <= 5 {
-            size = CGSizeMake(100, 30)
+            width = 100
         } else {
-            // 1文字15と考えて、文字超過分の幅を増やす
-            var width : CGFloat = CGFloat(100+(count(text.utf16)-5)*15)
-            size = CGSizeMake(width, 30)
+            // 1文字16と考えて、文字超過分の幅を増やす
+            width = CGFloat(100+(count(text.utf16)-5)*16)
         }
+        size = CGSizeMake(width, 30)
 
         // ボタン枠組み（背景）
         var background : SKSpriteNode = SKSpriteNode(color: UIColor.whiteColor(), size: size)
         background.position = point
         background.zPosition = 100
         background.name = name
+        
+        let physic = SKPhysicsBody(rectangleOfSize: CGSizeMake(width, height))
+        physic.affectedByGravity = false
+        physic.allowsRotation = false
+        physic.dynamic = false
+        physic.categoryBitMask = blockCategory
+        physic.collisionBitMask = 0
+        physic.linearDamping = 0
+        physic.friction = 0
+        background.physicsBody = physic
 
         // ボタン
         var button : SKLabelNode = SKLabelNode(fontNamed:CommonConst.font_regular)
@@ -50,7 +62,6 @@ class CommonUI {
         button.position = point;
         button.fontColor = UIColor.whiteColor()
         button.name = name
-        
         return button
     }
     

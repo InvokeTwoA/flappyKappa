@@ -1,13 +1,13 @@
 import SpriteKit
 
-class CatNode: SKSpriteNode {
+class FighterNode: SKSpriteNode {
     
     let width = 32
     let height = 32
     let half_height = 16
     
-    class func makeEnemy() -> CatNode {
-        var enemy : CatNode = CatNode(imageNamed: "cat")
+    class func makeEnemy() -> FighterNode {
+        var enemy : FighterNode = FighterNode(imageNamed: "g_fighter")
         enemy.userData =
             [
                 "hp" : 8,

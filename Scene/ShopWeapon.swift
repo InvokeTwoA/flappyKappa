@@ -6,8 +6,8 @@ class ShopWeaponScene: BaseScene {
     
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.0,green:0.5,blue:1.0,alpha:1.0)
-        setHeader()
-        setMoney()
+        setBaseSetting()
+        
         if CommonData.getDataByInt("buy_complete") == 1 {
             self.showAlert(WeaponSetting.getName("おあがりよー！"), text:"大事に使ってくれよ。", ok_text: "これで俺も最強だ！")
             CommonData.setData("buy_complete", value: 0)
@@ -16,9 +16,11 @@ class ShopWeaponScene: BaseScene {
         let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*2)
         let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight * 2)
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight * 2)
-        setWeapon("long", point_y: point_y1)
+        let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight * 2)
+        setWeapon("long",   point_y: point_y1)
         setWeapon("katana", point_y: point_y2)
-        setWeapon("shoes", point_y: point_y3)
+        setWeapon("shoes",  point_y: point_y3)
+        setWeapon("hammer", point_y: point_y4)
         setBackButton("あばよ！")
     }
     
@@ -61,30 +63,27 @@ class ShopWeaponScene: BaseScene {
     }
 
     // タッチイベント
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as? UITouch
-        let location = touch!.locationInNode(self)
-        let touchedNode = self.nodeAtPoint(location)
-        if (touchedNode.name != nil) {
-            if touchedNode.name == "hatena_long" {
-                showAlert(WeaponSetting.getName("long"), text: WeaponSetting.getExplain("long"), ok_text: "なるほどねー")
-            } else if touchedNode.name == "hatena_katana" {
-                showAlert(WeaponSetting.getName("katana"), text: WeaponSetting.getExplain("katana"), ok_text: "へぇー")
-            } else if touchedNode.name == "hatena_shoes" {
-                showAlert(WeaponSetting.getName("shoes"), text: WeaponSetting.getExplain("katana"), ok_text: "そうなんだー")
-            } else if touchedNode.name == "buy_long" {
-                _buy_name = "long"
-                buyConfirm()
-            } else if touchedNode.name == "buy_katana" {
-                _buy_name = "katana"
-                buyConfirm()
-            } else if touchedNode.name == "buy_shoes" {
-                _buy_name = "shoes"
-                buyConfirm()
-                
-            } else if touchedNode.name == "back" {
-                goShopScene()
-            }
+    override func checkTochEvent(name: String) {
+        if name == "hatena_long" {
+            showAlert(WeaponSetting.getName("long"), text: WeaponSetting.getExplain("long"), ok_text: "なるほどねー")
+        } else if name == "hatena_katana" {
+            showAlert(WeaponSetting.getName("katana"), text: WeaponSetting.getExplain("katana"), ok_text: "へぇー")
+        } else if name == "hatena_shoes" {
+            showAlert(WeaponSetting.getName("shoes"), text: WeaponSetting.getExplain("katana"), ok_text: "そうなんだー")
+        } else if name == "buy_long" {
+            _buy_name = "long"
+            buyConfirm()
+        } else if name == "buy_katana" {
+            _buy_name = "katana"
+            buyConfirm()
+        } else if name == "buy_shoes" {
+            _buy_name = "shoes"
+            buyConfirm()
+        } else if name == "buy_hammer" {
+            _buy_name = "hammer"
+            buyConfirm()
+        } else if name == "back" {
+            goShopScene()
         }
     }
     
@@ -119,7 +118,6 @@ class ShopWeaponScene: BaseScene {
     }
 
     func reloadScene(){
-        print("reload")
         let secondScene = ShopWeaponScene(size: self.frame.size)
         changeSceneWithoutTr(secondScene)
     }

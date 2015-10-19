@@ -18,9 +18,7 @@ class JobBaseScene: BaseScene {
     override func didMoveToView(view: SKView) {
         setJobData()
         self.backgroundColor = UIColor(red:0.0,green:0.5,blue:1.0,alpha:1.0)
-        
-        setHeader()
-        setMoney()
+        setBaseSetting()
         
         var titleLabel : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_bold)
         titleLabel.text = _job_name
@@ -99,18 +97,13 @@ class JobBaseScene: BaseScene {
     }
     
     // タッチイベント
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as? UITouch
-        let location = touch!.locationInNode(self)
-        let touchedNode = self.nodeAtPoint(location)
-        if (touchedNode.name != nil) {
-            if touchedNode.name == "yes" {
-                changeJob()
-            } else if touchedNode.name == "hatena" {
-                explainMessage()
-            } else if touchedNode.name == "back" {
-                goBack()
-            }
+    override func checkTochEvent(name: String) {
+        if name == "yes" {
+            changeJob()
+        } else if name == "hatena" {
+            explainMessage()
+        } else if name == "back" {
+            goBack()
         }
     }
     

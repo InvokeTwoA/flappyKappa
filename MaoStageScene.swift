@@ -6,6 +6,11 @@ class MaoStageScene: PlayScene {
         _distance = 3
     }
     
+    override func setBGM(){
+        prepareBGM("last_boss")
+    }
+
+    
     // 敵を作成
     override func generateNormalEnemy(){
         makeApple()
@@ -24,7 +29,7 @@ class MaoStageScene: PlayScene {
     
     override func makeBoss(){
         var enemy = MaoNode.makeEnemy()
-        let point : CGPoint = CGPointMake(CGRectGetMaxX(self.frame) - CGFloat(enemy.half_height - 2), CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + enemy.half_height))
+        let point : CGPoint = CGPointMake(CGRectGetMaxX(self.frame) - CGFloat(enemy.half_height - 2), CGRectGetMidY(self.frame) - CGFloat(CommonConst.headerHeight + enemy.half_height))
         enemy.position = point
         self.addChild(enemy)
     }

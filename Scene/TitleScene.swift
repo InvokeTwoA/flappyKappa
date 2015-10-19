@@ -6,19 +6,47 @@ import SpriteKit
 class TitleScene: BaseScene {
 
     override func didMoveToView(view: SKView) {
-        self.backgroundColor = UIColor(red:0.2,green:0.6,blue:0.3,alpha:1.0)
+        setBaseSetting()
+        
+        // キャラ設置
+        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:CGRectGetMaxY(self.frame) - 50)
+        setGhostDemo(point)
+        setFighter()
+        setWitch()
         
         setTitleLabel()
         setStartButton()
         setBreakButton()
-        setSasuoniButton()
+        setSettingButton()
         setFireButton()
+    }
+    
+    override func setMoney(){
+        return
+    }
+    
+    override func setHeader(){
+        return
+    }
+    
+    func setFighter(){
+        var chara = MaoNode.makeDemo()
+        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:CGRectGetMidY(self.frame))
+        chara.position = point
+        self.addChild(chara)
+    }
+    
+    func setWitch(){
+        var chara = WitchNode.makeDemo()
+        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 40, y:CGRectGetMidY(self.frame) +   70)
+        chara.position = point
+        self.addChild(chara)
     }
 
     // タイトルラベルを設置
     func setTitleLabel() {
         let myLabel = SKLabelNode(fontNamed:CommonConst.font_bold)
-        myLabel.text = "Flappy Kappa";
+        myLabel.text = "Kappa Saga";
         myLabel.fontSize = 32;
         myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - 100);
         self.addChild(myLabel)
@@ -38,10 +66,9 @@ class TitleScene: BaseScene {
         self.addChild(startLabel)
     }
     
-    // 最強ボタンを設置
-    func setSasuoniButton(){
+    func setSettingButton(){
         let point : CGPoint = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) - 100)
-        let startLabel = CommonUI.normalButton("最強モード", name: "sasuoni", point: point)
+        let startLabel = CommonUI.normalButton("せってい", name: "setting", point: point)
         self.addChild(startLabel)
     }
     
@@ -52,21 +79,19 @@ class TitleScene: BaseScene {
         self.addChild(fire)
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as? UITouch
-        let location = touch!.locationInNode(self)
-        let touchedNode = self.nodeAtPoint(location)
-        if (touchedNode.name != nil) {
-            if touchedNode.name == "start" {
-                goGameScene()
-            } else if touchedNode.name == "break" {
-                worldBreak()
-            } else if touchedNode.name == "sasuoni" {
-                sasuoni()
-            }
+    override func checkTochEvent(name: String) {
+        if name == "start" {
+            goGameScene()
+        } else if name == "break" {
+            worldBreak()
+        } else if name == "setting" {
+            goSettingScene()
+        } else {
+            kappaJump()
         }
     }
-
+    
+    
     // ゲーム画面へ
     func goGameScene() {
         // もしデータが存在しなかったら、全ての値を初期化
@@ -82,6 +107,15 @@ class TitleScene: BaseScene {
         skView.presentScene(secondScene, transition: tr)
     }
     
+    // ゲーム画面へ
+    func goSettingScene() {
+        let secondScene = SettingScene(size: self.frame.size)
+        let tr = SKTransition.doorsOpenHorizontalWithDuration(1)
+        let skView = self.view! as SKView
+        secondScene.scaleMode = SKSceneScaleMode.AspectFill
+        skView.presentScene(secondScene, transition: tr)
+    }
+    
     // 地球破壊ボタン
     func worldBreak(){
         let alert : UIAlertController = CommonUI.normalAlert("無理っす", message: "(´；ω；｀)", okMessage: "仕方ないな")        
@@ -89,10 +123,6 @@ class TitleScene: BaseScene {
         CommonData.initData()        
     }
     
-    func sasuoni(){
-        CommonData.getAllSkill()
-    }
-        
     override func update(currentTime: CFTimeInterval) {
     }
     

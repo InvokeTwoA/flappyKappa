@@ -9,14 +9,14 @@ class TanukiStageScene: PlayScene {
     override func generateNormalEnemy(){
         makeApple()
         makeSlime(30)
-        makeCat(5)
+        makeGhost(5)
     }
     
     override func generateHardEnemy(){
         makeApple()
         makeBlock(9)
         makeSlime(60)
-        makeCat(30)
+        makeGhost(30)
     }
     
     override func generateSpecialEnemy(){

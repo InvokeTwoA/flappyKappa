@@ -4,9 +4,8 @@ import SpriteKit
 class JobScene: BaseScene {
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.0,green:0.5,blue:1.0,alpha:1.0)
+        setBaseSetting()
 
-        setHeader()
-        setMoney()
         setExplainText()
         setWarriorButton()
         setWizardlyButton()
@@ -53,22 +52,17 @@ class JobScene: BaseScene {
     }
 
     // タッチイベント
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as? UITouch
-        let location = touch!.locationInNode(self)
-        let touchedNode = self.nodeAtPoint(location)
-        if (touchedNode.name != nil) {
-            if touchedNode.name == "warrior" {
-                goJobWarriorScene()
-            } else if touchedNode.name == "wizardly" {
-                goJobWizardScene()
-            } else if touchedNode.name == "priest" {
-                goJobPriestScene()
-            } else if touchedNode.name == "thief" {
-                goJobThiefScene()
-            } else if touchedNode.name == "back" {
-                goShopScene()
-            }
+    override func checkTochEvent(name: String) {
+        if name == "warrior" {
+            goJobWarriorScene()
+        } else if name == "wizardly" {
+            goJobWizardScene()
+        } else if name == "priest" {
+            goJobPriestScene()
+        } else if name == "thief" {
+            goJobThiefScene()
+        } else if name == "back" {
+            goShopScene()
         }
     }
     

@@ -5,7 +5,10 @@ class GameOverScene: BaseScene {
         CommonData.deadStatus()
         CommonData.dayPast()
         setHeader()
-        self.backgroundColor = UIColor(red:0.4,green:0.7,blue:0.9,alpha:1.0)
+        
+        setBaseSetting()
+
+        self.backgroundColor = UIColor(red:0.2,green:0.2,blue:0.2,alpha:1.0)
         setPicture("kappa_suya")
         
         var end_text = SKLabelNode(fontNamed: CommonConst.font_regular)
@@ -30,14 +33,9 @@ class GameOverScene: BaseScene {
     }
     
     // タッチイベント
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as? UITouch
-        let location = touch!.locationInNode(self)
-        let touchedNode = self.nodeAtPoint(location)
-        if (touchedNode.name != nil) {
-            if touchedNode.name == "back" {
-                goTitle()
-            }
+    override func checkTochEvent(name: String) {
+        if name == "back" {
+            goTitle()
         }
     }
     

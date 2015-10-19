@@ -1,6 +1,6 @@
 import SpriteKit
 
-class MaoNode: SKSpriteNode {
+class DragonNode: SKSpriteNode {
     let width = 64
     let height = 64
     let half_height :Int = 32
@@ -35,12 +35,5 @@ class MaoNode: SKSpriteNode {
         physic.restitution = 1.0
         physic.velocity = CGVectorMake(-60, 0)
         self.physicsBody = physic
-    }
-    
-    // タイトルでただフワフワしてるだけのスライム
-    class func makeDemo()-> MaoNode {
-        var enemy = MaoNode(imageNamed: "g_fighter")
-        enemy.zPosition = 999
-        return enemy
     }
 }

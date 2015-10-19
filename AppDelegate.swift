@@ -11,6 +11,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let localPlayer = GKLocalPlayer.localPlayer()
         
+        /*
+        // GameCenter機能は廃止
         localPlayer.authenticateHandler = {(loginVC, error) -> Void in
             if GKLocalPlayer.localPlayer().authenticated {
             
@@ -25,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+        */
         
         return true
     }

@@ -1,5 +1,6 @@
 import UIKit
 import SpriteKit
+import AVFoundation
 
 extension SKNode {
     class func unarchiveFromFile(file : String) -> SKNode? {
@@ -17,7 +18,7 @@ extension SKNode {
     }
 }
 
-class GameViewController: UIViewController, NADViewDelegate {
+class GameViewController: UIViewController, NADViewDelegate, AVAudioPlayerDelegate  {
 
     var nadView: NADView!
     override func viewDidLoad() {
@@ -25,9 +26,9 @@ class GameViewController: UIViewController, NADViewDelegate {
 
         // skviewの設定
         let skView = self.view as! SKView
-        skView.showsFPS = true
-        skView.showsNodeCount = true
-        skView.showsPhysics = true
+        //skView.showsFPS = true
+        //skView.showsNodeCount = true
+        //skView.showsPhysics = true
         skView.ignoresSiblingOrder = true
 
         showTitleScene()

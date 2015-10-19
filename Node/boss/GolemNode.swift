@@ -1,12 +1,19 @@
 import SpriteKit
 
 class GolemNode: SKSpriteNode {
+    /*
     let width = 118
     let height = 94
     let half_height :Int = 59
+    */
+    let width = 64
+    let height = 64
+    let half_height :Int = 32
+
     
     class func makeEnemy() -> GolemNode {
-        var enemy : GolemNode = GolemNode(imageNamed: "golem")
+//        var enemy : GolemNode = GolemNode(imageNamed: "golem")
+                var enemy : GolemNode = GolemNode(imageNamed: "golem_64")
         enemy.zPosition = 999
         enemy.userData =
             [

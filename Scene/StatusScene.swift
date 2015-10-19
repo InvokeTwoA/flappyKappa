@@ -4,8 +4,7 @@ class StatusScene: BaseScene {
     var _cost : Int = 0
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.1,green:0.0,blue:0.1,alpha:1.0)
-        setMoney()
-        setHeader()
+        setBaseSetting()
         
         _cost = CommonData.getDataByInt("lv") * 10
         
@@ -92,18 +91,13 @@ class StatusScene: BaseScene {
     }
     
     // タッチイベント
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as? UITouch
-        let location = touch!.locationInNode(self)
-        let touchedNode = self.nodeAtPoint(location)
-        if (touchedNode.name != nil) {
-            if touchedNode.name == "back" {
-                goGameSceneWithClose()
-            } else if touchedNode.name == "lv_up" {
-                levelUp()
-            } else if touchedNode.name == "skill" {
-                goSkill()
-            }
+    override func checkTochEvent(name: String) {
+        if name == "back" {
+            goGameSceneWithClose()
+        } else if name == "lv_up" {
+            levelUp()
+        } else if name == "skill" {
+            goSkill()
         }
     }
     

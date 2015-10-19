@@ -6,8 +6,7 @@ class EquipScene: BaseScene {
     
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.1,green:0.0,blue:0.1,alpha:1.0)
-        setMoney()
-        setHeader()
+        setBaseSetting()
         setBackButton("戻る")
     
         let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*2)
@@ -15,7 +14,7 @@ class EquipScene: BaseScene {
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight * 2)
         let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight * 2)
         
-        setText("武器名をタップすれば装備します。", key_name: "explain", point_y: point_y1)
+        setCenterText("武器名をタップすれば装備します。", key_name: "explain", point_y: point_y1)
         setWeapon("long", point_y: point_y2)
         setWeapon("katana", point_y: point_y3)
         setWeapon("shoes", point_y: point_y4)
@@ -54,32 +53,27 @@ class EquipScene: BaseScene {
     
     
     // タッチイベント
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as? UITouch
-        let location = touch!.locationInNode(self)
-        let touchedNode = self.nodeAtPoint(location)
-        if (touchedNode.name != nil) {
-            if touchedNode.name == "back" {
-                goGameSceneWithClose()
-            } else if touchedNode.name == "hatena_long" {
-                showAlert(WeaponSetting.getName("long"), text: WeaponSetting.getExplain("long"), ok_text: "なるほどねー")
-            } else if touchedNode.name == "hatena_katana" {
-                    showAlert(WeaponSetting.getName("katana"), text: WeaponSetting.getExplain("katana"), ok_text: "へぇー")
-            } else if touchedNode.name == "hatena_shoes" {
-                showAlert(WeaponSetting.getName("shoes"), text: WeaponSetting.getExplain("shoes"), ok_text: "ふむふむ")
-            } else if touchedNode.name == "equip_long" {
-                CommonData.setData("equip_weapon", value: "long")
-                        let secondScene = EquipScene(size: self.frame.size)
-                changeSceneWithoutTr(secondScene)
-            } else if touchedNode.name == "equip_katana" {
-                CommonData.setData("equip_weapon", value: "katana")
-                let secondScene = EquipScene(size: self.frame.size)
-                changeSceneWithoutTr(secondScene)
-            } else if touchedNode.name == "equip_shoes" {
-                CommonData.setData("equip_weapon", value: "shoes")
-                let secondScene = EquipScene(size: self.frame.size)
-                changeSceneWithoutTr(secondScene)
-            }
+    override func checkTochEvent(name: String) {
+        if name == "back" {
+            goGameSceneWithClose()
+        } else if name == "hatena_long" {
+            showAlert(WeaponSetting.getName("long"), text: WeaponSetting.getExplain("long"), ok_text: "なるほどねー")
+        } else if name == "hatena_katana" {
+                showAlert(WeaponSetting.getName("katana"), text: WeaponSetting.getExplain("katana"), ok_text: "へぇー")
+        } else if name == "hatena_shoes" {
+            showAlert(WeaponSetting.getName("shoes"), text: WeaponSetting.getExplain("shoes"), ok_text: "ふむふむ")
+        } else if name == "equip_long" {
+            CommonData.setData("equip_weapon", value: "long")
+            let secondScene = EquipScene(size: self.frame.size)
+            changeSceneWithoutTr(secondScene)
+        } else if name == "equip_katana" {
+            CommonData.setData("equip_weapon", value: "katana")
+            let secondScene = EquipScene(size: self.frame.size)
+            changeSceneWithoutTr(secondScene)
+        } else if name == "equip_shoes" {
+            CommonData.setData("equip_weapon", value: "shoes")
+            let secondScene = EquipScene(size: self.frame.size)
+            changeSceneWithoutTr(secondScene)
         }
     }
     

@@ -1,23 +1,23 @@
 // プレイ画面
 import SpriteKit
-class PlayScene: BaseScene, SKPhysicsContactDelegate {
+import AVFoundation
+
+class PlayScene: BaseScene, AVAudioPlayerDelegate {
     // 初期値をデータから取得
     var _hp : Int       = CommonData.getDataByInt("hp")
     var _maxhp : Int    = CommonData.getDataByInt("hp")
     var _str : Int      = CommonData.getDataByInt("str")
     var _int : Int      = CommonData.getDataByInt("int")
     var _pri : Int      = CommonData.getDataByInt("pri")
-    var _agi : Int      = CommonData.getDataByInt("agi")
-    var _luck : Int     = CommonData.getDataByInt("luck")
 
     var _danjon_type :String = "normal"
     var _distance : Int = 1000
     var _score : Int = 0
     var _tapCount : Int = 0             // タップした回数
-    var _game_end_flag : Bool = false
-    var _boss_flag : Bool = false
+    var _game_end_flag : Bool = false  // ゲーム終了フラグ
+    var _boss_flag : Bool = false // ボス登場フラグ
+    var _boss_beat_flag : Bool = false // ボス撃破フラグ
     
-    var _jump : CGFloat = 0.0
 
     var _bossName : String = "ボス"
     var _bossHP : Int = 999
@@ -26,7 +26,6 @@ class PlayScene: BaseScene, SKPhysicsContactDelegate {
     var _equip = CommonData.getDataByString("equip_weapon")
     var _fire_penetrate_flag : Bool = false
     var _fireSpeed : Int = CommonConst.fire_speed
-    var _swordSpeed : NSTimeInterval = CommonConst.swordNormalSpeed
     var _apple_per : Int = CommonConst.apple_per
     var _break_block_flag : Bool = false
     var _zombi_flag : Bool = false
@@ -37,40 +36,71 @@ class PlayScene: BaseScene, SKPhysicsContactDelegate {
     var _timeSinceStart : NSTimeInterval = 0
     var _timeSinceLastSecond : NSTimeInterval = 0
     
+    var _audioPlayer:AVAudioPlayer!
+    
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.0,green:0.0,blue:0.0,alpha:1.0)
-        self.physicsWorld.contactDelegate = self
-        self.physicsWorld.gravity = CGVectorMake(0, CGFloat(-1 * CommonConst.gravityValue))
-        self.physicsBody?.categoryBitMask = worldCategory
-
+        setBaseSetting()
         setBackGroundImage()
-        setHeader()
-        setMoney()
-        setupSwipeGestures()
         setInitData()
         setStageValue()
-        setKappa()
-        setHorizonWorld()
         setFooter()
         setDistance()
+        
+        setBGM()
+        playBGM()
     }
+    
+    func setBGM(){
+        prepareBGM("battle")
+    }
+
+    func prepareBGM(fileName : String){
+        let bgm_path = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(fileName, ofType: "mp3")!)
+        var audioError:NSError?
+        _audioPlayer = AVAudioPlayer(contentsOfURL: bgm_path, error:&audioError)
+        if let error = audioError {
+            println("Error \(error.localizedDescription)")
+        }
+        _audioPlayer.delegate = self
+        _audioPlayer.prepareToPlay()
+    }
+    
+    func playBGM(){
+        if ( !_audioPlayer.playing ){
+            _audioPlayer.play()
+        }
+    }
+
+    func stopBGM(){
+        if ( _audioPlayer.playing ){
+            _audioPlayer.stop()
+        }
+    }
+    
+    func attackBGM(){
+        var action : SKAction = SKAction.playSoundFileNamed("attack.wav", waitForCompletion: true)
+        self.runAction(action)
+    }
+    
+    func damagedBGM(){
+        var action : SKAction = SKAction.playSoundFileNamed("damaged.wav", waitForCompletion: true)
+        self.runAction(action)
+    }
+    
+    func coinBGM(){
+        var action : SKAction = SKAction.playSoundFileNamed("coin.wav", waitForCompletion: true)
+        self.runAction(action)
+    }
+    
     
     func setStageValue(){
     
     }
     
-    // スワイプ処理の設定
-    func setupSwipeGestures() {
-        let gestureToRight: UISwipeGestureRecognizer  = UISwipeGestureRecognizer(target: self, action: Selector("swipeRight:"))
-        gestureToRight.direction = .Right
-        self.view?.addGestureRecognizer(gestureToRight)
-        
-        let gestureToLeft: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: Selector("swipeLeft:"))
-        gestureToLeft.direction = .Left
-        self.view?.addGestureRecognizer(gestureToLeft)
-    }
-    
     func setBackGroundImage(){
+        return
+        /*
         let backView = SKSpriteNode(imageNamed: "bg_night")
         backView.position = CGPointMake(self.size.width, self.size.height - CGFloat(CommonConst.headerHeight))
         backView.zPosition = 0
@@ -79,15 +109,19 @@ class PlayScene: BaseScene, SKPhysicsContactDelegate {
                 SKAction.moveToX(-200.0, duration: 20.0),
                 SKAction.moveToX(self.size.width+200, duration: 0.0)])))
         self.addChild(backView)
+*/
     }
     
-    func swipeRight(gesture: UISwipeGestureRecognizer){
+    override func setSlimeDemo() {
+    }
+    
+    override func swipeRight(gesture: UISwipeGestureRecognizer){
         scoreUp(2)
         var kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
         kappa?.physicsBody?.applyImpulse(CGVectorMake(CGFloat(_agi + 5 ), 0))
     }
 
-    func swipeLeft(gesture: UISwipeGestureRecognizer){
+    override func swipeLeft(gesture: UISwipeGestureRecognizer){
         scoreUp(1)
         showMoney()
         var kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
@@ -97,7 +131,6 @@ class PlayScene: BaseScene, SKPhysicsContactDelegate {
     // 初期値をセット
     func setInitData(){
         setMoney()
-        _jump   = CGFloat(400+_agi)
         _lifeBarWidth = self.frame.size.width - 100
         _stageHeight = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.footerHeight)
          _danjon_type = CommonData.getData("danjon_type") as! String
@@ -128,19 +161,10 @@ class PlayScene: BaseScene, SKPhysicsContactDelegate {
             _maxhp = 2
             _hp = 2
         } else if _equip == "shoes" {
-            _agi = 255
+            _agi = CommonConst.agi_max
         }
         
         
-    }
-    
-    func setKappa() {
-        var enemy = KappaNode.makeKappa()
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) - 50, y:CGRectGetMidY(self.frame))
-        enemy.position = point
-        enemy.setPhysic()
-        
-        self.addChild(enemy)
     }
     
     // ライフなどを表示するフッターを表示
@@ -180,35 +204,6 @@ class PlayScene: BaseScene, SKPhysicsContactDelegate {
         footer.addChild(hpLabel)
         
         self.addChild(footer)
-    }
-    
-    func setHorizonWorld(){
-        let point : CGPoint = CGPoint(x:CGRectGetMinX(frame), y: CGRectGetMinY(self.frame) + 350)
-        let size : CGSize = CGSizeMake(1, self.frame.height)
-        let physic = SKPhysicsBody(rectangleOfSize: size)
-        physic.affectedByGravity = false
-        physic.allowsRotation = false
-        physic.dynamic = false
-        physic.categoryBitMask = horizonWorldCategory
-        var background : SKSpriteNode = SKSpriteNode(color: UIColor.yellowColor(), size: size)
-        background.position = point
-        background.zPosition = 100
-        background.physicsBody = physic
-        self.addChild(background)
-    
-        let point2 : CGPoint = CGPoint(x:CGRectGetMaxX(frame), y: CGRectGetMidY(self.frame))
-        var background2 : SKSpriteNode = SKSpriteNode(color: UIColor.yellowColor(), size: size)
-        background2.position = point2
-        background2.zPosition = 100
-        let physic2 = SKPhysicsBody(rectangleOfSize: size)
-        physic2.affectedByGravity = false
-        physic2.allowsRotation = false
-        physic2.dynamic = false
-        physic2.categoryBitMask = horizonWorldCategory
-
-        background2.physicsBody = physic2
-        
-        self.addChild(background2)
     }
     
     // 残りの距離を表示
@@ -272,9 +267,9 @@ class PlayScene: BaseScene, SKPhysicsContactDelegate {
     }
 
 
-    func makeCat(per : Int){
+    func makeGhost(per : Int){
         if(CommonUtil.rnd(100) < per) {
-            var enemy = CatNode.makeEnemy()
+            var enemy = GhostNode.makeEnemy()
             let enemy_harf_height : Int = enemy.half_height
             let min_height: Int = CommonConst.footerHeight + enemy_harf_height
             let height: Int = CommonUtil.rnd(Int(_stageHeight) - enemy_harf_height)
@@ -349,53 +344,30 @@ class PlayScene: BaseScene, SKPhysicsContactDelegate {
         }
     }
     
-    // タップイベント
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func setBattleTap(){
         scoreUp(1)
         _tapCount += 1
         
-        // カッパを飛ばす
-        var kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
-        kappa?.physicsBody?.velocity = CGVectorMake(0, _jump)
-        
+        var kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode        
         // 10回タップ毎に１回ファイアボールを発動
         if(_tapCount%10 == 0){
             setFireBall(kappa!.position)
         }
-        
-        let touch = touches.first as? UITouch
-        let location = touch!.locationInNode(self)
-        
-        setSword(kappa!.position, to: location)
     }
-
-    // 剣を作成。
-    func setSword(from: CGPoint, to: CGPoint){
-        var sword : SwordNode = SwordNode.makeSword()
-        // クリティカル判定。装備が刀だったらクリティカル確定
-        if CommonUtil.rnd(100) < _luck || _equip == "katana" {
-            sword.physicsBody?.allowsRotation = true
-            sword.physicsBody?.angularDamping = 0.0
-            sword.physicsBody?.angularVelocity = 9.0
-            sword.name = "critical"
-        }
-        sword.position = from
-        self.addChild(sword)
-        var action : SKAction = SKAction.moveTo(to, duration: _swordSpeed)
-        sword.runAction(action, completion:
-            { sword.removeFromParent() }
-        )
+    
+    
+    override func isCritical() -> Bool{
+        return CommonUtil.rnd(100) < _luck || _equip == "katana"
     }
+    
     
     func setFireBall(location: CGPoint){
         var fire = FireNode.make(location)
         self.addChild(fire)
         fire.physicsBody?.velocity = CGVectorMake(CGFloat(_fireSpeed), 0)
     }
-    
-    
 
-    func didBeginContact(contact: SKPhysicsContact) {
+    override func didBeginContact(contact: SKPhysicsContact) {
         var firstBody, secondBody: SKPhysicsBody
         if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
             firstBody = contact.bodyA
@@ -420,6 +392,7 @@ class PlayScene: BaseScene, SKPhysicsContactDelegate {
                 let val = secondBody.node?.userData?.objectForKey("gold") as! Int
                 _gold += val
                 showMoney()
+                coinBGM()
                 secondBody.node?.removeFromParent()
                 displayDamage(val, point: secondBody.node!.position, color: UIColor.yellowColor())
                 return
@@ -494,14 +467,6 @@ class PlayScene: BaseScene, SKPhysicsContactDelegate {
     }
     
     // 衝突時など、火花を出す
-    func makeSpark(location: CGPoint?){
-        let particle = SparkEmitterNode.makeSpark("Spark")
-        particle.position = location!
-        particle.zPosition = 1
-        self.addChild(particle)
-    }
-    
-    // 衝突時など、火花を出す
     func makeCriticalSpark(location: CGPoint?){
         let particle = SparkEmitterNode.makeSpark("CriticalSpark")
         particle.position = location!
@@ -534,6 +499,7 @@ class PlayScene: BaseScene, SKPhysicsContactDelegate {
     
     // 炎が当たった時の処理
     func hitFire(firstBody: SKPhysicsBody, fireBody: SKPhysicsBody){
+        attackBGM()
         let enemyNode: SKSpriteNode = firstBody.node as! SKSpriteNode
         if _fire_penetrate_flag == false {
             fireBody.node?.removeFromParent()
@@ -562,6 +528,7 @@ class PlayScene: BaseScene, SKPhysicsContactDelegate {
 
     // 剣が当たった時の処理
     func hitSword(firstBody: SKPhysicsBody, swordBody: SKPhysicsBody){
+        attackBGM()
         let enemyNode: SKSpriteNode = firstBody.node as! SKSpriteNode
 
         var enemyHP : Int = enemyNode.userData?.valueForKey("hp") as! Int
@@ -617,6 +584,7 @@ class PlayScene: BaseScene, SKPhysicsContactDelegate {
             makeSpark(CGPointMake(enemyNode.position.x - 50, enemyNode.position.y - 50))
             makeSpark(CGPointMake(enemyNode.position.x - 50, enemyNode.position.y + 50))
             makeSpark(CGPointMake(enemyNode.position.x + 50, enemyNode.position.y - 50))
+            _boss_beat_flag = true
             var timer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: Selector("setGameEndFlag"), userInfo: nil, repeats: false)
         }
         enemyNode.removeFromParent()
@@ -624,16 +592,17 @@ class PlayScene: BaseScene, SKPhysicsContactDelegate {
     
     func setGameEndFlag(){
         _game_end_flag = true
+        stageClear()
     }
 
-    
     // 敵と衝突し、ダメージを受ける
     // HPが0以下になったらゲームオーバー
     func damaged(value: Int){
+        damagedBGM()
         _hp -= value
         changeLifeBar()
         changeLifeLabel()
-        if(_hp <= 0){
+        if(_hp <= 0 && _boss_beat_flag != true){
             _game_end_flag = true
             goGameOver()
         }
@@ -727,12 +696,14 @@ class PlayScene: BaseScene, SKPhysicsContactDelegate {
     
     // ゲームオーバー画面へ
     func goGameOver(){
+        stopBGM()
         let secondScene = GameOverScene(size: self.frame.size)
         let tr = SKTransition.fadeWithColor(UIColor.whiteColor(), duration: 4)
         changeSceneWithLongDuration(secondScene, tr: tr, duration: 4)
     }
     
     func goGameClearScene() {
+        stopBGM()
         CommonData.setData("stage_score", value: _score)
         dataSave()
         let secondScene = GameClearScene(size: self.frame.size)
@@ -753,7 +724,7 @@ class PlayScene: BaseScene, SKPhysicsContactDelegate {
     override func update(currentTime: CFTimeInterval) {
         // ボス撃破したので終了
         if(_game_end_flag == true) {
-            goGameClearScene()
+            //goGameClearScene()
             return
         }
         

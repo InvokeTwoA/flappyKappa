@@ -6,10 +6,7 @@ import SpriteKit
 class GameScene: BaseScene {
     
     override func didMoveToView(view: SKView) {
-        self.backgroundColor = UIColor(red:0.0,green:0.5,blue:1.0,alpha:1.0)
-        setHeader()
-        setKapppaNomi()
-        setMoney()
+        setBaseSetting()
         setShopButton()
         setAdventureButton()
         setStatusButton()
@@ -21,8 +18,6 @@ class GameScene: BaseScene {
         let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) + 100)
         kappa.position = point
         self.addChild(kappa)
-//        print("self max x = \(CGRectGetMaxX(self.frame))\n")
-//        print("self max y = \(CGRectGetMaxY(self.frame))\n")
     }
 
     // 冒険ボタンを設置
@@ -53,22 +48,16 @@ class GameScene: BaseScene {
         self.addChild(startButton)
     }
 
-
     // タッチイベント
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as? UITouch
-        let location = touch!.locationInNode(self)
-        let touchedNode = self.nodeAtPoint(location)
-        if (touchedNode.name != nil) {
-            if touchedNode.name == "shop" {
-                goShopScene()
-            } else if touchedNode.name == "adventure" {
-                goAdventure()
-            } else if touchedNode.name == "status" {
-                goStatus()
-            } else if touchedNode.name == "equip" {
-                goEquip()
-            }
+    override func checkTochEvent(name: String) {
+        if name == "shop" {
+            goShopScene()
+        } else if name == "adventure" {
+            goAdventure()
+        } else if name == "status" {
+            goStatus()
+        } else if name == "equip" {
+            goEquip()
         }
     }
     

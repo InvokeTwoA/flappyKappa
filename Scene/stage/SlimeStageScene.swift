@@ -10,14 +10,14 @@ class SlimeStageScene: PlayScene {
         makeApple()
         makeBlock(10)
         makeSlime(40)
-        makeCat(10)
+        makeGhost(10)
     }
     
     override func generateHardEnemy(){
         makeApple()
         makeBlock(9)
         makeSlime(60)
-        makeCat(30)
+        makeGhost(30)
     }
     
     override func generateSpecialEnemy(){

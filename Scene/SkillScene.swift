@@ -8,8 +8,7 @@ class SkillScene: BaseScene {
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.7,green:0.3,blue:0.2,alpha:1.0)
         _page = CommonData.getDataByInt("skill_page")
-        setHeader()
-        setMoney()
+        setBaseSetting()
         
         let point_y1 = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight)
         let point_y2 = point_y1 - CGFloat(CommonConst.textBlankHeight*2)
@@ -75,36 +74,31 @@ class SkillScene: BaseScene {
     }
     
     // タッチイベント
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as? UITouch
-        let location = touch!.locationInNode(self)
-        let touchedNode = self.nodeAtPoint(location)
-        if (touchedNode.name != nil) {
-            if touchedNode.name == "back" {
-                goBack()
-            } else if touchedNode.name == "back_page" {
-                goBackPage()
-            } else if touchedNode.name == "next" {
-                goNext()
-            } else {
-                var skill_name : String = ""
-                if touchedNode.name == "hatena_warrior" {
-                    skill_name = "warrior"
-                } else if touchedNode.name == "hatena_wizard" {
-                    skill_name = "wizard"
-                } else if touchedNode.name == "hatena_priest" {
-                    skill_name = "priest"
-                } else if touchedNode.name == "hatena_thief" {
-                    skill_name = "thief"
-                } else if touchedNode.name == "hatena_break_block" {
-                    skill_name = "break_block"
-                } else if touchedNode.name == "hatena_blood" {
-                    skill_name = "blood"
-                } else if touchedNode.name == "hatena_zombi" {
-                    skill_name = "zombi"
-                }
-                explainMessage(SkillSetting.getName(skill_name), skill_explain: SkillSetting.getExplain(skill_name))
+    override func checkTochEvent(name: String) {
+        if name == "back" {
+            goBack()
+        } else if name == "back_page" {
+            goBackPage()
+        } else if name == "next" {
+            goNext()
+        } else {
+            var skill_name : String = ""
+            if name == "hatena_warrior" {
+                skill_name = "warrior"
+            } else if name == "hatena_wizard" {
+                skill_name = "wizard"
+            } else if name == "hatena_priest" {
+                skill_name = "priest"
+            } else if name == "hatena_thief" {
+                skill_name = "thief"
+            } else if name == "hatena_break_block" {
+                skill_name = "break_block"
+            } else if name == "hatena_blood" {
+                skill_name = "blood"
+            } else if name == "hatena_zombi" {
+                skill_name = "zombi"
             }
+            explainMessage(SkillSetting.getName(skill_name), skill_explain: SkillSetting.getExplain(skill_name))
         }
     }
     

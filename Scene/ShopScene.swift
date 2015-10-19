@@ -3,21 +3,19 @@ import SpriteKit
 class ShopScene: BaseScene {
     
     override func didMoveToView(view: SKView) {
-        self.backgroundColor = UIColor(red:0.0,green:0.5,blue:1.0,alpha:1.0)
-        setHeader()
-        setMoney()
+        setBaseSetting()
         
         let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*2)
         let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight*2)
+        let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight*3)
         
         setButton("武器屋に行くぜ", key_name: "weapon_shop", point_y: point_y1)
         setButton("酒でも飲むか！", key_name: "bar", point_y: point_y2)
-        setButton("転職するか", key_name: "job", point_y: point_y3)
+        setButton("働くでござる", key_name: "work", point_y: point_y3)
+        setButton("転職するか", key_name: "job", point_y: point_y4)
         setBackButton("こんな場所にもう用はない！")
     }
-
-    
     
     //「転職」ボタンを設置
     func setJobChangeButton() {
@@ -26,23 +24,18 @@ class ShopScene: BaseScene {
         self.addChild(startButton)
     }
     
-    // タッチイベント
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as? UITouch
-        let location = touch!.locationInNode(self)
-        let touchedNode = self.nodeAtPoint(location)
-        if (touchedNode.name != nil) {
-            if touchedNode.name == "job" {
-                goJobScene()
-            } else if touchedNode.name == "bar" {
-                goBarScene()
-            } else if touchedNode.name == "weapon_shop" {
-                goWeaponShopScene()
-            } else if touchedNode.name == "back" {
-                goGameScene()
-            }
+    override func checkTochEvent(name: String) {
+        if name == "job" {
+            goJobScene()
+        } else if name == "bar" {
+            goBarScene()
+        } else if name == "weapon_shop" {
+            goWeaponShopScene()
+        } else if name == "work" {
+            goWorkScene()
+        } else if name == "back" {
+            goGameScene()
         }
-        
     }
     
     // 冒険へ
@@ -55,6 +48,13 @@ class ShopScene: BaseScene {
     func goBarScene(){
         changeNickname("アル中", percent: 2)
         let secondScene = BarScene(size: self.frame.size)
+        let tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
+        changeScene(secondScene, tr: tr)
+    }
+    
+    func goWorkScene(){
+        changeNickname("真面目な", percent: 2)
+        let secondScene = WorkScene(size: self.frame.size)
         let tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
         changeScene(secondScene, tr: tr)
     }

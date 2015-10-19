@@ -7,11 +7,11 @@ class JobPriestScene : JobBaseScene {
         _skill_explain  = SkillSetting.getExplain("priest")
         
         _str_up = 0
-        _def_up = 0
+        _def_up = 1
         _int_up = 0
         _pri_up = 1
         _agi_up = 0
-        _luck_up = 1
+        _luck_up = 0
     }
     
     // 転職後のパラメーター変化

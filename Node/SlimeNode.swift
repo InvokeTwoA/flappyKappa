@@ -9,8 +9,8 @@ class SlimeNode: SKSpriteNode {
     var _dx :Int = 36
 
     class func makeEnemy() -> SlimeNode {
-
-        var enemy : SlimeNode = SlimeNode(imageNamed: "slime")
+        var enemy = SlimeAnimateNode()
+        
         enemy._dx = 36
         enemy.userData =
             [
@@ -49,13 +49,38 @@ class SlimeNode: SKSpriteNode {
     func setPhysic() {
         let physic = SKPhysicsBody(rectangleOfSize: CGSizeMake(CGFloat(width), CGFloat(height)))
         physic.affectedByGravity = false
-        physic.allowsRotation = false
+        physic.allowsRotation = true
         physic.categoryBitMask = enemyCategory
         physic.contactTestBitMask = fireCategory | swordCategory | worldCategory
-        physic.collisionBitMask = heroCategory | worldCategory | downWorldCategory | horizonWorldCategory
+        physic.collisionBitMask = heroCategory | worldCategory | downWorldCategory
         physic.linearDamping = 0
         physic.friction = 0
         physic.velocity = CGVectorMake(CGFloat(-1*_dx), 0)
         self.physicsBody = physic
+    }
+    
+    class func SlimeAnimateNode() -> SlimeNode {
+        let s1 : SKTexture = SKTexture(imageNamed: "slime1")
+        let s2 : SKTexture = SKTexture(imageNamed: "slime2")
+        let action = SKAction.animateWithTextures([s1, s2], timePerFrame: 1.00)
+        var enemy : SlimeNode = SlimeNode(imageNamed: "slime1")
+        enemy.runAction(SKAction.repeatActionForever(action))
+        return enemy
+    }
+    
+    
+    // タイトルでただフワフワしてるだけのスライム
+    class func makeDemo()-> SlimeNode {
+        var enemy = SlimeAnimateNode()
+        enemy.name = "slime"
+        enemy.zPosition = 999
+        let physic = SKPhysicsBody(rectangleOfSize: CGSizeMake(CGFloat(32), CGFloat(32)))
+        physic.affectedByGravity = true
+        physic.allowsRotation = true
+        physic.categoryBitMask = blockCategory
+        physic.collisionBitMask = heroCategory | worldCategory | downWorldCategory | horizonWorldCategory | swordCategory | wallCategory
+        physic.restitution = 0.9
+        enemy.physicsBody = physic
+        return enemy
     }
 }
