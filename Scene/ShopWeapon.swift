@@ -9,7 +9,7 @@ class ShopWeaponScene: BaseScene {
         setBaseSetting()
         
         if CommonData.getDataByInt("buy_complete") == 1 {
-            self.showAlert(WeaponSetting.getName("おあがりよー！"), text:"大事に使ってくれよ。", ok_text: "これで俺も最強だ！")
+            self.showAlert("おあがりよー！", text:"大事に使ってくれよ。", ok_text: "これで俺も最強だ！")
             CommonData.setData("buy_complete", value: 0)
         }
         
@@ -69,7 +69,10 @@ class ShopWeaponScene: BaseScene {
         } else if name == "hatena_katana" {
             showAlert(WeaponSetting.getName("katana"), text: WeaponSetting.getExplain("katana"), ok_text: "へぇー")
         } else if name == "hatena_shoes" {
-            showAlert(WeaponSetting.getName("shoes"), text: WeaponSetting.getExplain("katana"), ok_text: "そうなんだー")
+            showAlert(WeaponSetting.getName("shoes"), text: WeaponSetting.getExplain("shoes"), ok_text: "そうなんだー")
+        } else if name == "hatena_hammer" {
+            showAlert(WeaponSetting.getName("hammer"), text: WeaponSetting.getExplain("hammer"), ok_text: "それは良い")
+            
         } else if name == "buy_long" {
             _buy_name = "long"
             buyConfirm()
@@ -89,8 +92,11 @@ class ShopWeaponScene: BaseScene {
     
     func buyConfirm(){
         // Style Alert
-        let alert: UIAlertController = UIAlertController(title:"お客さん、良いものに目をつけたね",
-            message: "買ってくかい？",
+        let name = WeaponSetting.getName(_buy_name)
+        let cost = WeaponSetting.getCost(_buy_name)
+        
+        let alert: UIAlertController = UIAlertController(title:"ご注文は\(name)ですか？",
+            message: "\(cost)ゴールドだ。買ってくかい？",
             preferredStyle: UIAlertControllerStyle.Alert
         )
         

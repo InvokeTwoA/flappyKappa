@@ -7,6 +7,9 @@ import SpriteKit
 class CommonUtil {
     // 0 から max までの乱数
     class func rnd(max : Int) -> Int {
+        if(max <= 0){
+            return 0
+        }
         var rand = Int(arc4random_uniform(UInt32(max)))
         return rand
     }
@@ -46,7 +49,62 @@ class CommonUtil {
         // 年数の表示
         var day = CommonData.getDataByInt("day")
         var year : Int = (day/365) + 1
-        str = "\(year)年 \(day)日目  \(str)"
+        str = "カッパ歴\(year)年 \(day)日目  \(str)"
         return str
     }
+    
+    // 死に際のセリフをランダムに返す
+    class func makeDeathWord() -> String {
+        let str : String
+        let rnd : Int = CommonUtil.rnd(7)
+        switch rnd {
+        case 0:
+            str = "やられたー！"
+        case 1:
+            str = "ぐあー！"
+        case 2:
+            str = "ぎゃー！"
+        case 3:
+            str = "さーせん"
+        case 4:
+            str = "見事だ……"
+        case 5:
+            str = "お前がナンバー１だ"
+        case 6:
+            str = "負けたー"
+        default:
+            str = "ぶひー！"
+        }
+        return str
+    }
+    
+    class func randomHint() -> String{
+        let str : String
+        let rnd : Int = CommonUtil.rnd(9)
+        switch rnd {
+        case 0:
+            str = "魔王のHPは日数と一緒"
+        case 1:
+            str = "麻雀の勝率は(40+幸運)"
+        case 2:
+            str = "幸運の最大値は50"
+        case 3:
+            str = "敏捷の最大値は50"
+        case 4:
+            str = "HPはLVup時に(1〜体力)増える"
+        case 5:
+            str = "カッパ神ばんざーい"
+        case 6:
+            str = "裏面が一つ存在する"
+        case 7:
+            str = "魔法はダメージ固定"
+        case 8:
+            str = "死亡回数＝初期ゴールド"
+
+        default:
+            str = "ぶひー！"
+        }
+        return str
+    }
+    
 }

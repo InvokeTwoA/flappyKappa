@@ -1,7 +1,8 @@
 //ダンジョン選択画面
 import SpriteKit
 class MapPrepareScene: BaseScene {
-    var _nextScene : SKScene = TutorialStageScene(size: CGSizeMake(1,1))
+    var _stage = CommonData.getDataByString("stage_name")
+    var _nextScene : SKScene = SlimeStageScene(size: CGSizeMake(1,1))
     let _tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1)
     
     override func didMoveToView(view: SKView) {
@@ -18,26 +19,13 @@ class MapPrepareScene: BaseScene {
         let point_y5 = point_y4 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y6 = point_y5 - CGFloat(CommonConst.textBlankHeight*2)
 
-        // ステージ名
-        // ステージ説明
-        // 出現的情報
-        // レア報酬
-        // いくぜボタン
-
-        setCenterText("ステージ名", key_name: "title", point_y: point_y1)
-        setCenterText("ステージ説明1", key_name: "explain1", point_y: point_y2)
-        setCenterText("ステージ説明2", key_name: "explain2", point_y: point_y3)
-        setCenterText("レア報酬", key_name: "explain3", point_y: point_y4)
-        setButton("行くぜ", key_name: "go", point_y: point_y5)
-        
-        /*
-        setButton("チュートリアル",   key_name: "tutorial",  point_y: point_y1)
-        setButton("スライムの洞窟",   key_name: "slime",     point_y: point_y2)
-        setButton("タヌキ平原",      key_name: "tanuki",     point_y: point_y3)
-        setButton("古代遺跡",        key_name: "golem",     point_y: point_y4)
-        setButton("ゴーレム道場",     key_name: "dojo_g",    point_y: point_y5)
-        setButton("ラスボス（魔王城）", key_name: "maou",    point_y: point_y6)
-        */
+        setCenterText(MapSetting.getName(_stage), key_name: "title", point_y: point_y1)
+        setCenterText("ボス: \(MapSetting.getBossName(_stage))", key_name: "title", point_y: point_y2)
+        setCenterText(MapSetting.getExplain1(_stage), key_name: "explain1", point_y: point_y3)
+        setCenterText(MapSetting.getExplain2(_stage), key_name: "explain2", point_y: point_y4)
+        setCenterText(MapSetting.getExplain3(_stage), key_name: "explain3", point_y: point_y5)
+        setCenterButton("行くぜ", key_name: "go", point_y: point_y6)
+    
         setBackButton("ビビったので帰る")
     }
     

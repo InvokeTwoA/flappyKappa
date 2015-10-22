@@ -1,16 +1,17 @@
 import SpriteKit
-class SlimeStageScene: PlayScene {
+class KabeStageScene: PlayScene {
     
     override func setStageValue() {
-        _distance = 1500
+        _distance = 3000
     }
     
     // 敵を作成
     override func generateEnemy(){
         makeApple()
-        makeBlock(10)
-        makeSlime(50)
-        makeGhost(15)
+        makeAllBlock(2)
+        makeSuperSlime(25)
+        makeSister(10)
+        makeFighter(10)
     }
     
     override func makeBoss(danjon_type : String){

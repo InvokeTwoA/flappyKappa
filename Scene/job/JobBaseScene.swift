@@ -128,7 +128,7 @@ class JobBaseScene: BaseScene {
         
         // Style Alert
         let alert: UIAlertController = UIAlertController(title:"転職しますか？",
-            message: "転職するとLVが1になり全パラメーターが半減し、今まで覚えたスキルも忘れます。",
+            message: "転職するとスキルや成長率が変わります",
             preferredStyle: UIAlertControllerStyle.Alert
         )
         

@@ -108,6 +108,7 @@ class CommonUI {
         let job      = CommonData.getData("job") as! String
         let nickname = CommonData.getData("nickname") as! String
         let name     = CommonData.getData("name") as! String
-        return "\(nickname)\(job)\(name)"
+        let birth    = CommonData.getDataByInt("birth")
+        return "\(nickname)\(job)\(name) \(birth)世"
     }
 }

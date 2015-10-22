@@ -8,18 +8,27 @@ class GhostNode: SKSpriteNode {
     
     var _dx :Int = 36
     
-    class func makeEnemy() -> GhostNode {
+    class func makeEnemy(danjon_type: String) -> GhostNode {
         var enemy = GhostNode(imageNamed: "ghost")
         
         enemy._dx = 36
+        let value : Int
+        if danjon_type == "hard" {
+            value = 3
+        } else if danjon_type == "special" {
+            value = 2
+        } else {
+            value = 1
+        }
         enemy.userData =
             [
-                "hp" : 8,
-                "str" : 3,
-                "def": 99,
+                "hp" : 3 * value,
+                "str" : 2,
+                "def": 6,
                 "mdef": 0,
                 "gold": 3,
-                "score": 1
+                "score": 1,
+                "name" : "ゴースト"
         ]
         enemy.name = "enemy"
         enemy.zPosition = 999
@@ -34,7 +43,7 @@ class GhostNode: SKSpriteNode {
         physic.allowsRotation = false
         physic.categoryBitMask = enemyCategory
         physic.contactTestBitMask = fireCategory | swordCategory | worldCategory
-        physic.collisionBitMask = heroCategory | worldCategory | downWorldCategory | horizonWorldCategory
+        physic.collisionBitMask = worldCategory | downWorldCategory
         physic.linearDamping = 0
         physic.friction = 0
         self.physicsBody = physic

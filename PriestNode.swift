@@ -1,19 +1,12 @@
 import SpriteKit
 
-class GolemNode: SKSpriteNode {
-    /*
-    let width = 118
-    let height = 94
-    let half_height :Int = 59
-    */
-    let width = 64
-    let height = 64
-    let half_height :Int = 32
-
+class PriestNode: SKSpriteNode {
+    let width = 32
+    let height = 32
+    let half_height :Int = 16
     
-    class func makeEnemy(danjon_type: String) -> GolemNode {
-//        var enemy : GolemNode = GolemNode(imageNamed: "golem")
-                var enemy : GolemNode = GolemNode(imageNamed: "skelton_64_64")
+    class func makeEnemy(danjon_type: String) -> PriestNode {
+        var enemy : PriestNode = PriestNode(imageNamed: "sister_64_64")
         enemy.zPosition = 999
         var value : Int = 1
         if danjon_type == "hard" {
@@ -23,7 +16,7 @@ class GolemNode: SKSpriteNode {
         }
         enemy.userData =
             [
-                "hp" : 100*value,
+                "hp" : 10*value,
                 "str" : 6,
                 "def": 6,
                 "mdef": 50,
@@ -47,7 +40,7 @@ class GolemNode: SKSpriteNode {
         physic.linearDamping = 0
         physic.friction = 0
         physic.restitution = 1.0
-        physic.velocity = CGVectorMake(-40, -40)
+        physic.velocity = CGVectorMake(-70, -70)
         self.physicsBody = physic
     }
 }

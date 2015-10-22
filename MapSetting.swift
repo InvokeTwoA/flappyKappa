@@ -5,10 +5,7 @@ class MapSetting {
     class func nextScene(size : CGSize) -> SKScene {
         var nextScene : SKScene
         let name : String = CommonData.getDataByString("stage_name")
-        if name == "tutorial" {
-            nextScene = TutorialStageScene(size: size)
-            return nextScene
-        } else if name == "slime" {
+        if name == "slime" {
             nextScene = SlimeStageScene(size: size)
             return nextScene
         } else if name == "tanuki" {
@@ -23,65 +20,165 @@ class MapSetting {
         } else if name == "maou" {
             nextScene = MaoStageScene(size: size)
             return nextScene
+        } else if name == "noukin" {
+            nextScene = NoukinStageScene(size: size)
+            return nextScene
+        } else if name == "taiman" {
+            nextScene = TaimanStageScene(size: size)
+            return nextScene
+        } else if name == "maho" {
+            nextScene = MahoStageScene(size: size)
+            return nextScene
+        } else if name == "kabe" {
+            nextScene = KabeStageScene(size: size)
+            return nextScene
+        } else if name == "mugen" {
+            nextScene = MugenStageScene(size: size)
+            return nextScene
         } else {
             nextScene = SlimeStageScene(size: size)
             return nextScene
         }
     }
     
-    
-    
     class func getName(key_name :String) -> String {
         var name : String
         switch key_name {
-        case "long":
-            name = "ロンゲソード"
-        case "katana":
-            name = "逆刃刀"
-        case "shoes":
-            name = "ネコの長靴"
-        case "hammer":
-            name = "10トンハンマー"
+        case "slime":
+            name = "スライムの洞窟"
+        case "tanuki":
+            name = "スカーフ山"
+        case "golem":
+            name = "アノーレ・ロンド遺跡"
+        case "dojo_g":
+            name = "サイレント昼"
+        case "maou":
+            name = "魔王城"
+        case "noukin":
+            name = "脳筋ダンジョン"
+        case "taiman":
+            name = "FEコロシアム"
+        case "maho":
+            name = "魔法科中学校"
+        case "kabe":
+            name = "デスマス城"
+        case "mugen":
+            name = "無限の住人"
         default:
-            name = "a"
+            name = ""
         }
         return name
     }
-    
-    class func getCost(key_name :String) -> Int {
-        var cost : Int
-        switch key_name {
-        case "long":
-            cost = 10
-        case "katana":
-            cost = 15
-        case "shoes":
-            cost = 3
-        case "hammer":
-            cost = 20
-        default:
-            cost = 0
-            break // do nothing
-        }
-        return cost
-    }
-    
-    class func getExplain(key_name :String) -> String {
+
+    class func getBossName(key_name :String) -> String {
         var name : String
         switch key_name {
-        case "long":
-            name = "定価\(getCost(key_name))ゴールド\n\nロンゲの兄ちゃんが使ってた剣。\n\n スキル[ブロック崩し]\nブロックを破壊できます。"
-        case "katana":
-            name = "定価\(getCost(key_name))ゴールド\n\n殴られると相当痛い刀。\n\n スキル[龍墜閃]\nクリティカル率が100%になります。\n戦闘中の最大HPが2になります"
-        case "shoes":
-            let agi_max = CommonConst.agi_max
-            name = "定価\(getCost(key_name))ゴールド\n\nとんでもなく早く動ける靴。\n\n スキル[縮地]\n戦闘中の敏捷が\(agi_max)になる。\n速すぎるので注意"
+        case "slime":
+            name = "デカイム"
+        case "tanuki":
+            name = "留年騎士"
+        case "golem":
+            name = "メガデス"
+        case "dojo_g":
+            name = "元勇者"
+        case "maou":
+            name = "魔王"
+        case "noukin":
+            name = "留年騎士"
+        case "taiman":
+            name = "元勇者"
+        case "maho":
+            name = "メガデス"
+        case "kabe":
+            name = "デカイム"
+        case "mugen":
+            name = "魔王"
         default:
-            name = "a"
+            name = ""
         }
         return name
     }
     
-    // 重力子放射線射出装置
-    
+    class func getExplain1(key_name :String) -> String {
+        var name : String
+        switch key_name {
+        case "slime":
+            name = "初心者冒険者が訪れる簡単な洞窟"
+        case "tanuki":
+            name = "中級冒険者が腕試しに挑む高山"
+        case "golem":
+            name = "心が折れるダンジョン"
+        case "dojo_g":
+            name = "無事に昼を迎えた者はいない"
+        case "maou":
+            name = "全ては闇に包まれている"
+        case "noukin":
+            name = "ここでは魔法が使えない"
+        case "taiman":
+            name = "一対一の勝負"
+        case "maho":
+            name = "ここでは魔法しか使えない"
+        case "kabe":
+            name = "初見殺しステージ"
+        case "mugen":
+            name = "やり込みたい人向け"
+        default:
+            name = ""
+        }
+        return name
+    }
+
+    class func getExplain2(key_name :String) -> String {
+        var name : String
+        switch key_name {
+        case "slime":
+            name = "ここで基本操作を覚えると良い。"
+        case "tanuki":
+            name = "レベルや装備は整えたか？"
+        case "golem":
+            name = "ハンマーなどの装備推奨"
+        case "dojo_g":
+            name = "ボスは魔法か会心の一撃が効く"
+        case "maou":
+            name = ""
+        case "noukin":
+            name = ""
+        case "taiman":
+            name = ""
+        case "mugen":
+            name = "全ボス登場の最高難易度ステージ"
+        default:
+            name = ""
+        }
+        return name
+    }
+
+    class func getExplain3(key_name :String) -> String {
+        var name : String
+        switch key_name {
+        case "slime":
+            name = "レア報酬：オレ杖"
+        case "tanuki":
+            name = "レア報酬：1000ゴールド"
+        case "golem":
+            name = "レア報酬：カッパソウル"
+        case "dojo_g":
+            name = "レア報酬：重力子放射線射出装置"
+        case "maou":
+            name = ""
+        case "noukin":
+            name = "知恵、信仰の成長力＋１"
+        case "taiman":
+            name = "力、体力の成長力＋１"
+        case "maho":
+            name = "LVが１になる"
+        case "kabe":
+            name = "聖シャインの剣"
+        case "kabe":
+            name = "レア報酬などない"            
+        default:
+            name = ""
+        }
+        return name
+    }    
 }

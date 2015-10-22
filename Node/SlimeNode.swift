@@ -8,18 +8,26 @@ class SlimeNode: SKSpriteNode {
     
     var _dx :Int = 36
 
-    class func makeEnemy() -> SlimeNode {
+    class func makeEnemy(danjon_type : String) -> SlimeNode {
         var enemy = SlimeAnimateNode()
         
         enemy._dx = 36
+        
+        var value : Int = 1
+        if danjon_type == "hard" {
+            value = 3
+        } else if danjon_type == "special" {
+            value = 2
+        }
         enemy.userData =
             [
-                "hp" : 4,
+                "hp" : 3 * value,
                 "str" : 1,
                 "def": 1,
                 "mdef": 0,
                 "gold": 1,
-                "score": 1
+                "score": 1,
+                "name" : "スライム"
             ]
         enemy.name = "enemy"
         enemy.zPosition = 999
@@ -27,17 +35,26 @@ class SlimeNode: SKSpriteNode {
         return enemy
     }
     
-    class func makeSuperEnemy() -> SlimeNode {
+    class func makeSuperEnemy(danjon_type: String) -> SlimeNode {
         var enemy : SlimeNode = SlimeNode(imageNamed: "green_slime")
         enemy._dx = 95
+        let value : Int
+        if danjon_type == "hard" {
+            value = 3
+        } else if danjon_type == "special" {
+            value = 2
+        } else {
+            value = 1
+        }
         enemy.userData =
             [
                 "hp" : 6,
-                "str" : 10,
+                "str" : 5,
                 "def": 2,
                 "mdef": 0,
-                "gold": 20,
-                "score": 20
+                "gold": 10,
+                "score": 20,
+                "name": "ピーマン"
         ]
         enemy.name = "enemy"
         enemy.zPosition = 999

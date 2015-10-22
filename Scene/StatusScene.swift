@@ -55,8 +55,11 @@ class StatusScene: BaseScene {
             self.addChild(lvUp)
         }
         
-        setRealButton(y13)
-        setSkillButton(y13)
+        setBackButton("さて、行くか！")
+
+        // setRealButton(y13)
+        // スキルページは表示なし
+        // setSkillButton(y13)
     }
     
     func setRealButton(point_y : CGFloat) {

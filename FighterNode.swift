@@ -6,15 +6,24 @@ class FighterNode: SKSpriteNode {
     let height = 32
     let half_height = 16
     
-    class func makeEnemy() -> FighterNode {
+    class func makeEnemy(danjon_type : String) -> FighterNode {
         var enemy : FighterNode = FighterNode(imageNamed: "g_fighter")
+        let value : Int
+        if danjon_type == "hard" {
+            value = 3
+        } else if danjon_type == "special" {
+            value = 2
+        } else {
+            value = 1
+        }
         enemy.userData =
             [
-                "hp" : 8,
-                "str" : 2,
+                "hp" : 8*value,
+                "str" : 3,
                 "def": 2,
-                "gold": 3,
-                "score": 20
+                "gold": 4,
+                "score": 20,
+                "name" : "女戦士"
         ]
         enemy.name = "enemy"
         enemy.zPosition = 999
@@ -29,10 +38,17 @@ class FighterNode: SKSpriteNode {
         physic.allowsRotation = false
         physic.categoryBitMask = enemyCategory
         physic.contactTestBitMask = fireCategory | swordCategory | worldCategory
-        physic.collisionBitMask = heroCategory | worldCategory | downWorldCategory | horizonWorldCategory
+        physic.collisionBitMask = worldCategory | downWorldCategory
         physic.linearDamping = 0
         physic.friction = 0
         
         self.physicsBody = physic
+    }
+    
+    // タイトルでただいるだけ
+    class func makeDemo()-> FighterNode {
+        var enemy = FighterNode(imageNamed: "g_fighter")
+        enemy.zPosition = 999
+        return enemy
     }
 }

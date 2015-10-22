@@ -16,9 +16,9 @@ class BarScene: BaseScene {
         
         setButton("酔っぱらい冒険者", key_name: "yoi",   point_y: point_y1)
         setButton("謎の男",         key_name: "zombi", point_y: point_y2)
-        setButton("夜逃げ屋",       key_name: "yonige", point_y: point_y3)
-        setButton("金持ち爺さん",    key_name: "kane", point_y: point_y4)
-        setButton("神父",           key_name: "kami", point_y: point_y5)
+//        setButton("夜逃げ屋",       key_name: "yonige", point_y: point_y3)
+//        setButton("金持ち爺さん",    key_name: "kane", point_y: point_y4)
+        setButton("怪しい神父",           key_name: "kami", point_y: point_y5)
         
         setBackButton("あばよ！")
     }
@@ -41,20 +41,79 @@ class BarScene: BaseScene {
     }
     
     func talkYoi(){
-        let rnd : Int = CommonUtil.rnd(5)
+        // Style Alert
+        let name = WeaponSetting.getName(_buy_name)
         
-        switch rnd {
-        case 0:
-            showAlert("[情報No.2]", text: "巨大猫には気をつけろ。\n\n画面の左側にいないと酷い目に合うぜ。", ok_text: "へー。")
-        case 1:
-            showAlert("[情報No.3]", text: "どこかのダンジョンに低確率で現れる金のネコ……。\n\n奴を倒せれば一攫千金も夢じゃないらしいぜ。", ok_text: "ほほーう。")
-        case 2:
-            showAlert("[情報No.4]", text: "アンデッド系やゴーレムは物理攻撃が殆ど通らないぜ。", ok_text: "ふむふむ。")
-        case 3:
-            showAlert("[情報No.5]", text: "死んだら能力は初期化される。でも買った装備や施設は引き継がれるんだ。", ok_text: "そうだったんだー。")
-        default :
-            showAlert("[情報No.1]", text: "酒だー。酒を持ってこーい。", ok_text: "関わらないでおこう")
-        }
+        let alert: UIAlertController = UIAlertController(title:"こう見えて俺も昔は名の知れた戦士だったんだ",
+            message: "なんでも聞いてくれ",
+            preferredStyle: UIAlertControllerStyle.Alert
+        )
+        
+        let q1Action: UIAlertAction = UIAlertAction(title: "操作方法について",
+            style: UIAlertActionStyle.Default,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                self.showAlert("操作方法", text: "タップするとその場でジャンプ。\nまた、タップした位置に物理攻撃\n\n横にスワイプすると、その方向に動くぜ。\n横に動く速さは敏捷依存だ\n\n10回タップする毎に魔法攻撃のファイアボールが発動するぜ。", ok_text: "サンキュー")
+        })
+        
+        let q2Action: UIAlertAction = UIAlertAction(title: "物理攻撃のコツは？",
+            style: UIAlertActionStyle.Default,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                self.showAlert("物理攻撃について", text: "力が高いほど大きなダメージを与えられるぜ。物理攻撃はブレ幅が大きいのと、相手の防御力を越えないと１しかダメージを与えられないのが難点だ。\n\nただ、運が良ければ会心の一撃で相手の防御力無視の大ダメージを与えられるぜ\n\nあと投げる武器はカッパから遠くをタップするほどスピードが早くなる。さらに職業が戦士だとスピード２倍だ", ok_text: "サンキュー")
+        })
+        let q3Action: UIAlertAction = UIAlertAction(title: "回復は？",
+            style: UIAlertActionStyle.Default,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                self.showAlert("回復について", text: "たまに出てくるリンゴを食べろ。回復量は精神に依存だ。", ok_text: "サンキュー")
+        })
+    
+        let q4Action: UIAlertAction = UIAlertAction(title: "ステージの難易度は？",
+            style: UIAlertActionStyle.Default,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                self.showAlert("難易度について", text: "ノーマル、ハード、カッパ級が選べる。\nそれぞれ敵のHPと攻撃力が２倍、３倍になるが得られるゴールドも２倍、３倍になる。\n\nまた、レア報酬もノーマルだと5%で入手だが、ハードだと10%、カッパ級だと20%になる。\n盗賊ならさらに２倍だ。", ok_text: "サンキュー")
+        })
+
+        let q5Action: UIAlertAction = UIAlertAction(title: "死ぬとどうなるの？",
+            style: UIAlertActionStyle.Default,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                self.showAlert("死ついて", text: "死ねば全ての金を失い、レベルも１になる。新しい冒険者に任せる事になるだろう。\n\nでも手に入れた武器や、発展した街の施設はなくならない。\n\nあと子孫というのは親の何かを引き継ぐものらしい。一族の財産は少しずつでも大きくなっていくだろう。\n\nそれに称号付きの冒険者は強いから、運が良ければ有能な冒険者があとを引き継いでくれるかもしれない。", ok_text: "サンキュー")
+        })
+        let q6Action: UIAlertAction = UIAlertAction(title: "街の発展？",
+            style: UIAlertActionStyle.Default,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                self.showAlert("街の発展ついて", text: "新しい勇者が来た時の、能力の初期値が上がります。たとえば武器屋の施設のレベルを3にすれば、今後現れる勇者は力の初期値が+3されます。\n\n村の発展には1000Gかかる。", ok_text: "サンキュー")
+        })
+        
+        let q7Action: UIAlertAction = UIAlertAction(title: "レベルアップ？",
+            style: UIAlertActionStyle.Default,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                self.showAlert("レベルアップについて", text: "「人生を見直す」画面でゴールドを払えばできる。必要金額はレベルが高いほど高くなるので注意だ。ステータスの成長率は今ついてる職業によって変わるので、色々ろ試してみると良い。\n\n職業毎に独自のスキルを持ってる。\n転職は誰でもタダでできる。", ok_text: "サンキュー")
+        })
+
+
+        let cancelAction: UIAlertAction = UIAlertAction(title: "聞くことはない",
+            style: UIAlertActionStyle.Cancel,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                self.changeNickname("冷やかし", percent: 50)
+        })
+        
+        alert.addAction(q1Action)
+        alert.addAction(q2Action)
+                alert.addAction(q3Action)
+                alert.addAction(q4Action)
+                alert.addAction(q5Action)
+                alert.addAction(q6Action)
+                alert.addAction(q7Action)
+        alert.addAction(cancelAction)
+        self.view?.window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+
     }
     
     func talkZombi(){
@@ -68,7 +127,7 @@ class BarScene: BaseScene {
         
     func blood_plus(){
         let alert: UIAlertController = UIAlertController(title:"謎の男",
-            message: "ククク。禁断の力が欲しいか？ \n  とある代償と引き換えにスキル[吸血]とスキル[アンデッド]が手に入ります。",
+            message: "ククク。禁断の力が欲しいか？ \n  代償と引き換えにスキル[吸血]が手に入ります。\n\n代償：体力が1になる\n\nリンゴを食べると２０ダメージ受けるようになる\n\nスキル[吸血]敵を倒す毎に１ライフ回復\n\nこのスキルは死亡するか転職したら忘れてしまいます",
             preferredStyle: UIAlertControllerStyle.Alert
         )
         
@@ -117,26 +176,7 @@ class BarScene: BaseScene {
     }
     
     func talkKane(){
-        let alert: UIAlertController = UIAlertController(title:"富豪の男",
-            message: "君にお金をあげよう",
-            preferredStyle: UIAlertControllerStyle.Alert
-        )
-        
-        let yesAction: UIAlertAction = UIAlertAction(title: "やったー",
-            style: UIAlertActionStyle.Default,
-            handler:{
-                (action:UIAlertAction!) -> Void in
-                CommonData.plus("gold", value: 1000)
-        })
-        let cancelAction: UIAlertAction = UIAlertAction(title: "冗談じゃねえ。",
-            style: UIAlertActionStyle.Cancel,
-            handler:{
-                (action:UIAlertAction!) -> Void in
-                self.changeNickname("常識", percent: 10)
-        })
-        alert.addAction(yesAction)
-        alert.addAction(cancelAction)
-        self.view?.window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+        showAlert("おお、神よ！", text:"セーブデータを消したいならばタイトル画面で「地球を破壊する」を4回押せば良いのですね", ok_text: "……関わらないでおこう")
     }
 
     func talkKami(){

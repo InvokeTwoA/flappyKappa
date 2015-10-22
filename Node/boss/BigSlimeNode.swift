@@ -1,22 +1,29 @@
 import SpriteKit
 
-class BigCatNode: SKSpriteNode {
+class BigSlimeNode: SKSpriteNode {
     var lv : Int = 1
-    let width = 205
-    let height = 190
+    let width = 128
+    let height = 128
     let half_height :Int = 100
 
-    class func makeEnemy() -> BigCatNode {
-        var enemy : BigCatNode = BigCatNode(imageNamed: "bigCat")
+    class func makeEnemy(danjon_type : String) -> BigSlimeNode {
+        var enemy : BigSlimeNode = BigSlimeNode(imageNamed: "big_slime")
         enemy.zPosition = 999
+        var value : Int = 1
+        if danjon_type == "hard" {
+            value = 3
+        } else if danjon_type == "special" {
+            value = 2
+        }
         enemy.userData =
             [
-                "hp" : 30,
+                "hp" : 35*value,
                 "str" : 3,
-                "def": 20,
+                "def": 2,
                 "mdef": 10,
-                "gold": 100,
-                "score": 10
+                "gold": 10,
+                "score": 10,
+                "name" : "巨大スライム"
             ]
         enemy.name = "boss"
         enemy.setPhysic()
@@ -33,7 +40,7 @@ class BigCatNode: SKSpriteNode {
         physic.collisionBitMask = worldCategory | wallCategory | downWorldCategory | horizonWorldCategory
         physic.linearDamping = 0
         physic.friction = 0
-        physic.restitution = 1.0
+        physic.restitution = 0.95
         physic.velocity = CGVectorMake(-1, 0)
         self.physicsBody = physic
     }

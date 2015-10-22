@@ -1,6 +1,6 @@
-//ダンジョン選択画面
+//ダンジョン選択画面 その２
 import SpriteKit
-class MapScene: BaseScene {
+class Map2Scene: BaseScene {
     var _nextScene : SKScene = SlimeStageScene(size: CGSizeMake(1,1))
     let _tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1)
     
@@ -14,14 +14,15 @@ class MapScene: BaseScene {
         let point_y4 = point_y3 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y5 = point_y4 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y6 = point_y5 - CGFloat(CommonConst.textBlankHeight*2)
-        let point_y7 = point_y6 - CGFloat(CommonConst.textBlankHeight*2)
         
-        setCenterButton("スライムの洞窟",   key_name: "slime",     point_y: point_y1)
-        setCenterButton("スカーフ山",      key_name: "tanuki",     point_y: point_y2)
-        setCenterButton("アノーレ・ロンド遺跡",        key_name: "golem",     point_y: point_y3)
-        setCenterButton("サイレント昼",     key_name: "dojo_g",    point_y: point_y4)
-        setCenterButton("ラスボス（魔王城）", key_name: "maou",    point_y: point_y5)
-        setCenterButton("寄り道をする", key_name: "next",    point_y: point_y6)
+        setCenterButton("脳筋ダンジョン",   key_name: "noukin",     point_y: point_y1)
+        setCenterButton("FE闘技場",      key_name: "taiman",     point_y: point_y2)
+        setCenterButton("魔法科中学校",        key_name: "maho",     point_y: point_y3)
+        setCenterButton("デスマス城",     key_name: "kabe",    point_y: point_y4)
+        if(CommonData.getDataByInt("story") > 1){
+            setCenterButton("無限の住人",     key_name: "mugen",    point_y: point_y5)
+        }
+
         setBackButton("街に戻るンゴ")
     }
     
@@ -32,24 +33,14 @@ class MapScene: BaseScene {
     override func checkTochEvent(name: String) {
         if name == "back" {
             backAdventure()
-        } else if name == "next" {
-            goNext()
         } else if name == "kappa" {
         } else if name == "sword" {
         
         } else {
-            print("name=\(name)")
             CommonData.setData("stage_name", value: name)
             _nextScene = MapPrepareScene(size: self.frame.size)
             changeScene(self._nextScene, tr: self._tr)
         }
-    }
-    
-    func goNext(){
-        let secondScene = Map2Scene(size: self.frame.size)
-        let tr = SKTransition.flipVerticalWithDuration(1)
-        changeScene(secondScene, tr: tr)
-    
     }
     
     func backAdventure(){

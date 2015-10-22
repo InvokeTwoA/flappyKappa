@@ -12,7 +12,7 @@ class BlockNode: SKSpriteNode {
         var node : BlockNode = BlockNode(imageNamed: "block.png")
         node.name = "block"
         node.setPhysic()
-        node.zPosition = 998
+        node.zPosition = 3
 /*
         let point : CGPoint = CGPoint(x:CGRectGetMidX(frame), y: CGRectGetMinY(self.frame) + CGFloat(CommonConst.footerHeight + CommonConst.groundHeight/2))
         let size : CGSize = CGSizeMake(CGRectGetMaxX(self.frame), CGFloat(CommonConst.groundHeight))

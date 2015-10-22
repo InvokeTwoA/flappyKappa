@@ -10,7 +10,15 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     var _int : Int      = CommonData.getDataByInt("int")
     var _pri : Int      = CommonData.getDataByInt("pri")
 
-    var _danjon_type :String = "normal"
+    var _bgm_off : Bool          = CommonData.getDataByBool("bgm_off")
+    var _attack_bgm_off : Bool   = CommonData.getDataByBool("attack_bgm_off")
+    var _attacked_bgm_off : Bool = CommonData.getDataByBool("attacked_bgm_off")
+    var _coin_bgm_off : Bool     = CommonData.getDataByBool("coin_bgm_off")
+    
+    var _highScore : Int = CommonData.getDataByInt("work_high_score")
+    
+    var _danjon_type :String = CommonData.getDataByString("danjon_type")
+    
     var _distance : Int = 1000
     var _score : Int = 0
     var _tapCount : Int = 0             // タップした回数
@@ -23,7 +31,6 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     var _bossHP : Int = 999
     
     // スキル用のフラグ（CommonDataへのアクセスは初回のみで、クラス変数のフラグに格納）
-    var _equip = CommonData.getDataByString("equip_weapon")
     var _fire_penetrate_flag : Bool = false
     var _fireSpeed : Int = CommonConst.fire_speed
     var _apple_per : Int = CommonConst.apple_per
@@ -67,6 +74,10 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     }
     
     func playBGM(){
+        if _bgm_off {
+            return
+        }
+        _audioPlayer.numberOfLoops = -1;
         if ( !_audioPlayer.playing ){
             _audioPlayer.play()
         }
@@ -79,16 +90,25 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     }
     
     func attackBGM(){
+        if _attack_bgm_off {
+            return
+        }
         var action : SKAction = SKAction.playSoundFileNamed("attack.wav", waitForCompletion: true)
         self.runAction(action)
     }
     
     func damagedBGM(){
+        if _attacked_bgm_off {
+            return
+        }
         var action : SKAction = SKAction.playSoundFileNamed("damaged.wav", waitForCompletion: true)
         self.runAction(action)
     }
     
     func coinBGM(){
+        if _coin_bgm_off {
+            return
+        }
         var action : SKAction = SKAction.playSoundFileNamed("coin.wav", waitForCompletion: true)
         self.runAction(action)
     }
@@ -115,26 +135,11 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     override func setSlimeDemo() {
     }
     
-    override func swipeRight(gesture: UISwipeGestureRecognizer){
-        scoreUp(2)
-        var kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
-        kappa?.physicsBody?.applyImpulse(CGVectorMake(CGFloat(_agi + 5 ), 0))
-    }
-
-    override func swipeLeft(gesture: UISwipeGestureRecognizer){
-        scoreUp(1)
-        showMoney()
-        var kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
-        kappa?.physicsBody?.applyImpulse(CGVectorMake(CGFloat(-1*_agi - 5), 0))
-    }
-    
     // 初期値をセット
     func setInitData(){
         setMoney()
         _lifeBarWidth = self.frame.size.width - 100
         _stageHeight = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.footerHeight)
-         _danjon_type = CommonData.getData("danjon_type") as! String
-
         setSkill()
     }
     
@@ -149,29 +154,40 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         if(CommonData.getData("skill_wizard") as! Int == 1){
             _fire_penetrate_flag = true
         }
-        if(CommonData.getData("skill_break_block") as! Int == 1){
+        if(CommonData.getData("skill_break_block") as! Int == 1 || _equip == "hammer" || _equip == "soul" ){
             _break_block_flag = true
         }
-        if(CommonData.getDataByInt("skill_zombi") == 1 && CommonData.getDataByString("nickname") == "ゾンビ"){
+        if(CommonData.getDataByInt("skill_zombi") == 1){
             _zombi_flag = true
         }
         
         // 装備による変化
-        if _equip == "katana" {
+        switch _equip {
+        case "long":
+            _str = 8
+        case "katana":
             _maxhp = 2
             _hp = 2
-        } else if _equip == "shoes" {
-            _agi = CommonConst.agi_max
+        case "hammer":
+            _str += 1
+            
+        case "oretue":
+            _int += 5
+        case "soul":
+            _str *= 2
+            _maxhp *= 2
+            _hp *= 2
+        default:
+            name = "a"
         }
-        
-        
     }
     
     // ライフなどを表示するフッターを表示
     func setFooter(){
         let point : CGPoint = CGPoint(x:CGRectGetMidX(frame), y: CGRectGetMinY(frame) + CGFloat(CommonConst.footerHeight)/2)
         let size : CGSize = CGSizeMake(CGRectGetMaxX(frame), CGFloat(CommonConst.footerHeight))
-        var footer : SKSpriteNode = SKSpriteNode(color: UIColor.cyanColor(), size: size)
+        let color : UIColor = UIColor(red:0.2,green:0.2,blue:0.2,alpha:1.0)
+        var footer : SKSpriteNode = SKSpriteNode(color: color, size: size)
         footer.position = point
         footer.name = "footer_status"
         footer.zPosition = 10
@@ -200,7 +216,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         hpLabel.fontSize = 18
         hpLabel.text = "HP : \(_hp) / \(_maxhp)"
         hpLabel.name = "hp_label"
-        hpLabel.fontColor = UIColor.blackColor()
+        hpLabel.fontColor = UIColor.whiteColor()
         footer.addChild(hpLabel)
         
         self.addChild(footer)
@@ -213,22 +229,41 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         distanceLabel.name = "distance"
         distanceLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
         distanceLabel.text = "残り \(_distance) m"
+        distanceLabel.zPosition = 999
         self.addChild(distanceLabel)
+    }
+    
+    func setEnemyLife(name: String, life: Int){
+        // 以前の表示が残っていたら消す
+        var pre_label : SKLabelNode? = childNodeWithName("enemyLife") as? SKLabelNode
+        if pre_label != nil {
+            pre_label!.removeFromParent()
+        }
+
+        var label = SKLabelNode(fontNamed: CommonConst.font_regular)
+        label.position = CGPointMake(CGRectGetMinX(self.frame) + 10, CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*2))
+        label.name = "enemyLife"
+        label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        label.fontSize = CGFloat(CommonConst.font_size_normal)
+        label.zPosition = 999
+
+        if(life > 0){
+            label.text = "\(name) 残りHP \(life)"
+        } else {
+            label.text = "\(name)「\(CommonUtil.makeDeathWord())」"
+        }
+        self.addChild(label)
+        
+        var fade : SKAction = SKAction.fadeOutWithDuration(4)
+        label.runAction(fade)
     }
 
     // 敵を作成
     func generateEnemy(){
-        if _danjon_type == "normal" {
-            generateNormalEnemy()
-        } else if _danjon_type == "hard" {
-            generateHardEnemy()
-        } else if _danjon_type == "special" {
-            generateSpecialEnemy()
-        }
     }
 
     // ボスを作成
-    func makeBoss(){
+    func makeBoss(danjon_type : String){
     }
     
     // 通常難易度の敵作成(子クラスで記述)
@@ -244,7 +279,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     
     func makeSlime(per : Int){
         if(CommonUtil.rnd(100) < per) {
-            var enemy = SlimeNode.makeEnemy()
+            var enemy = SlimeNode.makeEnemy(_danjon_type)
             let enemy_harf_height : Int = enemy.half_height
             let min_height: Int = CommonConst.footerHeight + enemy_harf_height
             let height: Int = CommonUtil.rnd(Int(_stageHeight) - enemy_harf_height)
@@ -256,7 +291,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     
     func makeSuperSlime(per : Int){
         if(CommonUtil.rnd(100) < per) {
-            var enemy = SlimeNode.makeSuperEnemy()
+            var enemy = SlimeNode.makeSuperEnemy(_danjon_type)
             let enemy_harf_height : Int = enemy.half_height
             let min_height: Int = CommonConst.footerHeight + enemy_harf_height
             let height: Int = CommonUtil.rnd(Int(_stageHeight) - enemy_harf_height)
@@ -266,10 +301,9 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         }
     }
 
-
     func makeGhost(per : Int){
         if(CommonUtil.rnd(100) < per) {
-            var enemy = GhostNode.makeEnemy()
+            var enemy = GhostNode.makeEnemy(_danjon_type)
             let enemy_harf_height : Int = enemy.half_height
             let min_height: Int = CommonConst.footerHeight + enemy_harf_height
             let height: Int = CommonUtil.rnd(Int(_stageHeight) - enemy_harf_height)
@@ -278,23 +312,73 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
 
             // カッパに向かって突撃してくる
             var kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
-            var action : SKAction = SKAction.moveTo(kappa!.position, duration: 3)
+            let duration : Int = CommonUtil.rnd(4) + 2
+            var action : SKAction = SKAction.moveTo(kappa!.position, duration: NSTimeInterval(duration))
             action.timingMode = SKActionTimingMode.EaseIn
             enemy.runAction(action, completion:
                 {
-                    //enemy.physicsBody?.velocity = CGVectorMake(-40, 0)
-                    enemy.removeFromParent()
+                    // 目的地に達したら、後は緩やかに直進
+                    enemy.physicsBody?.velocity = CGVectorMake(-40, 0)
+                    //enemy.removeFromParent()
                 }
             )
             
             self.addChild(enemy)
         }
     }
-    
-    func makeSkelton(per : Int, lv : Int){
+
+    func makeFighter(per : Int){
         if(CommonUtil.rnd(100) < per) {
-            var enemy = SkeltonNode.makeEnemy(lv)
-            let min_height: Int = CommonConst.footerHeight + enemy._height/2
+            var enemy = FighterNode.makeEnemy(_danjon_type)
+            let enemy_harf_height : Int = enemy.half_height
+            let min_height: Int = CommonConst.footerHeight + enemy_harf_height
+            let height: Int = CommonUtil.rnd(Int(_stageHeight) - enemy_harf_height)
+            let point : CGPoint = CGPointMake(CGRectGetMaxX(self.frame), CGFloat(min_height + height))
+            enemy.position = point
+            
+            // カッパに向かって突撃してくる
+            var kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
+            var action : SKAction = SKAction.moveTo(kappa!.position, duration: 3)
+            action.timingMode = SKActionTimingMode.EaseInEaseOut
+            enemy.runAction(action, completion:
+                {
+                    // 目的地に達したら右に逃げていく
+                    enemy.physicsBody?.velocity = CGVectorMake(60, 0)
+                }
+            )            
+            self.addChild(enemy)
+        }
+    }
+
+    func makeSister(per : Int){
+        if(CommonUtil.rnd(100) < per) {
+            var enemy = SisterNode.makeEnemy(_danjon_type)
+            let enemy_harf_height : Int = enemy.half_height
+            let min_height: Int = CommonConst.footerHeight + enemy_harf_height
+            let height: Int = CommonUtil.rnd(Int(_stageHeight) - enemy_harf_height)
+            let point : CGPoint = CGPointMake(CGRectGetMaxX(self.frame), CGFloat(min_height + height))
+            enemy.position = point
+            self.addChild(enemy)
+        }
+    }
+    
+    func makeWitch(per : Int){
+        if(CommonUtil.rnd(100) < per) {
+            var enemy = WitchNode.makeEnemy(_danjon_type)
+            let enemy_harf_height : Int = enemy.half_height
+            let min_height: Int = CommonConst.footerHeight + enemy_harf_height
+            let height: Int = CommonUtil.rnd(Int(_stageHeight) - enemy_harf_height)
+            let point : CGPoint = CGPointMake(CGRectGetMinX(self.frame), CGFloat(min_height + height))
+            enemy.position = point
+            self.addChild(enemy)
+        }
+    }
+    
+    
+    func makeSkelton(per : Int){
+        if(CommonUtil.rnd(100) < per) {
+            var enemy = SkeltonNode.makeEnemy(_danjon_type)
+            let min_height: Int = CommonConst.footerHeight + enemy._height/2 + 50
             let point = CGPointMake(CGRectGetMaxX(self.frame), CGFloat(min_height))
             enemy.position = point
             enemy.setPhysic()
@@ -306,10 +390,11 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     // 回復アイテムを低確率で出現
     func makeApple(){
         if(CommonUtil.rnd(100) < _apple_per) {
+            print("apple")
             var node = AppleNode.makeApple()
             let min_height: Int = CommonConst.footerHeight + node._height/2
             let height: Int = CommonUtil.rnd(Int(_stageHeight) - Int(node._height/2))
-            let point = CGPointMake(CGRectGetMaxX(self.frame), CGFloat(min_height + height))
+            let point = CGPointMake(CGRectGetMaxX(self.frame) - 20, CGFloat(min_height + height))
             node.position = point
             self.addChild(node)
         }
@@ -344,13 +429,35 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         }
     }
     
+    func makeAllBlock(interval: Int){
+        // interval秒に１回　ブロックを出現
+        if Int(_timeSinceStart)%interval != 0 {
+            return
+        }
+        let total_block = Int(_stageHeight)/CommonConst.block_width
+        
+        for ( var i = 0; i < total_block ; i++ ) {
+            var upNode = BlockNode.makeBlock()
+            let point_y : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight) - upNode.half_height - upNode.height*CGFloat(i)
+            let point = CGPointMake(CGRectGetMaxX(self.frame), point_y)
+            upNode.position = point
+            self.addChild(upNode)
+        }
+    }
+    
     override func setBattleTap(){
         scoreUp(1)
         _tapCount += 1
         
-        var kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode        
+        var kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
+        
+        var frequency = 10
+        if _equip == "juryoku" {
+            frequency = 5
+        }
+    
         // 10回タップ毎に１回ファイアボールを発動
-        if(_tapCount%10 == 0){
+        if(_tapCount%frequency == 0){
             setFireBall(kappa!.position)
         }
     }
@@ -365,6 +472,12 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         var fire = FireNode.make(location)
         self.addChild(fire)
         fire.physicsBody?.velocity = CGVectorMake(CGFloat(_fireSpeed), 0)
+    }
+    
+    func getCoin(val : Int){
+        _gold += val
+        showMoney()
+        coinBGM()
     }
 
     override func didBeginContact(contact: SKPhysicsContact) {
@@ -382,32 +495,32 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
             if secondBody.categoryBitMask & enemyCategory != 0 {
                 makeSpark(firstBody.node?.position)
                 let damage = secondBody.node?.userData?.valueForKey("str") as! Int
-                damaged(damage)
-                displayDamage(damage, point: firstBody.node!.position, color: UIColor.redColor())
+                damaged(damage, point: firstBody.node!.position, color: UIColor.redColor())
                 return
             } else if secondBody.categoryBitMask & itemCategory != 0 {
                 getApple(secondBody)
                 return
             } else if secondBody.categoryBitMask & coinCategory != 0 {
-                let val = secondBody.node?.userData?.objectForKey("gold") as! Int
-                _gold += val
-                showMoney()
-                coinBGM()
+                var val = secondBody.node?.userData?.objectForKey("gold") as! Int
+                if _danjon_type == "hard" {
+                    val = val * 2
+                } else if _danjon_type == "special" {
+                    val = val*3
+                }
+                getCoin(val)
                 secondBody.node?.removeFromParent()
                 displayDamage(val, point: secondBody.node!.position, color: UIColor.yellowColor())
                 return
             } else if secondBody.categoryBitMask & blockCategory != 0 {
                 makeSpark(firstBody.node?.position)
                 let damage = 1
-                damaged(damage)
-                displayDamage(damage, point: firstBody.node!.position, color: UIColor.redColor())
+                damaged(damage, point: firstBody.node!.position, color: UIColor.redColor())
                 secondBody.node?.removeFromParent()
                 return
             } else if secondBody.categoryBitMask & wallCategory != 0 {
                 makeSpark(firstBody.node?.position)
                 let damage = 1
-                damaged(damage)
-                displayDamage(damage, point: firstBody.node!.position, color: UIColor.redColor())
+                damaged(damage, point: firstBody.node!.position, color: UIColor.redColor())
                 return
             } else if secondBody.categoryBitMask & goalCategory != 0 {
                 _game_end_flag = true
@@ -442,9 +555,10 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
                 firstBody.node?.removeFromParent()
             } else if secondBody.categoryBitMask & blockCategory != 0 {
                 makeSpark(firstBody.node?.position)
+                attackBGM()
                 if _break_block_flag {
                     secondBody.node?.removeFromParent()
-                    scoreUp(1)
+                    makeCoin(1, location: secondBody.node?.position)
                 }
                 firstBody.node?.removeFromParent()
             }
@@ -509,13 +623,11 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
             enemyHP -= 1
             if enemyNode.name == "boss" {
                 _bossHP -= 1
-                showBossName()
             }
         } else {
             enemyHP -= _int
             if enemyNode.name == "boss" {
                 _bossHP -= _int
-                showBossName()
             }
         }
         
@@ -531,8 +643,9 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         attackBGM()
         let enemyNode: SKSpriteNode = firstBody.node as! SKSpriteNode
 
-        var enemyHP : Int = enemyNode.userData?.valueForKey("hp") as! Int
-        var enemyDef : Int = enemyNode.userData?.valueForKey("def") as! Int
+        var enemyHP : Int      = enemyNode.userData?.valueForKey("hp") as! Int
+        var enemyDef : Int     = enemyNode.userData?.valueForKey("def") as! Int
+        var enemyName : String = enemyNode.userData?.valueForKey("name") as! String
         var damage : Int = 1
         
         if swordBody.node?.name == "critical" {
@@ -544,11 +657,17 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
             }
         } else {
             makeSpark(swordBody.node?.position)
-            damage = _str - enemyDef
+            damage = CommonUtil.rnd(_str - enemyDef) + 1
         }
         if(damage <= 0) {
             damage = 1
         }
+        if(_equip == "shine") {
+            if(damage < _highScore){
+                damage = _highScore
+            }
+        }
+        
         enemyHP -= damage
         if enemyNode.name == "boss" {
             _bossHP -= damage
@@ -560,6 +679,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         } else {
             enemyNode.userData?.setValue(enemyHP, forKey: "hp")
         }
+        setEnemyLife(enemyName, life: enemyHP)
         swordBody.node?.removeFromParent()
     }
     
@@ -579,6 +699,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         }
         
         if enemyNode.name == "boss" {
+            beatBoss()
             makeSpark(enemyNode.position)
             makeSpark(CGPointMake(enemyNode.position.x + 50, enemyNode.position.y + 50))
             makeSpark(CGPointMake(enemyNode.position.x - 50, enemyNode.position.y - 50))
@@ -597,15 +718,25 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
 
     // 敵と衝突し、ダメージを受ける
     // HPが0以下になったらゲームオーバー
-    func damaged(value: Int){
+    func damaged(value: Int, point: CGPoint, color : UIColor){
         damagedBGM()
-        _hp -= value
+        var damage : Int = 1
+        if(_danjon_type == "normal") {
+            damage = value
+        } else if _danjon_type == "hard" {
+            damage = value * 2
+        } else if _danjon_type == "special" {
+            damage = value * 3
+        }
+        _hp -= damage
         changeLifeBar()
         changeLifeLabel()
         if(_hp <= 0 && _boss_beat_flag != true){
             _game_end_flag = true
             goGameOver()
         }
+        displayDamage(damage, point: point, color: color)
+
     }
     
     // ダメージを数字で表示
@@ -628,7 +759,10 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     func changeLifeBar(){
         var life_bar : SKSpriteNode? = childNodeWithName("footer_status")?
             .childNodeWithName("life_bar") as? SKSpriteNode
-        let width: Double = Double(_hp)/Double(_maxhp) * Double(_lifeBarWidth)
+        var width: Double = Double(_hp)/Double(_maxhp) * Double(_lifeBarWidth)
+        if (width <= 0) {
+            width = 1
+        }
         life_bar!.size = CGSizeMake(CGFloat(width), CGFloat(CommonConst.lifeBarHeight))
     }
 
@@ -668,7 +802,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         var distanceLabel : SKLabelNode? = childNodeWithName("distance") as? SKLabelNode
         var distance = CommonUtil.displayDistance(_distance)
         distanceLabel?.text = "残り \(distance)"
-        distanceLabel?.zPosition = 3
+//        distanceLabel?.zPosition = 3
     }
     
     func showMoney(){
@@ -681,15 +815,17 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     func showBossName(){
         var distanceLabel : SKLabelNode? = childNodeWithName("distance") as? SKLabelNode
         var distance = CommonUtil.displayDistance(_distance)
-        if(_bossHP >= 0 ){
-            //distanceLabel?.text = "ボス  \(_bossName)　HP: \(_bossHP)"
-            distanceLabel?.text = "\(_bossName) HP:\(_bossHP)"
-        } else {
-            distanceLabel?.text = "ボス撃破!!!!"
-        }
+        distanceLabel?.text = "\(_bossName)を倒せ"
         distanceLabel?.zPosition = 3
     }
     
+    func beatBoss(){
+        var distanceLabel : SKLabelNode? = childNodeWithName("distance") as? SKLabelNode
+        var distance = CommonUtil.displayDistance(_distance)
+        distanceLabel?.text = "ボス撃破!!!!"
+        distanceLabel?.zPosition = 3
+    }
+
     func stageClear(){
         goGameClearScene()
     }
@@ -745,7 +881,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         }
         if(_distance <= 0 && _boss_flag == false){
             _boss_flag = true
-            makeBoss()
+            makeBoss(_danjon_type)
             showBossName()
         }
         worldEnd()

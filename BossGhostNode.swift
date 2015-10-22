@@ -1,6 +1,6 @@
 import SpriteKit
 
-class GolemNode: SKSpriteNode {
+class BossGhostNode: SKSpriteNode {
     /*
     let width = 118
     let height = 94
@@ -9,11 +9,10 @@ class GolemNode: SKSpriteNode {
     let width = 64
     let height = 64
     let half_height :Int = 32
-
     
-    class func makeEnemy(danjon_type: String) -> GolemNode {
-//        var enemy : GolemNode = GolemNode(imageNamed: "golem")
-                var enemy : GolemNode = GolemNode(imageNamed: "skelton_64_64")
+    
+    class func makeEnemy(danjon_type: String) -> BossGhostNode {
+        var enemy : BossGhostNode = BossGhostNode(imageNamed: "ghost_64_64")
         enemy.zPosition = 999
         var value : Int = 1
         if danjon_type == "hard" {
@@ -23,13 +22,13 @@ class GolemNode: SKSpriteNode {
         }
         enemy.userData =
             [
-                "hp" : 100*value,
-                "str" : 6,
-                "def": 6,
-                "mdef": 50,
-                "gold": 40,
+                "hp" : 77*value,
+                "str" : 7,
+                "def": 100,
+                "mdef": 1,
+                "gold": 100,
                 "score": 500,
-                "name": "骸骨巨人"
+                "name": "元勇者"
         ]
         enemy.name = "boss"
         enemy.setPhysic()
@@ -47,7 +46,7 @@ class GolemNode: SKSpriteNode {
         physic.linearDamping = 0
         physic.friction = 0
         physic.restitution = 1.0
-        physic.velocity = CGVectorMake(-40, -40)
+        physic.velocity = CGVectorMake(-25, -330)
         self.physicsBody = physic
     }
 }

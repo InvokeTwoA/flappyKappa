@@ -1,37 +1,32 @@
 import SpriteKit
 
-class GolemNode: SKSpriteNode {
-    /*
-    let width = 118
-    let height = 94
-    let half_height :Int = 59
-    */
-    let width = 64
-    let height = 64
-    let half_height :Int = 32
-
+class SisterNode: SKSpriteNode {
     
-    class func makeEnemy(danjon_type: String) -> GolemNode {
-//        var enemy : GolemNode = GolemNode(imageNamed: "golem")
-                var enemy : GolemNode = GolemNode(imageNamed: "skelton_64_64")
-        enemy.zPosition = 999
-        var value : Int = 1
+    let width = 32
+    let height = 32
+    let half_height = 16
+    
+    class func makeEnemy(danjon_type : String) -> SisterNode {
+        var enemy : SisterNode = SisterNode(imageNamed: "sister_32_32")
+        let value : Int
         if danjon_type == "hard" {
             value = 3
         } else if danjon_type == "special" {
             value = 2
+        } else {
+            value = 1
         }
         enemy.userData =
             [
-                "hp" : 100*value,
-                "str" : 6,
-                "def": 6,
-                "mdef": 50,
-                "gold": 40,
-                "score": 500,
-                "name": "骸骨巨人"
+                "hp" : 20*value,
+                "str" : 3,
+                "def": 5,
+                "gold": 7,
+                "score": 20,
+                "name" : "シスター"
         ]
-        enemy.name = "boss"
+        enemy.name = "enemy"
+        enemy.zPosition = 999
         enemy.setPhysic()
         return enemy
     }
@@ -47,7 +42,16 @@ class GolemNode: SKSpriteNode {
         physic.linearDamping = 0
         physic.friction = 0
         physic.restitution = 1.0
-        physic.velocity = CGVectorMake(-40, -40)
+        physic.velocity = CGVectorMake(-30, -30)
         self.physicsBody = physic
+        
+        self.physicsBody = physic
+    }
+    
+    // タイトルでただいるだけ
+    class func makeDemo()-> SisterNode {
+        var enemy = SisterNode(imageNamed: "sister_32_32")
+        enemy.zPosition = 999
+        return enemy
     }
 }

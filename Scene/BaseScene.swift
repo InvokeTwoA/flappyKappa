@@ -9,8 +9,10 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     var _nadView: NADView!
     
     // 各種ステータス
-    var _agi : Int      = CommonData.getDataByInt("agi")
-    var _luck : Int     = CommonData.getDataByInt("luck")
+    var _agi : Int     = CommonData.getDataByInt("agi")
+    var _luck : Int    = CommonData.getDataByInt("luck")
+    var _equip :String = CommonData.getDataByString("equip_weapon")
+
     
     var _jump : CGFloat = 400
     var _swordSpeed : NSTimeInterval = CommonConst.swordNormalSpeed
@@ -30,12 +32,12 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         setSlimeDemo()
         setHorizonWorld()
         setMoney()
-    }    
+        setAgi()
+    }
     
     func setHeader(){
         let point : CGPoint = CGPoint(x:CGRectGetMidX(frame), y: CGRectGetMaxY(frame) - CGFloat(CommonConst.headerHeight)/2)
         let size : CGSize = CGSizeMake(CGRectGetMaxX(frame), CGFloat(CommonConst.headerHeight))
-//        let color : UIColor = UIColor(red:1.0,green:0.75,blue:0.8,alpha:1.0)
         let color : UIColor = UIColor(red:0.2,green:0.2,blue:0.2,alpha:1.0)
         
         var background : SKSpriteNode = SKSpriteNode(color: color, size: size)
@@ -45,7 +47,7 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         background.physicsBody = CommonUI.setWorldPhysic(size)
 
         var rnd_text : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
-        rnd_text.text = "カッパ神ばんざーい"
+        rnd_text.text = CommonUtil.randomHint()
         rnd_text.fontSize = 18
         rnd_text.position = CGPointMake(0, 20)
         rnd_text.fontColor = UIColor.whiteColor()
@@ -82,10 +84,9 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     
     func showAd() {
         if(_nadView != nil){
-            print("ad already exist.  return \n")
+            print("ad already exist. \n")
             return
         }
-        print("let's show Ad \n")
 
         // NADViewクラスを生成
         _nadView = NADView(frame: CGRect(x: 0, y: 0, width: 320, height: CommonConst.adHeight))
@@ -100,7 +101,6 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     }
     func removeAd(){
         if(_nadView != nil){
-            print("let's remove Ad")
             _nadView.removeFromSuperview()
             _nadView.delegate = nil
             _nadView = nil
@@ -126,10 +126,16 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     
     // カッパを描画
     func setKappa() {
-        var kappa = KappaNode.makeKappa()
+        var kappa : KappaNode;
+        if _equip == "soul" {
+            kappa = KappaNode.makeBigKappa()
+            kappa.setBigPhysic()
+        } else {
+            kappa = KappaNode.makeKappa()
+            kappa.setPhysic()
+        }
         let point : CGPoint = CGPoint(x:CGRectGetMinX(self.frame) + 50, y:CGRectGetMidY(self.frame))
         kappa.position = point
-        kappa.setPhysic()
         
         self.addChild(kappa)
         
@@ -149,6 +155,12 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         self.addChild(chara)
     }
     
+    func setAgi(){
+        if _equip == "shoes" {
+            _agi = CommonConst.agi_max
+        }
+    }
+    
     func kappaJump(){
         let jump : CGFloat = CGFloat(400+_agi)
         
@@ -166,14 +178,14 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         physic.allowsRotation = false
         physic.dynamic = false
         physic.categoryBitMask = horizonWorldCategory
-        var background : SKSpriteNode = SKSpriteNode(color: UIColor.yellowColor(), size: size)
+        var background : SKSpriteNode = SKSpriteNode(color: UIColor.blackColor(), size: size)
         background.position = point
         background.zPosition = 100
         background.physicsBody = physic
         self.addChild(background)
         
         let point2 : CGPoint = CGPoint(x:CGRectGetMaxX(frame), y: CGRectGetMidY(self.frame))
-        var background2 : SKSpriteNode = SKSpriteNode(color: UIColor.yellowColor(), size: size)
+        var background2 : SKSpriteNode = SKSpriteNode(color: UIColor.blackColor(), size: size)
         background2.position = point2
         background2.zPosition = 100
         let physic2 = SKPhysicsBody(rectangleOfSize: size)
@@ -200,12 +212,12 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     
     func swipeRight(gesture: UISwipeGestureRecognizer){
         var kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
-        kappa?.physicsBody?.applyImpulse(CGVectorMake(CGFloat(_agi + 5 ), 0))
+        kappa?.physicsBody?.applyImpulse(CGVectorMake(CGFloat(_agi), 0))
     }
     
     func swipeLeft(gesture: UISwipeGestureRecognizer){
         var kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
-        kappa?.physicsBody?.applyImpulse(CGVectorMake(CGFloat(-1*_agi - 5), 0))
+        kappa?.physicsBody?.applyImpulse(CGVectorMake(CGFloat(-1*_agi), 0))
     }
     
     // 画面遷移前など、所持金を記録
