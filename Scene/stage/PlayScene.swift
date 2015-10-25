@@ -17,8 +17,6 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     
     var _highScore : Int = CommonData.getDataByInt("work_high_score")
     
-    var _danjon_type :String = CommonData.getDataByString("danjon_type")
-    
     var _distance : Int = 1000
     var _score : Int = 0
     var _tapCount : Int = 0             // タップした回数
@@ -26,7 +24,6 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     var _boss_flag : Bool = false // ボス登場フラグ
     var _boss_beat_flag : Bool = false // ボス撃破フラグ
     
-
     var _bossName : String = "ボス"
     var _bossHP : Int = 999
     
@@ -151,14 +148,19 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         if(CommonData.getDataByInt("skill_priest") == 1){
             _apple_per = CommonConst.apple_per_high
         }
-        if(CommonData.getData("skill_wizard") as! Int == 1){
+        if(CommonData.getDataByInt("skill_wizard") == 1){
             _fire_penetrate_flag = true
         }
-        if(CommonData.getData("skill_break_block") as! Int == 1 || _equip == "hammer" || _equip == "soul" ){
+        if(CommonData.getDataByInt("skill_break_block") == 1 || _equip == "hammer" || _equip == "soul" || _equip == "bringer" || _equip == "golden" || _job == "大工" ){
             _break_block_flag = true
         }
         if(CommonData.getDataByInt("skill_zombi") == 1){
             _zombi_flag = true
+        }
+        
+        if _job == "勇者" {
+            _str += _pri
+            _int += _pri
         }
         
         // 装備による変化
@@ -177,6 +179,9 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
             _str *= 2
             _maxhp *= 2
             _hp *= 2
+        case "habel":
+            _maxhp = 50
+            _hp = 50
         default:
             name = "a"
         }
@@ -301,6 +306,18 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         }
     }
 
+    func makeMetalSlime() {
+        if(_luck >= 7 && CommonUtil.rnd(100) < 5) {
+            var enemy = SlimeNode.makeMetalEnemy(_danjon_type)
+            let enemy_harf_height : Int = enemy.half_height
+            let min_height: Int = CommonConst.footerHeight + enemy_harf_height
+            let height: Int = CommonUtil.rnd(Int(_stageHeight) - enemy_harf_height)
+            let point : CGPoint = CGPointMake(CGRectGetMaxX(self.frame), CGFloat(min_height + height))
+            enemy.position = point
+            self.addChild(enemy)
+        }
+    }
+    
     func makeGhost(per : Int){
         if(CommonUtil.rnd(100) < per) {
             var enemy = GhostNode.makeEnemy(_danjon_type)
@@ -390,7 +407,6 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     // 回復アイテムを低確率で出現
     func makeApple(){
         if(CommonUtil.rnd(100) < _apple_per) {
-            print("apple")
             var node = AppleNode.makeApple()
             let min_height: Int = CommonConst.footerHeight + node._height/2
             let height: Int = CommonUtil.rnd(Int(_stageHeight) - Int(node._height/2))
@@ -518,9 +534,11 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
                 secondBody.node?.removeFromParent()
                 return
             } else if secondBody.categoryBitMask & wallCategory != 0 {
-                makeSpark(firstBody.node?.position)
-                let damage = 1
-                damaged(damage, point: firstBody.node!.position, color: UIColor.redColor())
+                if _equip != "kabuto" {
+                    makeSpark(firstBody.node?.position)
+                    let damage = 1
+                    damaged(damage, point: firstBody.node!.position, color: UIColor.redColor())
+                }
                 return
             } else if secondBody.categoryBitMask & goalCategory != 0 {
                 _game_end_flag = true
@@ -558,7 +576,11 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
                 attackBGM()
                 if _break_block_flag {
                     secondBody.node?.removeFromParent()
-                    makeCoin(1, location: secondBody.node?.position)
+                    if (_equip == "golden") {
+                        makeCoin(1+CommonUtil.rnd(_luck), location: secondBody.node?.position)
+                    } else {
+                        makeCoin(1, location: secondBody.node?.position)
+                    }
                 }
                 firstBody.node?.removeFromParent()
             }
@@ -651,13 +673,17 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         if swordBody.node?.name == "critical" {
             scoreUp(3)
             makeCriticalSpark(swordBody.node?.position)
-            damage = _str - enemyDef/2 + CommonUtil.rnd(_luck)
+            damage = _str - enemyDef/2 + CommonUtil.rnd(_luck/2)
             if damage <= 1 {
                 damage = 2
             }
         } else {
             makeSpark(swordBody.node?.position)
-            damage = CommonUtil.rnd(_str - enemyDef) + 1
+            if _equip == "bringer" {
+                damage = 5
+            } else {
+                damage = CommonUtil.rnd(_str - enemyDef) + 1
+            }
         }
         if(damage <= 0) {
             damage = 1
@@ -728,6 +754,10 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         } else if _danjon_type == "special" {
             damage = value * 3
         }
+        if _job == "P" && CommonUtil.rnd(100) < _luck {
+            damage = 1
+        }
+        
         _hp -= damage
         changeLifeBar()
         changeLifeLabel()
@@ -871,6 +901,10 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         if (_timeSinceLastSecond >= 1) {
             _timeSinceLastSecond = 0
             generateEnemy()
+            
+            if(CommonUtil.rnd(100) < 15) {
+                    heal()
+            }
         }
         _lastUpdateTimeInterval = currentTime
         
@@ -885,5 +919,14 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
             showBossName()
         }
         worldEnd()
+    }
+    
+    func heal(){
+        if _job != "賢者" {
+            return
+        }
+        _hp += 1
+        changeLifeLabel()
+        changeLifeBar()
     }
 }

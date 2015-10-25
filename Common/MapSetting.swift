@@ -138,13 +138,13 @@ class MapSetting {
         case "golem":
             name = "ハンマーなどの装備推奨"
         case "dojo_g":
-            name = "ボスは魔法か会心の一撃が効く"
+            name = "ボスは魔法か会心の一撃が有効"
         case "maou":
             name = ""
         case "noukin":
-            name = ""
+            name = "筋肉大好きな人集まれー"
         case "taiman":
-            name = ""
+            name = "敏捷ちゃんと上げてる？"
         case "mugen":
             name = "全ボス登場の最高難易度ステージ"
         default:
@@ -167,9 +167,9 @@ class MapSetting {
         case "maou":
             name = ""
         case "noukin":
-            name = "知恵、信仰の成長力＋１"
+            name = "レア報酬：マッチョ薬（HP+3）"
         case "taiman":
-            name = "力、体力の成長力＋１"
+            name = "レア報酬：枝豆（知、精の成長up）"
         case "maho":
             name = "LVが１になる"
         case "kabe":

@@ -2,14 +2,19 @@
 import SpriteKit
 class StatusScene: BaseScene {
     var _cost : Int = 0
+    var _lv : Int = CommonData.getDataByInt("lv")
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.1,green:0.0,blue:0.1,alpha:1.0)
         setBaseSetting()
-        
-        _cost = CommonData.getDataByInt("lv") * 10
+
+        if _lv < 10 {
+            _cost = _lv * 10
+        } else {
+            _cost = _lv * _lv * 2
+        }
         
         var lvLabel : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
-        let lv : Int = CommonData.getData("lv") as! Int
+        let lv : Int = CommonData.getDataByInt("lv")
         lvLabel.text = "LV : \(lv)"
         lvLabel.fontSize = CGFloat(CommonConst.font_size_normal)
         let y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight)
@@ -76,8 +81,8 @@ class StatusScene: BaseScene {
 
     func showStatus(key: String, up_key: String, display_key: String, y: CGFloat){
         var label : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
-        let val : Int = CommonData.getData(key) as! Int
-        let up_val : Int = CommonData.getData(up_key) as! Int
+        let val : Int = CommonData.getDataByInt(key)
+        let up_val : Int = CommonData.getDataByInt(up_key)
         label.text = "\(display_key) : \(val) (\(up_val))"
         label.fontSize = CGFloat(CommonConst.font_size_normal)
         label.position = CGPointMake(CGRectGetMidX(self.frame), y)
@@ -86,7 +91,7 @@ class StatusScene: BaseScene {
 
     func showStatusWithoutUp(key: String, display_key: String, y: CGFloat){
         var label : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
-        let val : Int = CommonData.getData(key) as! Int
+        let val : Int = CommonData.getDataByInt(key)
         label.text = "\(display_key) : \(val)"
         label.fontSize = CGFloat(CommonConst.font_size_normal)
         label.position = CGPointMake(CGRectGetMidX(self.frame), y)

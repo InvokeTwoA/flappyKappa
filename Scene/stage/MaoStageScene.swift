@@ -2,8 +2,7 @@ import SpriteKit
 class MaoStageScene: PlayScene {
     
     override func setStageValue() {
-//        _distance = 2500
-        _distance = 1500
+        _distance = 2500
     }
     
     override func setBGM(){
@@ -18,7 +17,8 @@ class MaoStageScene: PlayScene {
         makeSuperSlime(25)
         makeSister(30)
         makeWitch(25)
-        makeFighter(5)
+        makeFighter(20)
+        makeMetalSlime()
     }
     
     override func makeBoss(danjon_type : String){

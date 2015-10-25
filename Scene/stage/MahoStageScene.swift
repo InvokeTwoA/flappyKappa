@@ -11,8 +11,9 @@ class MahoStageScene: PlayScene {
         makeSuperSlime(15)
         makeSister(30)
         makeWitch(5)
+        makeMetalSlime()
     }
-    override func setSword(from: CGPoint, to: CGPoint){
+    override func setSword(to: CGPoint){
         return
     }
     

@@ -9,9 +9,10 @@ class KabeStageScene: PlayScene {
     override func generateEnemy(){
         makeApple()
         makeAllBlock(2)
-        makeSuperSlime(25)
-        makeSister(10)
-        makeFighter(10)
+        makeSuperSlime(15)
+        makeSister(5)
+        makeFighter(5)
+        makeMetalSlime()
     }
     
     override func makeBoss(danjon_type : String){

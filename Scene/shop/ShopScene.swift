@@ -5,13 +5,12 @@ class ShopScene: BaseScene {
     override func didMoveToView(view: SKView) {
         setBaseSetting()
         
-        let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*2)
+        let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight)
         let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y6 : CGFloat = point_y5 - CGFloat(CommonConst.textBlankHeight*2)
-
         
         setCenterButton("武器屋に行くぜ", key_name: "weapon_shop", point_y: point_y1)
         setCenterButton("酒でも飲むか！", key_name: "bar", point_y: point_y2)

@@ -18,6 +18,7 @@ class TitleScene: BaseScene {
         setKnight()
         setSkelton()
         setMaou()
+        setMetal()
         
         setTitleLabel()
         setStartButton()
@@ -69,11 +70,17 @@ class TitleScene: BaseScene {
         chara.position = point
         self.addChild(chara)
     }
-
     
     func setMaou(){
         var chara = MaoNode.makeDemo()
         let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 40, y:CGRectGetMinY(self.frame) + 50)
+        chara.position = point
+        self.addChild(chara)
+    }
+    
+    func setMetal(){
+        var chara = SKSpriteNode(imageNamed: "metal_slime")
+        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 40, y:CGRectGetMidY(self.frame) - 50 )
         chara.position = point
         self.addChild(chara)
     }

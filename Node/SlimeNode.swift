@@ -48,13 +48,40 @@ class SlimeNode: SKSpriteNode {
         }
         enemy.userData =
             [
-                "hp" : 6,
+                "hp" : 6 * value,
                 "str" : 5,
                 "def": 2,
                 "mdef": 0,
                 "gold": 10,
                 "score": 20,
                 "name": "ピーマン"
+        ]
+        enemy.name = "enemy"
+        enemy.zPosition = 999
+        enemy.setPhysic()
+        return enemy
+    }
+
+    class func makeMetalEnemy(danjon_type: String) -> SlimeNode {
+        var enemy : SlimeNode = SlimeNode(imageNamed: "metal_slime")
+        enemy._dx = 200
+        let value : Int
+        if danjon_type == "hard" {
+            value = 3
+        } else if danjon_type == "special" {
+            value = 2
+        } else {
+            value = 1
+        }
+        enemy.userData =
+            [
+                "hp" : 2 * value,
+                "str" : 1,
+                "def": 99,
+                "mdef": 0,
+                "gold": 1111,
+                "score": 20,
+                "name": "金の亡者"
         ]
         enemy.name = "enemy"
         enemy.zPosition = 999
@@ -85,7 +112,6 @@ class SlimeNode: SKSpriteNode {
         return enemy
     }
     
-    
     // タイトルでただフワフワしてるだけのスライム
     class func makeDemo()-> SlimeNode {
         var enemy = SlimeAnimateNode()
@@ -100,4 +126,5 @@ class SlimeNode: SKSpriteNode {
         enemy.physicsBody = physic
         return enemy
     }
+
 }

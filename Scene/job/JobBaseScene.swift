@@ -159,6 +159,7 @@ class JobBaseScene: BaseScene {
     
     // 転職完了
     func jobChanged(){
+        dayPast()
         CommonData.setData("job", value: _job_name)        
         let nextScene = ShopScene(size: self.frame.size)
         let tr = SKTransition.flipHorizontalWithDuration(1)

@@ -1,6 +1,6 @@
 // アイテム装備
 import SpriteKit
-class Equip2Scene: BaseScene {
+class Equip3Scene: BaseScene {
     
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.1,green:0.0,blue:0.1,alpha:1.0)
@@ -14,12 +14,10 @@ class Equip2Scene: BaseScene {
         let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight * 2)
         let point_y6 : CGFloat = point_y5 - CGFloat(CommonConst.textBlankHeight * 2)
         
-        setWeapon("oretue", point_y: point_y1)
-        setWeapon("soul", point_y: point_y2)
-        setWeapon("juryoku", point_y: point_y3)
-        setWeapon("shine", point_y: point_y4)
-        setCenterButton("次ページへ", key_name: "next", point_y: point_y5)
-        setCenterButton("装備を外す", key_name: "nothing", point_y: point_y6)
+        setWeapon("habel", point_y: point_y1)
+        setWeapon("kabuto", point_y: point_y2)
+        setWeapon("golden", point_y: point_y3)
+        setWeapon("bringer", point_y: point_y4)
     }
     
     func setWeapon(key_name: String, point_y: CGFloat){
@@ -58,46 +56,32 @@ class Equip2Scene: BaseScene {
     override func checkTochEvent(name: String) {
         if name == "back" {
             goGameSceneWithClose()
-        } else if name == "next" {
-            goNext()
-        } else if name == "nothing" {
-            CommonData.setData("equip_weapon", value: "何もなし")
-            let secondScene = Equip2Scene(size: self.frame.size)
+        } else if name == "hatena_habel" {
+            showAlert(WeaponSetting.getName("habel"), text: WeaponSetting.getExplain("habel"), ok_text: "なるほどねー")
+        } else if name == "hatena_kabuto" {
+            showAlert(WeaponSetting.getName("juryoku"), text: WeaponSetting.getExplain("kabuto"), ok_text: "へぇー")
+        } else if name == "hatena_golden" {
+            showAlert(WeaponSetting.getName("golden"), text: WeaponSetting.getExplain("golden"), ok_text: "ふむふむ")
+        } else if name == "hatena_bringer" {
+            showAlert(WeaponSetting.getName("bringer"), text: WeaponSetting.getExplain("bringer"), ok_text: "すげえ")
+        } else if name == "equip_habel" {
+            CommonData.setData("equip_weapon", value: "habel")
+            let secondScene = Equip3Scene(size: self.frame.size)
             changeSceneWithoutTr(secondScene)
-        
-        } else if name == "hatena_oretue" {
-            showAlert(WeaponSetting.getName("oretue"), text: WeaponSetting.getExplain("oretue"), ok_text: "なるほどねー")
-        } else if name == "hatena_juryoku" {
-            showAlert(WeaponSetting.getName("juryoku"), text: WeaponSetting.getExplain("juryoku"), ok_text: "へぇー")
-        } else if name == "hatena_soul" {
-            showAlert(WeaponSetting.getName("soul"), text: WeaponSetting.getExplain("soul"), ok_text: "ふむふむ")
-        } else if name == "hatena_shine" {
-            showAlert(WeaponSetting.getName("shine"), text: WeaponSetting.getExplain("shine"), ok_text: "すげえ")
-        } else if name == "equip_oretue" {
-            CommonData.setData("equip_weapon", value: "oretue")
-            let secondScene = Equip2Scene(size: self.frame.size)
+        } else if name == "equip_kabuto" {
+            CommonData.setData("equip_weapon", value: "kabuto")
+            let secondScene = Equip3Scene(size: self.frame.size)
             changeSceneWithoutTr(secondScene)
-        } else if name == "equip_soul" {
-            CommonData.setData("equip_weapon", value: "soul")
-            let secondScene = Equip2Scene(size: self.frame.size)
+        } else if name == "equip_golden" {
+            CommonData.setData("equip_weapon", value: "golden")
+            let secondScene = Equip3Scene(size: self.frame.size)
             changeSceneWithoutTr(secondScene)
-        } else if name == "equip_juryoku" {
-            CommonData.setData("equip_weapon", value: "juryoku")
-            let secondScene = Equip2Scene(size: self.frame.size)
-            changeSceneWithoutTr(secondScene)
-        } else if name == "equip_shine" {
-            CommonData.setData("equip_weapon", value: "shine")
-            let secondScene = Equip2Scene(size: self.frame.size)
+        } else if name == "equip_bringer" {
+            CommonData.setData("equip_weapon", value: "bringer")
+            let secondScene = Equip3Scene(size: self.frame.size)
             changeSceneWithoutTr(secondScene)
         }
     }
-    
-    func goNext(){
-        let secondScene = Equip3Scene(size: self.frame.size)
-        let tr = SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.5)
-        changeScene(secondScene, tr: tr)
-    }
-
     
     // ドアを閉じるモーションでゲーム画面へ
     func goGameSceneWithClose(){

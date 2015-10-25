@@ -2,25 +2,29 @@
 // 共通処理などはここに記述
 import Foundation
 import SpriteKit
+import AVFoundation
 
 class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     var _gold : Int = 0
-    var _income : Int = 0
     var _nadView: NADView!
     
     // 各種ステータス
     var _agi : Int     = CommonData.getDataByInt("agi")
     var _luck : Int    = CommonData.getDataByInt("luck")
     var _equip :String = CommonData.getDataByString("equip_weapon")
-
+    var _job :String   = CommonData.getDataByString("job")
     
     var _jump : CGFloat = 400
     var _swordSpeed : NSTimeInterval = CommonConst.swordNormalSpeed
     
+    var _day : Int = CommonData.getDataByInt("day")
+    var _nickname : String = CommonData.getDataByString("nickname")
+    
+    var _danjon_type :String = CommonData.getDataByString("danjon_type")
+    
     // お金の初期値を設定
     func setMoney(){
-        _gold = CommonData.getData("gold") as! Int
-        _income = CommonData.getData("income") as! Int
+        _gold = CommonData.getDataByInt("gold")
     }
     
     func setBaseSetting(){
@@ -53,7 +57,7 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         rnd_text.fontColor = UIColor.whiteColor()
         rnd_text.name = "rnd_text"
         background.addChild(rnd_text)
-
+        
         // 異名を表示
         var name : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
         name.text = CommonUI.displayName()
@@ -76,7 +80,7 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         
         self.addChild(background)
 
-        let adTime : NSTimeInterval = CommonData.getData("adTime") as! NSTimeInterval
+        let adTime : NSTimeInterval = CommonData.getDataByNSTimeInterval("adTime")
         if adTime != 0.0 {
             NSTimer.scheduledTimerWithTimeInterval(adTime, target: self, selector: Selector("showAd"), userInfo: nil, repeats: false)
         }
@@ -265,7 +269,7 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     
     // 戻るボタンを画面下に設置
     func setBackButton(text : String) {
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMinY(self.frame) + CGFloat( CommonConst.textBlankHeight*2))
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMinY(self.frame) + CGFloat( CommonConst.textBlankHeight))
         let startButton: SKSpriteNode = CommonUI.normalButton(text, name: "back", point: point)
         self.addChild(startButton)
     }
@@ -332,16 +336,10 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         let touchedNode = self.nodeAtPoint(location)
         if (touchedNode.name != nil) {
             checkTochEvent(touchedNode.name!)
-        } else {
-            kappaJump()
         }
-        
+        kappaJump()
         setBattleTap()
-        
-        // カッパを飛ばす
-        var kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
-        kappa?.physicsBody?.velocity = CGVectorMake(0, _jump)
-        setSword(kappa!.position, to: location)
+        setSword(location)
     }
     
     func setBattleTap(){
@@ -349,7 +347,9 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     }
     
     // 剣を作成。
-    func setSword(from: CGPoint, to: CGPoint){
+    func setSword(to: CGPoint){
+        var kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
+        let from = kappa!.position
         var sword : SwordNode = SwordNode.makeSword()
         if isCritical() {
             sword.physicsBody?.allowsRotation = true

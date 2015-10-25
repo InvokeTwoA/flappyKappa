@@ -21,6 +21,14 @@ class WeaponSetting {
             name = "重力子放射線射出装置"
         case "shine":
             name = "聖シャインの剣"
+        case "habel":
+            name = "ハベルの鎧"
+        case "kabuto":
+            name = "安全メット"
+        case "golden":
+            name = "金の匙"
+        case "bringer":
+            name = "たぬきブリンガー"
         default:
             name = "テキストが用意されてません"
         }
@@ -44,6 +52,14 @@ class WeaponSetting {
             cost = 0
         case "shine":
             cost = 0
+        case "habel":
+            cost = 333
+        case "kabuto":
+            cost = 1100
+        case "golden":
+            cost = 2200
+        case "bringer":
+            cost = 7777
         default:
             cost = 0
             break // do nothing
@@ -63,7 +79,7 @@ class WeaponSetting {
             name = "定価\(getCost(key_name))ゴールド\n\nとんでもなく早く動ける靴。\n\n スキル[縮地]\n戦闘中の敏捷が\(agi_max)になる。\n速すぎるので注意"
         case "hammer":
             let agi_max = CommonConst.agi_max
-            name = "定価\(getCost(key_name))ゴールド\n\n戦闘中の力が１あがる\n\nスキル[ブロック壊し]ブロックを破壊できる"
+            name = "定価\(getCost(key_name))ゴールド\n\n戦闘中の力が１あがる\n\nスキル[ブロック壊し]\nブロックを破壊できる"
         case "oretue":
             name = "戦闘中、知恵が５上がる"
         case "soul":
@@ -72,12 +88,17 @@ class WeaponSetting {
             name = "ファイアボールを５タップ毎に出せるようになる"
         case "shine":
             name = "物理ダメージの下限が、仕事の最高記録と同じ値になる"
+        case "habel":
+            name = "定価\(getCost(key_name))ゴールド\n\n重たい鎧。ある世界ではこの装備が大人気だった。\n\n戦闘中のHPが50になる。"
+        case "kabuto":
+            name = "定価\(getCost(key_name))ゴールド\n\n天井に頭をぶつけてもダメージを受けなくなる。\n\n連駄ゲーがしたいあなたに贈る一品。"
+        case "golden":
+            name = "定価\(getCost(key_name))ゴールド\n\nありがたいスプーン。\n\nブロックを壊せるようになる。ブロックを破壊した際に出現すするコインの金額が(1~幸運)ゴールドになる。"
+        case "bringer":
+            name = "定価\(getCost(key_name))ゴールド\n\n星神を裏切った罪で追放されたタヌキブリンガーの悲しみが込められた剣。手にしたものは緋色の恩恵を得ると言う。\n\n物理攻撃が５ダメージ固定になる。\n\n（ただし、クリティカルヒットの時は例外）\n\nスキル[ブロック壊し]\nブロックを破壊できる"
         default:
             name = "テキスト用意されてません"
         }
         return name
     }
-    
-    
-    
 }

@@ -6,49 +6,34 @@ class JobScene: BaseScene {
         self.backgroundColor = UIColor(red:0.0,green:0.5,blue:1.0,alpha:1.0)
         setBaseSetting()
 
-        setExplainText()
-        setWarriorButton()
-        setWizardlyButton()
-        setPriestButton()
-        setThiefButton()
+        let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*2)
+        let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight*2)
+        let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight*2)
+        let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight*2)
+        let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight*2)
+        let point_y6 : CGFloat = point_y5 - CGFloat(CommonConst.textBlankHeight*2)
+
+        setCenterText("今すぐに転職だ！", key_name: "text1", point_y: point_y1)
+        setCenterButton("戦士", key_name: "warrior", point_y: point_y2)
+        setCenterButton("魔法使い", key_name: "wizardly", point_y: point_y3)
+        setCenterButton("僧侶", key_name: "priest", point_y: point_y4)
+        setCenterButton("盗賊", key_name: "thief", point_y: point_y5)
+        
+        if( _day > 5) {
+            if(_equip == "hammer") {
+                setCenterButton("大工", key_name: "daiku", point_y: point_y6)
+            } else if(_equip == "oretue") {
+                setCenterButton("賢者", key_name: "kenja", point_y: point_y6)
+            } else if _nickname == "真の" {
+                setCenterButton("勇者", key_name: "hero", point_y: point_y6)
+            } else if _nickname == "文無し" {
+                setCenterButton("勝負師", key_name: "akagi", point_y: point_y6)
+            } else {
+                setCenterButton("プロデューサー", key_name: "p", point_y: point_y6)
+            }
+        }
+        
         setBackButton("そろそろ帰るぜ")
-    }
-
-    func setExplainText(){
-        var explainLabel = SKLabelNode(fontNamed: CommonConst.font_regular)
-        explainLabel.text = "今すぐに転職だ！"
-        explainLabel.fontSize = CGFloat(CommonConst.font_size_normal)
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight))
-        explainLabel.position = point
-        self.addChild(explainLabel)
-    }
-    
-    // 「戦士」ボタンを設置
-    func setWarriorButton() {
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - CGFloat(  CommonConst.headerHeight + CommonConst.textBlankHeight*3))
-        let startButton: SKSpriteNode = CommonUI.normalButton("戦士", name: "warrior", point: point)
-        self.addChild(startButton)
-    }
-    
-    //「魔法使い」ボタンを設置
-    func setWizardlyButton() {
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*5))
-        let startButton: SKSpriteNode = CommonUI.normalButton("魔法使い", name: "wizardly", point: point)
-        self.addChild(startButton)
-    }
-
-    //「僧侶」ボタンを設置
-    func setPriestButton() {
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*7))
-        let startButton: SKSpriteNode = CommonUI.normalButton("僧侶", name: "priest", point: point)
-        self.addChild(startButton)
-    }
-
-    //「盗賊」ボタンを設置
-    func setThiefButton() {
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*9))
-        let startButton: SKSpriteNode = CommonUI.normalButton("盗賊", name: "thief", point: point)
-        self.addChild(startButton)
     }
 
     // タッチイベント
@@ -61,6 +46,16 @@ class JobScene: BaseScene {
             goJobPriestScene()
         } else if name == "thief" {
             goJobThiefScene()
+        } else if name == "daiku" {
+            goJobDaikuScene()
+        } else if name == "akagi" {
+            goJobAkagiScene()
+        } else if name == "p" {
+            goJobProducerScene()
+        } else if name == "hero" {
+            goJobHeroScene()
+        } else if name == "kenja" {
+            goJobKenjaScene()
         } else if name == "back" {
             goShopScene()
         }
@@ -96,7 +91,36 @@ class JobScene: BaseScene {
         let tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
         changeScene(secondScene, tr: tr)
     }
+    
+    func goJobProducerScene(){
+        let secondScene = JobProducerScene(size: self.frame.size)
+        let tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
+        changeScene(secondScene, tr: tr)
+    }
 
+    func goJobDaikuScene(){
+        let secondScene = JobDaikuScene(size: self.frame.size)
+        let tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
+        changeScene(secondScene, tr: tr)
+    }
+
+    func goJobAkagiScene(){
+        let secondScene = JobAkagiScene(size: self.frame.size)
+        let tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
+        changeScene(secondScene, tr: tr)
+    }
+    func goJobHeroScene(){
+        let secondScene = JobHeroScene(size: self.frame.size)
+        let tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
+        changeScene(secondScene, tr: tr)
+    }
+    func goJobKenjaScene(){
+        let secondScene = JobKenjaScene(size: self.frame.size)
+        let tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
+        changeScene(secondScene, tr: tr)
+    }
+    
+    
     override func update(currentTime: CFTimeInterval) {
     }
 }

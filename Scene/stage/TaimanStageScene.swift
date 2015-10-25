@@ -7,6 +7,7 @@ class TaimanStageScene: PlayScene {
     
     // 敵を作成
     override func generateEnemy(){
+        makeMetalSlime()
     }
     
     override func makeBoss(danjon_type : String){

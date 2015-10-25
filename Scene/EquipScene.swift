@@ -14,7 +14,6 @@ class EquipScene: BaseScene {
         let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight * 2)
         let point_y6 : CGFloat = point_y5 - CGFloat(CommonConst.textBlankHeight * 2)
 
-        
         setCenterText("武器名をタップすれば装備します。", key_name: "explain", point_y: point_y1)
         setWeapon("long", point_y: point_y2)
         setWeapon("katana", point_y: point_y3)

@@ -71,14 +71,23 @@ class SettingScene: BaseScene {
     func changeSetting(key: String, value: Int){
         CommonData.setData(key, value: value)
         let secondScene = SettingScene(size: self.frame.size)
-        changeSceneWithoutTr(secondScene)
+//        changeSceneWithoutTr(secondScene)
+        let skView = self.view! as SKView
+        secondScene.scaleMode = SKSceneScaleMode.AspectFill
+        skView.presentScene(secondScene)
     }
     
     func goTitleScene(){
         let secondScene = TitleScene(size: self.frame.size)
         let tr = SKTransition.doorsOpenHorizontalWithDuration(1)
-        changeSceneWithLongDuration(secondScene, tr: tr)    
+//        changeSceneWithLongDuration(secondScene, tr: tr)
+        let skView = self.view! as SKView
+        secondScene.scaleMode = SKSceneScaleMode.AspectFill
+        skView.presentScene(secondScene, transition: tr)
+        
     }
+    
+    
     
     
     override func update(currentTime: CFTimeInterval) {

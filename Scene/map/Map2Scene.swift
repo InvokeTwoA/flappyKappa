@@ -1,9 +1,7 @@
 //ダンジョン選択画面 その２
 import SpriteKit
 class Map2Scene: BaseScene {
-    var _nextScene : SKScene = SlimeStageScene(size: CGSizeMake(1,1))
-    let _tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1)
-    
+
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.0,green:0.5,blue:1.0,alpha:1.0)
         setBaseSetting()
@@ -30,6 +28,14 @@ class Map2Scene: BaseScene {
         return
     }
     
+    override func setKappa(){
+        return
+    }
+    
+    override func setSword(to: CGPoint) {
+        return
+    }
+    
     override func checkTochEvent(name: String) {
         if name == "back" {
             backAdventure()
@@ -38,8 +44,7 @@ class Map2Scene: BaseScene {
         
         } else {
             CommonData.setData("stage_name", value: name)
-            _nextScene = MapPrepareScene(size: self.frame.size)
-            changeScene(self._nextScene, tr: self._tr)
+            changeScene(MapPrepareScene(size: self.frame.size), tr: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1))
         }
     }
     

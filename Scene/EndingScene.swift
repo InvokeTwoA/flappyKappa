@@ -19,9 +19,13 @@ class EndingScene: BaseScene {
         setKnight()
         setSkelton()
         setMaou()
+        setBigKappa()
+        setKappa()
+        setSlimeDemo()
+        setMetal()
         
         setTitleLabel()
-        setStartButton()
+        setBackButton("再び冒険へ")
     }
     
     override func setMoney(){
@@ -34,46 +38,77 @@ class EndingScene: BaseScene {
     
     func setFighter(){
         var chara = FighterNode.makeDemo()
-        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:CGRectGetMidY(self.frame))
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         chara.position = point
         self.addChild(chara)
     }
     
     func setWitch(){
         var chara = WitchNode.makeDemo()
-        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 40, y:CGRectGetMidY(self.frame) +   70)
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) - 40, y:CGRectGetMidY(self.frame))
         chara.position = point
         self.addChild(chara)
     }
     
     func setSister(){
         var chara = SisterNode.makeDemo()
-        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:CGRectGetMidY(self.frame) +   140)
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) + 40, y:CGRectGetMidY(self.frame))
         chara.position = point
         self.addChild(chara)
     }
     
-    
     func setKnight(){
         var chara = KnightNode.makeDemo()
-        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 30, y:CGRectGetMinY(self.frame) +   140)
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) + 40, y:CGRectGetMidY(self.frame) - 50)
         chara.position = point
         self.addChild(chara)
     }
     
     func setSkelton(){
         var chara = SkeltonNode.makeDemo()
-        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:CGRectGetMinY(self.frame) + 100)
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) - 40, y:CGRectGetMidY(self.frame) - 50)
         chara.position = point
         self.addChild(chara)
     }
     
-    
     func setMaou(){
         var chara = MaoNode.makeDemo()
-        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 40, y:CGRectGetMinY(self.frame) + 50)
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 50)
         chara.position = point
         self.addChild(chara)
+    }
+
+    func setBigKappa(){
+        var chara = FighterNode(imageNamed: "kappa_64_64")
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) + 100)
+        chara.position = point
+        self.addChild(chara)
+    }
+
+    
+    override func setKappa(){
+        var chara = FighterNode(imageNamed: "kappa_32_32")
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) - 50, y:CGRectGetMidY(self.frame) + 50)
+        chara.position = point
+        self.addChild(chara)
+    }
+
+    override func setSlimeDemo(){
+        var chara = FighterNode(imageNamed: "slime1")
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) + 50, y:CGRectGetMidY(self.frame) + 50)
+        chara.position = point
+        self.addChild(chara)
+    }
+    
+    func setMetal(){
+        var chara = SKSpriteNode(imageNamed: "metal_slime")
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 100)
+        chara.position = point
+        self.addChild(chara)
+    }
+
+    override func setSword(to: CGPoint) {
+        return
     }
     
     // 炎画像を出す
@@ -93,25 +128,34 @@ class EndingScene: BaseScene {
         self.addChild(myLabel)
     }
     
+    // タッチイベント
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        let touch = touches.first as? UITouch
+        let location = touch!.locationInNode(self)
+        let touchedNode = self.nodeAtPoint(location)
+        if (touchedNode.name != nil) {
+            checkTochEvent(touchedNode.name!)
+        }
+    }
+    
     // スタートボタンを設置
     func setStartButton(){
         let point : CGPoint = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) + 100)
         let startLabel = CommonUI.normalButton("再び冒険へ", name: "start", point: point)
         self.addChild(startLabel)
     }
-    
+
     override func checkTochEvent(name: String) {
-        if name == "start" {
+        if name == "back" {
             start()
-        } else if name == "break" {
-            worldBreak()
-        } else if name == "setting" {
-            goSettingScene()
-        } else {
-            kappaJump()
         }
     }
     
+    override func kappaJump() {
+    }
+    override func setBattleTap() {
+    }
+
     func start() {
         // もしデータが存在しなかったら、全ての値を初期化
         if (CommonData.getDataByInt("story") == 0)  {
@@ -199,23 +243,6 @@ class EndingScene: BaseScene {
         let skView = self.view! as SKView
         secondScene.scaleMode = SKSceneScaleMode.AspectFill
         skView.presentScene(secondScene, transition: tr)
-    }
-    
-    
-    // ゲーム画面へ
-    func goSettingScene() {
-        let secondScene = SettingScene(size: self.frame.size)
-        let tr = SKTransition.doorsOpenHorizontalWithDuration(1)
-        let skView = self.view! as SKView
-        secondScene.scaleMode = SKSceneScaleMode.AspectFill
-        skView.presentScene(secondScene, transition: tr)
-    }
-    
-    // 地球破壊ボタン
-    func worldBreak(){
-        let alert : UIAlertController = CommonUI.normalAlert("無理っす", message: "(´；ω；｀)", okMessage: "仕方ないな")
-        self.view?.window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
-        CommonData.initData()
     }
     
     override func update(currentTime: CFTimeInterval) {

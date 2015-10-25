@@ -1,9 +1,6 @@
 //ダンジョン選択画面
 import SpriteKit
 class MapScene: BaseScene {
-    var _nextScene : SKScene = SlimeStageScene(size: CGSizeMake(1,1))
-    let _tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1)
-    
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.0,green:0.5,blue:1.0,alpha:1.0)
         setBaseSetting()
@@ -28,6 +25,14 @@ class MapScene: BaseScene {
     override func setSlimeDemo() {
         return
     }
+
+    override func setKappa(){
+        return
+    }
+    
+    override func setSword(to: CGPoint) {
+        return
+    }
     
     override func checkTochEvent(name: String) {
         if name == "back" {
@@ -38,10 +43,8 @@ class MapScene: BaseScene {
         } else if name == "sword" {
         
         } else {
-            print("name=\(name)")
             CommonData.setData("stage_name", value: name)
-            _nextScene = MapPrepareScene(size: self.frame.size)
-            changeScene(self._nextScene, tr: self._tr)
+            changeScene(MapPrepareScene(size: self.frame.size), tr: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1))
         }
     }
     

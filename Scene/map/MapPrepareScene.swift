@@ -2,15 +2,10 @@
 import SpriteKit
 class MapPrepareScene: BaseScene {
     var _stage = CommonData.getDataByString("stage_name")
-    var _nextScene : SKScene = SlimeStageScene(size: CGSizeMake(1,1))
-    let _tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1)
     
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.0,green:0.5,blue:1.0,alpha:1.0)
         setBaseSetting()
-        
-        setStage()
-        
         
         let point_y1 = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight)
         let point_y2 = point_y1 - CGFloat(CommonConst.textBlankHeight*2)
@@ -27,10 +22,6 @@ class MapPrepareScene: BaseScene {
         setCenterButton("行くぜ", key_name: "go", point_y: point_y6)
     
         setBackButton("ビビったので帰る")
-    }
-    
-    func setStage(){
-        _nextScene = MapSetting.nextScene(self.frame.size)
     }
     
     override func checkTochEvent(name: String) {
@@ -53,22 +44,22 @@ class MapPrepareScene: BaseScene {
             style: UIAlertActionStyle.Default,
             handler:{
                 (action:UIAlertAction!) -> Void in
-                CommonData.setData("danjon_type", value: "normal")
-                self.changeScene(self._nextScene, tr: self._tr)
+                self._danjon_type = "normal"
+                self.goNextScene()
         })
         let hardAction: UIAlertAction = UIAlertAction(title: "ハードモードで行くかな",
             style: UIAlertActionStyle.Default,
             handler:{
                 (action:UIAlertAction!) -> Void in
-                CommonData.setData("danjon_type", value: "hard")
-                self.changeScene(self._nextScene, tr: self._tr)
+                self._danjon_type = "hard"
+                self.goNextScene()
         })
         let specialAction: UIAlertAction = UIAlertAction(title: "難易度カッパ級で行くぜ",
             style: UIAlertActionStyle.Default,
             handler:{
                 (action:UIAlertAction!) -> Void in
-                CommonData.setData("danjon_type", value: "special")
-                self.changeScene(self._nextScene, tr: self._tr)
+                self._danjon_type = "special"
+                self.goNextScene()
         })
         
         // AddAction 記述順に反映される
@@ -77,6 +68,12 @@ class MapPrepareScene: BaseScene {
         alert.addAction(specialAction)
         
         self.view?.window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func goNextScene(){
+        CommonData.setData("danjon_type", value: _danjon_type)
+        var nextScene : SKScene = MapSetting.nextScene(self.frame.size)
+        changeScene(nextScene, tr: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1))
     }
     
     func backAdventure(){

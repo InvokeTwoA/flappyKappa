@@ -3,7 +3,7 @@ class MugenStageScene: PlayScene {
     
     override func setStageValue() {
         //        _distance = 2500
-        _distance = 9999
+        _distance = 5000
     }
     
     override func setBGM(){

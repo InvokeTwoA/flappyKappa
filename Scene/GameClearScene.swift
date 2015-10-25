@@ -1,12 +1,15 @@
 //ゲームクリア画面
 import SpriteKit
 import GameKit
+import AVFoundation
 
-class GameClearScene: BaseScene, GKGameCenterControllerDelegate {
+class GameClearScene: BaseScene, GKGameCenterControllerDelegate, AVAudioPlayerDelegate {
     
-    var _danjon_type :String = CommonData.getDataByString("danjon_type")
     var _stage = CommonData.getDataByString("stage_name")
     var _name = CommonData.getDataByString("name")
+    
+    var _bgm_off : Bool          = CommonData.getDataByBool("bgm_off")
+    var _audioPlayer:AVAudioPlayer!
     
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.4,green:0.7,blue:0.9,alpha:1.0)
@@ -16,6 +19,10 @@ class GameClearScene: BaseScene, GKGameCenterControllerDelegate {
         kappa.position = point
         self.addChild(kappa)
 */
+        if _job == "勝負師" {
+            CommonData.plus("gold", value: _day)
+        }
+                
         CommonData.dayPast()
         setBaseSetting()
         
@@ -32,6 +39,7 @@ class GameClearScene: BaseScene, GKGameCenterControllerDelegate {
         
         
         if _stage == "maou" {
+            changeNickname("真の", percent: 77)
             setCenterText("こうして世界に平和は訪れた", key_name: "text1", point_y: y1)
             setCenterText("君の活躍は伝説として", key_name: "text2", point_y: y2)
             setCenterText("カッパサーガとして語り継がれていく", key_name: "text3", point_y: y3)
@@ -64,13 +72,12 @@ class GameClearScene: BaseScene, GKGameCenterControllerDelegate {
                 setCenterText("重力子放射線射出装置を手に入れたぜ。", key_name: "text6", point_y: y6)
                 CommonData.setData("weapon_juryoku", value: 1)
             case "noukin":
+                setCenterText("HPが３あがった", key_name: "text6", point_y: y6)
+                CommonData.plus("hp",      value: 3)
+            case "taiman":
                 setCenterText("知恵と信仰の成長力があがった", key_name: "text6", point_y: y6)
                 CommonData.plus("int_up",      value: 1)
                 CommonData.plus("pri_up",      value: 1)
-            case "taiman":
-                setCenterText("力の体力の成長力があがった", key_name: "text6", point_y: y6)
-                CommonData.plus("str_up",      value: 1)
-                CommonData.plus("def_up",      value: 1)
             case "maho":
                 setCenterText("LVが1になった", key_name: "text6", point_y: y6)
                 CommonData.setData("lv", value: 1)
@@ -102,7 +109,38 @@ class GameClearScene: BaseScene, GKGameCenterControllerDelegate {
         self.addChild(gold_text)
 */
         // setButton("ハイスコアを見る", key_name: "high_score", point_y: y3)
+        
+        prepareBGM("clear")
+        playBGM()
     }
+        
+    func prepareBGM(fileName : String){
+        let bgm_path = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(fileName, ofType: "mp3")!)
+        var audioError:NSError?
+        _audioPlayer = AVAudioPlayer(contentsOfURL: bgm_path, error:&audioError)
+        if let error = audioError {
+            println("Error \(error.localizedDescription)")
+        }
+        _audioPlayer.delegate = self
+        _audioPlayer.prepareToPlay()
+    }
+    
+    func playBGM(){
+        if _bgm_off {
+            return
+        }
+        _audioPlayer.numberOfLoops = -1;
+        if ( !_audioPlayer.playing ){
+            _audioPlayer.play()
+        }
+    }
+    
+    func stopBGM(){
+        if ( _audioPlayer.playing ){
+            _audioPlayer.stop()
+        }
+    }
+    
     
     override func saveMoney() {
         return
@@ -128,7 +166,6 @@ class GameClearScene: BaseScene, GKGameCenterControllerDelegate {
         return false
     }
     
-    
     // タッチイベント
     override func checkTochEvent(name: String) {
         if name == "back" {
@@ -144,12 +181,14 @@ class GameClearScene: BaseScene, GKGameCenterControllerDelegate {
 
     // 冒険へ
     func goAdventure(){
+        stopBGM()
         let secondScene = MapScene(size: self.frame.size)
         let tr = SKTransition.flipVerticalWithDuration(1)
         changeScene(secondScene, tr: tr)
     }
     
     func goEnding(){
+        stopBGM()
         let secondScene = EndingScene(size: self.frame.size)
         let tr = SKTransition.flipVerticalWithDuration(1)
         changeScene(secondScene, tr: tr)

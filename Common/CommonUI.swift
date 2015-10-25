@@ -85,7 +85,7 @@ class CommonUI {
     
     class func setHp() -> SKLabelNode {
         var hp : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
-        var hp_value : Int = CommonData.getData("hp") as! Int
+        var hp_value : Int = CommonData.getDataByInt("hp")
         hp.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
         hp.text = "\(hp_value)"
         hp.fontSize = 18
@@ -105,9 +105,9 @@ class CommonUI {
     }
     
     class func displayName() -> String {
-        let job      = CommonData.getData("job") as! String
-        let nickname = CommonData.getData("nickname") as! String
-        let name     = CommonData.getData("name") as! String
+        let job      = CommonData.getDataByString("job")
+        let nickname = CommonData.getDataByString("nickname")
+        let name     = CommonData.getDataByString("name")
         let birth    = CommonData.getDataByInt("birth")
         return "\(nickname)\(job)\(name) \(birth)世"
     }

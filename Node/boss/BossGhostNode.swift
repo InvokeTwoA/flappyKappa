@@ -10,7 +10,6 @@ class BossGhostNode: SKSpriteNode {
     let height = 64
     let half_height :Int = 32
     
-    
     class func makeEnemy(danjon_type: String) -> BossGhostNode {
         var enemy : BossGhostNode = BossGhostNode(imageNamed: "ghost_64_64")
         enemy.zPosition = 999

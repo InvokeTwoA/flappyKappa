@@ -13,18 +13,15 @@ class MajanScene: BaseScene {
         let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y6 : CGFloat = point_y5 - CGFloat(CommonConst.textBlankHeight*2)
         
-        
         setCenterText("ざわ……ざわ……", key_name: "hoge", point_y: point_y1)
         setCenterText("勝てば所持金は２倍。負ければ文無し。", key_name: "hoge", point_y: point_y2)
 
-        _per = 40 + _luck        
+        _per = 30 + _luck
         setCenterText("あんたの勝率は\(_per)%だ", key_name: "hoge", point_y: point_y3)
         
         setCenterButton("今なら負ける気がしない", key_name: "shoubu", point_y: point_y4)
         setBackButton("帰ります")
     }
-    
-    
     
     override func checkTochEvent(name: String) {
         if name == "back" {
@@ -34,11 +31,9 @@ class MajanScene: BaseScene {
                 showAlert("文無しは帰りな", text: "ここは子供の遊び場じゃねえ", ok_text: "ですよねー。")
                 return
             }
-            
-            
             if(CommonUtil.rnd(100) < _per) {
                 let alert: UIAlertController = UIAlertController(title:"ちっ、あんたの勝ちだ",
-                    message: "賞金を持って来な",
+                    message: "賞金だ、受け取りな",
                     preferredStyle: UIAlertControllerStyle.Alert
                 )
                 
@@ -46,6 +41,7 @@ class MajanScene: BaseScene {
                     style: UIAlertActionStyle.Default,
                     handler:{
                         (action:UIAlertAction!) -> Void in
+                        self.dayPast()
                         var gold = CommonData.getDataByInt("gold")
                         gold *= 2
                         CommonData.setData("gold", value: gold)
@@ -56,6 +52,7 @@ class MajanScene: BaseScene {
                 self.view?.window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
                 
             } else {
+                changeNickname("文無し", percent: 50)
                 let alert: UIAlertController = UIAlertController(title:"残念！　これが現実です！",
                     message: "有り金おいてさっさと帰りな",
                     preferredStyle: UIAlertControllerStyle.Alert
@@ -64,6 +61,7 @@ class MajanScene: BaseScene {
                     style: UIAlertActionStyle.Default,
                     handler:{
                         (action:UIAlertAction!) -> Void in
+                        self.dayPast()
                         CommonData.setData("gold", value: 0)
                         self.reloadScene()
                 })

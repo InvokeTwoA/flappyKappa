@@ -9,7 +9,7 @@ class ShopWeaponScene: BaseScene {
         setBaseSetting()
         
         if CommonData.getDataByInt("buy_complete") == 1 {
-            self.showAlert("おあがりよー！", text:"大事に使ってくれよ。", ok_text: "これで俺も最強だ！")
+            self.showAlert("おあがりよー！", text:"武器は装備しないと意味がないから気をつけな。", ok_text: "これで俺も最強だ！")
             CommonData.setData("buy_complete", value: 0)
         }
         
@@ -17,48 +17,28 @@ class ShopWeaponScene: BaseScene {
         let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight * 2)
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight * 2)
         let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight * 2)
+        let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight * 2)
         setWeapon("long",   point_y: point_y1)
         setWeapon("katana", point_y: point_y2)
         setWeapon("shoes",  point_y: point_y3)
         setWeapon("hammer", point_y: point_y4)
+        setCenterButton("高級商品を見る", key_name: "next", point_y: point_y5)
         setBackButton("あばよ！")
     }
     
     func setWeapon(key_name: String, point_y: CGFloat){
-
         // 商品名を表示
-        var weapon_label : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
-        weapon_label.position = CGPointMake(100, point_y)
-        weapon_label.fontSize = CGFloat(CommonConst.font_size_normal)
-        weapon_label.text = WeaponSetting.getName(key_name)
-        self.addChild(weapon_label)
-        
-        // はてなを表示
-        var hatena = SKSpriteNode(imageNamed: "hatena.gif")
-        hatena.name = "hatena_\(key_name)"
-        hatena.position = CGPointMake(weapon_label.position.x + CGFloat(weapon_label.frame.width/2) + 30, point_y + 10)
-        self.addChild(hatena)
-        
-        // 購入ボタンを表示
-        let point = CGPointMake(hatena.position.x + 70, point_y + 10)
         if CommonData.getDataByInt("weapon_\(key_name)") == 0 {
-            let gold = CommonData.getDataByInt("gold")
-            if gold >= WeaponSetting.getCost(key_name) {
-                var buyButton = CommonUI.normalButton("買う", name: "buy_\(key_name)", point: point)
-                self.addChild(buyButton)
-            } else {
-                var label : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
-                label.position = point
-                label.fontSize = CGFloat(CommonConst.font_size_normal)
-                label.text = "買えぬ"
-                self.addChild(label)
-            }
+            setCenterText(WeaponSetting.getName(key_name), key_name: "buy_\(key_name)", point_y: point_y)
+            
+            var weapon_label :SKLabelNode? = childNodeWithName("buy_\(key_name)") as? SKLabelNode
+            // はてなを表示
+            var hatena = SKSpriteNode(imageNamed: "hatena.gif")
+            hatena.name = "hatena_\(key_name)"
+            hatena.position = CGPointMake(weapon_label!.position.x + CGFloat(weapon_label!.frame.width/2) + 30, point_y + 10)
+            self.addChild(hatena)
         } else {
-            var label : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
-            label.position = point
-            label.fontSize = CGFloat(CommonConst.font_size_normal)
-            label.text = "売り切れ"
-            self.addChild(label)
+            setCenterText("売り切れ", key_name: "urikire", point_y: point_y)
         }
     }
 
@@ -72,7 +52,6 @@ class ShopWeaponScene: BaseScene {
             showAlert(WeaponSetting.getName("shoes"), text: WeaponSetting.getExplain("shoes"), ok_text: "そうなんだー")
         } else if name == "hatena_hammer" {
             showAlert(WeaponSetting.getName("hammer"), text: WeaponSetting.getExplain("hammer"), ok_text: "それは良い")
-            
         } else if name == "buy_long" {
             _buy_name = "long"
             buyConfirm()
@@ -85,15 +64,22 @@ class ShopWeaponScene: BaseScene {
         } else if name == "buy_hammer" {
             _buy_name = "hammer"
             buyConfirm()
+        } else if name == "next" {
+            goNextScene()
         } else if name == "back" {
             goShopScene()
         }
     }
     
     func buyConfirm(){
-        // Style Alert
         let name = WeaponSetting.getName(_buy_name)
         let cost = WeaponSetting.getCost(_buy_name)
+        
+        // お金が足りない場合はここで終了
+        if _gold < cost {
+            showAlert("お金が足りないぜ", text: "\(name)は\(cost)ゴールドだ。金を貯めて出直し的な", ok_text: "了解であります")
+            return
+        }
         
         let alert: UIAlertController = UIAlertController(title:"ご注文は\(name)ですか？",
             message: "\(cost)ゴールドだ。買ってくかい？",
@@ -127,6 +113,13 @@ class ShopWeaponScene: BaseScene {
         let secondScene = ShopWeaponScene(size: self.frame.size)
         changeSceneWithoutTr(secondScene)
     }
+
+    func goNextScene(){
+        let secondScene = Shop2WeaponScene(size: self.frame.size)
+        let tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
+        changeScene(secondScene, tr: tr)
+    }
+
     
     func goShopScene(){
         let secondScene = ShopScene(size: self.frame.size)

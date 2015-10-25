@@ -80,18 +80,18 @@ class CommonUtil {
     
     class func randomHint() -> String{
         let str : String
-        let rnd : Int = CommonUtil.rnd(9)
+        let rnd : Int = CommonUtil.rnd(24)
         switch rnd {
         case 0:
             str = "魔王のHPは日数と一緒"
         case 1:
-            str = "麻雀の勝率は(40+幸運)"
+            str = "麻雀の勝率は(30+幸運)"
         case 2:
             str = "幸運の最大値は50"
         case 3:
             str = "敏捷の最大値は50"
         case 4:
-            str = "HPはLVup時に(1〜体力)増える"
+            str = "HPは50以降上がりにくくなる"
         case 5:
             str = "カッパ神ばんざーい"
         case 6:
@@ -100,7 +100,36 @@ class CommonUtil {
             str = "魔法はダメージ固定"
         case 8:
             str = "死亡回数＝初期ゴールド"
-
+        case 9:
+            str = "ハンマー装備で転職屋に行くと……"
+        case 10:
+            str = "5日以上の冒険で上級職解放"
+        case 11:
+            str = "幸運7以上で金のスライム出現"
+        case 12:
+            str = "金のスライムは寄り道ステージで出現"
+        case 13:
+            str = "魔王には聖剣が有効"
+        case 14:
+            str = "LV10以降はLV上げが大変"
+        case 15:
+            str = "力の最大値は50"
+        case 16:
+            str = "魔力に限界値はない"
+        case 17:
+            str = "体力の最大値は50"
+        case 18:
+            str = "精神の最大値は50"
+        case 19:
+            str = "会心の一撃は相手の防御力を半分で計算"
+        case 20:
+            str = "会心の一撃は幸運が高いほど大ダメージ"
+        case 21:
+            str = "文無しの時に転職屋に行くと……"
+        case 22:
+            str = "「真の」の時に転職屋に行くと……"
+        case 23:
+            str = "ネバーギブアップ"
         default:
             str = "ぶひー！"
         }

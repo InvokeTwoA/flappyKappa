@@ -2,15 +2,16 @@ import SpriteKit
 class NoukinStageScene: PlayScene {
     
     override func setStageValue() {
-        _distance = 1200
+        _distance = 3000
     }
     
     // 敵を作成
     override func generateEnemy(){
         makeApple()
-        makeBlock(12)
-        makeSuperSlime(35)
-        makeSister(40)
+        makeBlock(13)
+        makeSuperSlime(15)
+        makeSkelton(20)
+        makeMetalSlime()
     }
     
     override func setFireBall(location: CGPoint){
