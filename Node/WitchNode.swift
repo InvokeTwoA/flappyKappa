@@ -7,7 +7,7 @@ class WitchNode: SKSpriteNode {
     let half_height = 16
     
     class func makeEnemy(danjon_type: String) -> WitchNode {
-        var enemy : WitchNode = WitchNode(imageNamed: "witch_32_32")
+        let enemy : WitchNode = WitchNode(imageNamed: "witch_32_32")
         let value : Int
         if danjon_type == "hard" {
             value = 3
@@ -47,7 +47,7 @@ class WitchNode: SKSpriteNode {
     
     // タイトルでただいるだけ
     class func makeDemo()-> WitchNode {
-        var enemy = WitchNode(imageNamed: "witch_32_32")
+        let enemy = WitchNode(imageNamed: "witch_32_32")
         enemy.zPosition = 999
         return enemy
     }

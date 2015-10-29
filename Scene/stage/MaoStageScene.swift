@@ -22,7 +22,7 @@ class MaoStageScene: PlayScene {
     }
     
     override func makeBoss(danjon_type : String){
-        var enemy = MaoNode.makeEnemy(_danjon_type)
+        let enemy = MaoNode.makeEnemy(_danjon_type)
         let point : CGPoint = CGPointMake(CGRectGetMaxX(self.frame) - CGFloat(enemy.half_height - 2), CGRectGetMidY(self.frame) - CGFloat(CommonConst.headerHeight + enemy.half_height))
         enemy.position = point
         enemy.name = "boss"
@@ -33,9 +33,9 @@ class MaoStageScene: PlayScene {
     }
     
     func worp(){
-        var mao : MaoNode? = childNodeWithName("boss") as? MaoNode
+        let mao : MaoNode? = childNodeWithName("boss") as? MaoNode
         if mao == nil {
-            print("mao not exist")
+            print("mao not exist", terminator: "")
             return
         }
 

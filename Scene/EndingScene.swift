@@ -37,49 +37,49 @@ class EndingScene: BaseScene {
     }
     
     func setFighter(){
-        var chara = FighterNode.makeDemo()
+        let chara = FighterNode.makeDemo()
         let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         chara.position = point
         self.addChild(chara)
     }
     
     func setWitch(){
-        var chara = WitchNode.makeDemo()
+        let chara = WitchNode.makeDemo()
         let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) - 40, y:CGRectGetMidY(self.frame))
         chara.position = point
         self.addChild(chara)
     }
     
     func setSister(){
-        var chara = SisterNode.makeDemo()
+        let chara = SisterNode.makeDemo()
         let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) + 40, y:CGRectGetMidY(self.frame))
         chara.position = point
         self.addChild(chara)
     }
     
     func setKnight(){
-        var chara = KnightNode.makeDemo()
+        let chara = KnightNode.makeDemo()
         let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) + 40, y:CGRectGetMidY(self.frame) - 50)
         chara.position = point
         self.addChild(chara)
     }
     
     func setSkelton(){
-        var chara = SkeltonNode.makeDemo()
+        let chara = SkeltonNode.makeDemo()
         let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) - 40, y:CGRectGetMidY(self.frame) - 50)
         chara.position = point
         self.addChild(chara)
     }
     
     func setMaou(){
-        var chara = MaoNode.makeDemo()
+        let chara = MaoNode.makeDemo()
         let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 50)
         chara.position = point
         self.addChild(chara)
     }
 
     func setBigKappa(){
-        var chara = FighterNode(imageNamed: "kappa_64_64")
+        let chara = FighterNode(imageNamed: "kappa_64_64")
         let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) + 100)
         chara.position = point
         self.addChild(chara)
@@ -87,21 +87,21 @@ class EndingScene: BaseScene {
 
     
     override func setKappa(){
-        var chara = FighterNode(imageNamed: "kappa_32_32")
+        let chara = FighterNode(imageNamed: "kappa_32_32")
         let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) - 50, y:CGRectGetMidY(self.frame) + 50)
         chara.position = point
         self.addChild(chara)
     }
 
     override func setSlimeDemo(){
-        var chara = FighterNode(imageNamed: "slime1")
+        let chara = FighterNode(imageNamed: "slime1")
         let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) + 50, y:CGRectGetMidY(self.frame) + 50)
         chara.position = point
         self.addChild(chara)
     }
     
     func setMetal(){
-        var chara = SKSpriteNode(imageNamed: "metal_slime")
+        let chara = SKSpriteNode(imageNamed: "metal_slime")
         let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 100)
         chara.position = point
         self.addChild(chara)
@@ -129,9 +129,9 @@ class EndingScene: BaseScene {
     }
     
     // タッチイベント
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as? UITouch
-        let location = touch!.locationInNode(self)
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first! as UITouch
+        let location = touch.locationInNode(self)
         let touchedNode = self.nodeAtPoint(location)
         if (touchedNode.name != nil) {
             checkTochEvent(touchedNode.name!)
@@ -170,9 +170,9 @@ class EndingScene: BaseScene {
     
     
     func changeTextField(sender: NSNotification) {
-        var textField = sender.object as! UITextField
-        var InputStr = textField.text
-        if count("\(InputStr)") <= 5 {
+        let textField = sender.object as! UITextField
+        let InputStr = textField.text
+        if "\(InputStr)".characters.count <= 5 {
             textField.enabled = true
         } else {
             textField.enabled = false
@@ -189,17 +189,17 @@ class EndingScene: BaseScene {
         let yesAction: UIAlertAction = UIAlertAction(title: "これが俺の名だ",
             style: UIAlertActionStyle.Default,
             handler:{
-                (action:UIAlertAction!) -> Void in
+                (action:UIAlertAction) -> Void in
                 // 入力したテキストを保存
-                let textField = alert.textFields![0] as! UITextField
-                CommonData.setData("name", value: textField.text)
+                let textField = alert.textFields![0] 
+                CommonData.setData("name", value: textField.text!)
                 CommonData.setData("story", value: 1)
                 self.goGameScene()
         })
         let cancelAction: UIAlertAction = UIAlertAction(title: "名乗りたくない",
             style: UIAlertActionStyle.Cancel,
             handler:{
-                (action:UIAlertAction!) -> Void in
+                (action:UIAlertAction) -> Void in
                 self.setDefaultName()
         })
         
@@ -226,7 +226,7 @@ class EndingScene: BaseScene {
         let yesAction: UIAlertAction = UIAlertAction(title: "わかったぜ",
             style: UIAlertActionStyle.Default,
             handler:{
-                (action:UIAlertAction!) -> Void in
+                (action:UIAlertAction) -> Void in
                 CommonData.setData("name", value: "イケメン")
                 CommonData.setData("story", value: 1)
                 self.goGameScene()

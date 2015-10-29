@@ -78,7 +78,6 @@ class WeaponSetting {
             let agi_max = CommonConst.agi_max
             name = "定価\(getCost(key_name))ゴールド\n\nとんでもなく早く動ける靴。\n\n スキル[縮地]\n戦闘中の敏捷が\(agi_max)になる。\n速すぎるので注意"
         case "hammer":
-            let agi_max = CommonConst.agi_max
             name = "定価\(getCost(key_name))ゴールド\n\n戦闘中の力が１あがる\n\nスキル[ブロック壊し]\nブロックを破壊できる"
         case "oretue":
             name = "戦闘中、知恵が５上がる"

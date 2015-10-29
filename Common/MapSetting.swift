@@ -57,7 +57,7 @@ class MapSetting {
         case "noukin":
             name = "脳筋ダンジョン"
         case "taiman":
-            name = "FEコロシアム"
+            name = "FE闘技場"
         case "maho":
             name = "魔法科中学校"
         case "kabe":
@@ -171,9 +171,9 @@ class MapSetting {
         case "taiman":
             name = "レア報酬：枝豆（知、精の成長up）"
         case "maho":
-            name = "LVが１になる"
+            name = "レア報酬：LVが１になる"
         case "kabe":
-            name = "聖シャインの剣"
+            name = "レア報酬：聖シャインの剣"
         case "kabe":
             name = "レア報酬などない"            
         default:

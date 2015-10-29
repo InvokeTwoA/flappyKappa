@@ -17,7 +17,6 @@ class Shop2WeaponScene: BaseScene {
         let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight * 2)
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight * 2)
         let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight * 2)
-        let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight * 2)
         setWeapon("habel", point_y: point_y1)
         setWeapon("kabuto", point_y: point_y2)
         setWeapon("golden",  point_y: point_y3)
@@ -31,9 +30,9 @@ class Shop2WeaponScene: BaseScene {
         if CommonData.getDataByInt("weapon_\(key_name)") == 0 {
             setCenterText(WeaponSetting.getName(key_name), key_name: "buy_\(key_name)", point_y: point_y)
             
-            var weapon_label :SKLabelNode? = childNodeWithName("buy_\(key_name)") as? SKLabelNode
+            let weapon_label :SKLabelNode? = childNodeWithName("buy_\(key_name)") as? SKLabelNode
             // はてなを表示
-            var hatena = SKSpriteNode(imageNamed: "hatena.gif")
+            let hatena = SKSpriteNode(imageNamed: "hatena.gif")
             hatena.name = "hatena_\(key_name)"
             hatena.position = CGPointMake(weapon_label!.position.x + CGFloat(weapon_label!.frame.width/2) + 30, point_y + 10)
             self.addChild(hatena)
@@ -87,7 +86,7 @@ class Shop2WeaponScene: BaseScene {
         let buyAction: UIAlertAction = UIAlertAction(title: "はい！",
             style: UIAlertActionStyle.Default,
             handler:{
-                (action:UIAlertAction!) -> Void in
+                (action:UIAlertAction) -> Void in
                 CommonData.setData(self._buy_name, value: 1)
                 CommonData.minus("gold", value: WeaponSetting.getCost(self._buy_name))
                 self.setMoney()
@@ -98,7 +97,7 @@ class Shop2WeaponScene: BaseScene {
         let cancelAction: UIAlertAction = UIAlertAction(title: "いらん",
             style: UIAlertActionStyle.Cancel,
             handler:{
-                (action:UIAlertAction!) -> Void in
+                (action:UIAlertAction) -> Void in
                 self.changeNickname("冷やかし", percent: 50)
         })
         

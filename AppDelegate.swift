@@ -9,9 +9,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        let localPlayer = GKLocalPlayer.localPlayer()
         
         /*
+        let localPlayer = GKLocalPlayer.localPlayer()
+
         // GameCenter機能は廃止
         localPlayer.authenticateHandler = {(loginVC, error) -> Void in
             if GKLocalPlayer.localPlayer().authenticated {

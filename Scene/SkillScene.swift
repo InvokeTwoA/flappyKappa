@@ -37,7 +37,7 @@ class SkillScene: BaseScene {
 
     func setSkill(point_y : CGFloat, name : String){
         let point = CGPointMake(CGRectGetMidX(self.frame), point_y)
-        var label : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
+        let label : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
         if(CommonData.getDataByInt("skill_\(name)") == 1) {
             label.text = SkillSetting.getName(name)
         } else {
@@ -48,7 +48,7 @@ class SkillScene: BaseScene {
         self.addChild(label)
         
         if(CommonData.getDataByInt("skill_\(name)") == 1) {
-            var hatena = SKSpriteNode(imageNamed: "hatena.gif")
+            let hatena = SKSpriteNode(imageNamed: "hatena.gif")
             hatena.name = "hatena_\(name)"
             hatena.position = CGPointMake(point.x + CGFloat(label.frame.width/2) + 30, point_y + 10)
             self.addChild(hatena)

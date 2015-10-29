@@ -6,7 +6,7 @@ class PriestNode: SKSpriteNode {
     let half_height :Int = 16
     
     class func makeEnemy(danjon_type: String) -> PriestNode {
-        var enemy : PriestNode = PriestNode(imageNamed: "sister_64_64")
+        let enemy : PriestNode = PriestNode(imageNamed: "sister_64_64")
         enemy.zPosition = 999
         var value : Int = 1
         if danjon_type == "hard" {

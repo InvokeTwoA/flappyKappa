@@ -9,7 +9,7 @@ class BlockNode: SKSpriteNode {
     class func makeBlock() -> BlockNode {
 //        var node : BlockNode = BlockNode(imageNamed: "block")
 //        var node : BlockNode = BlockNode(color: UIColor.yellowColor(), size: size)
-        var node : BlockNode = BlockNode(imageNamed: "block.png")
+        let node : BlockNode = BlockNode(imageNamed: "block.png")
         node.name = "block"
         node.setPhysic()
         node.zPosition = 3

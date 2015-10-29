@@ -16,7 +16,7 @@ class GolemStageScene: PlayScene {
     }
 
     override func makeBoss(danjon_type : String){
-        var enemy = GolemNode.makeEnemy(_danjon_type)
+        let enemy = GolemNode.makeEnemy(_danjon_type)
         let point : CGPoint = CGPointMake(CGRectGetMaxX(self.frame) - CGFloat(enemy.half_height - 2), CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + enemy.half_height))
         enemy.position = point
         _bossName = enemy.userData?.valueForKey("name") as! String

@@ -7,7 +7,7 @@ class SisterNode: SKSpriteNode {
     let half_height = 16
     
     class func makeEnemy(danjon_type : String) -> SisterNode {
-        var enemy : SisterNode = SisterNode(imageNamed: "sister_32_32")
+        let enemy : SisterNode = SisterNode(imageNamed: "sister_32_32")
         let value : Int
         if danjon_type == "hard" {
             value = 3
@@ -50,7 +50,7 @@ class SisterNode: SKSpriteNode {
     
     // タイトルでただいるだけ
     class func makeDemo()-> SisterNode {
-        var enemy = SisterNode(imageNamed: "sister_32_32")
+        let enemy = SisterNode(imageNamed: "sister_32_32")
         enemy.zPosition = 999
         return enemy
     }

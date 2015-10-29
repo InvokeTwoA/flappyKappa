@@ -6,7 +6,7 @@ class MaoNode: SKSpriteNode {
     let half_height :Int = 32
     
     class func makeEnemy(danjon_type: String) -> MaoNode {
-        var enemy : MaoNode = MaoNode(imageNamed: "maou_64_64")
+        let enemy : MaoNode = MaoNode(imageNamed: "maou_64_64")
         enemy.zPosition = 999
         var value : Int = 1
         if danjon_type == "hard" {
@@ -14,7 +14,7 @@ class MaoNode: SKSpriteNode {
         } else if danjon_type == "special" {
             value = 2
         }
-        var hp : Int =  CommonData.getDataByInt("day")*value
+        let hp : Int =  CommonData.getDataByInt("day")*value
         enemy.userData =
             [
                 "hp" : hp,
@@ -45,7 +45,7 @@ class MaoNode: SKSpriteNode {
     }
     
     class func makeDemo()-> MaoNode {
-        var enemy = MaoNode(imageNamed: "maou_32_32")
+        let enemy = MaoNode(imageNamed: "maou_32_32")
         enemy.zPosition = 999
         return enemy
     }

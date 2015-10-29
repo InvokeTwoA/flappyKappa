@@ -9,7 +9,7 @@ class GhostNode: SKSpriteNode {
     var _dx :Int = 36
     
     class func makeEnemy(danjon_type: String) -> GhostNode {
-        var enemy = GhostNode(imageNamed: "ghost")
+        let enemy = GhostNode(imageNamed: "ghost")
         
         enemy._dx = 36
         let value : Int
@@ -52,7 +52,7 @@ class GhostNode: SKSpriteNode {
     
     // タイトルでただフワフワしてるだけのスライム
     class func makeDemo()-> GhostNode {
-        var enemy = GhostNode(imageNamed: "ghost")
+        let enemy = GhostNode(imageNamed: "ghost")
         enemy.zPosition = 999
         
         let physic = SKPhysicsBody(rectangleOfSize: CGSizeMake(CGFloat(32), CGFloat(32)))

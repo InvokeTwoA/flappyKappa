@@ -13,7 +13,7 @@ class GolemNode: SKSpriteNode {
     
     class func makeEnemy(danjon_type: String) -> GolemNode {
 //        var enemy : GolemNode = GolemNode(imageNamed: "golem")
-                var enemy : GolemNode = GolemNode(imageNamed: "skelton_64_64")
+                let enemy : GolemNode = GolemNode(imageNamed: "skelton_64_64")
         enemy.zPosition = 999
         var value : Int = 1
         if danjon_type == "hard" {

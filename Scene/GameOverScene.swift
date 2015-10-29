@@ -17,9 +17,6 @@ class GameOverScene: BaseScene {
         let y3 = y2 - CGFloat(CommonConst.textBlankHeight*2)
         let y4 = y3 - CGFloat(CommonConst.textBlankHeight)
         let y5 = y4 - CGFloat(CommonConst.textBlankHeight*3)
-        let y6 = y5 - CGFloat(CommonConst.textBlankHeight)
-        let y7 = y6 - CGFloat(CommonConst.textBlankHeight)
-        let y8 = y7 - CGFloat(CommonConst.textBlankHeight)
         setCenterText("残念！　君の冒険は", key_name: "text1", point_y: y1)
         setCenterText("ここで終わってしまった。", key_name: "text1", point_y: y2)
 

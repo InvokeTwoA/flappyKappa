@@ -43,21 +43,21 @@ class MapPrepareScene: BaseScene {
         let normalAction: UIAlertAction = UIAlertAction(title: "普通の難易度で行く",
             style: UIAlertActionStyle.Default,
             handler:{
-                (action:UIAlertAction!) -> Void in
+                (action:UIAlertAction) -> Void in
                 self._danjon_type = "normal"
                 self.goNextScene()
         })
         let hardAction: UIAlertAction = UIAlertAction(title: "ハードモードで行くかな",
             style: UIAlertActionStyle.Default,
             handler:{
-                (action:UIAlertAction!) -> Void in
+                (action:UIAlertAction) -> Void in
                 self._danjon_type = "hard"
                 self.goNextScene()
         })
         let specialAction: UIAlertAction = UIAlertAction(title: "難易度カッパ級で行くぜ",
             style: UIAlertActionStyle.Default,
             handler:{
-                (action:UIAlertAction!) -> Void in
+                (action:UIAlertAction) -> Void in
                 self._danjon_type = "special"
                 self.goNextScene()
         })
@@ -72,7 +72,7 @@ class MapPrepareScene: BaseScene {
     
     func goNextScene(){
         CommonData.setData("danjon_type", value: _danjon_type)
-        var nextScene : SKScene = MapSetting.nextScene(self.frame.size)
+        let nextScene : SKScene = MapSetting.nextScene(self.frame.size)
         changeScene(nextScene, tr: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1))
     }
     

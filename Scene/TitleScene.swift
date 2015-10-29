@@ -10,7 +10,7 @@ class TitleScene: BaseScene {
         setBaseSetting()
         
         // キャラ設置
-        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:CGRectGetMaxY(self.frame) - 50)
+        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:CGRectGetMaxY(self.frame) - CGFloat(CommonConst.adHeight - 16))
         setGhostDemo(point)
         setFighter()
         setWitch()
@@ -36,21 +36,21 @@ class TitleScene: BaseScene {
     }
     
     func setFighter(){
-        var chara = FighterNode.makeDemo()
+        let chara = FighterNode.makeDemo()
         let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:CGRectGetMidY(self.frame))
         chara.position = point
         self.addChild(chara)
     }
     
     func setWitch(){
-        var chara = WitchNode.makeDemo()
+        let chara = WitchNode.makeDemo()
         let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 40, y:CGRectGetMidY(self.frame) +   70)
         chara.position = point
         self.addChild(chara)
     }
 
     func setSister(){
-        var chara = SisterNode.makeDemo()
+        let chara = SisterNode.makeDemo()
         let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:CGRectGetMidY(self.frame) +   140)
         chara.position = point
         self.addChild(chara)
@@ -58,28 +58,28 @@ class TitleScene: BaseScene {
 
     
     func setKnight(){
-        var chara = KnightNode.makeDemo()
+        let chara = KnightNode.makeDemo()
         let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 30, y:CGRectGetMinY(self.frame) +   140)
         chara.position = point
         self.addChild(chara)
     }
     
     func setSkelton(){
-        var chara = SkeltonNode.makeDemo()
+        let chara = SkeltonNode.makeDemo()
         let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:CGRectGetMinY(self.frame) + 100)
         chara.position = point
         self.addChild(chara)
     }
     
     func setMaou(){
-        var chara = MaoNode.makeDemo()
+        let chara = MaoNode.makeDemo()
         let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 40, y:CGRectGetMinY(self.frame) + 50)
         chara.position = point
         self.addChild(chara)
     }
     
     func setMetal(){
-        var chara = SKSpriteNode(imageNamed: "metal_slime")
+        let chara = SKSpriteNode(imageNamed: "metal_slime")
         let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 40, y:CGRectGetMidY(self.frame) - 50 )
         chara.position = point
         self.addChild(chara)
@@ -97,7 +97,7 @@ class TitleScene: BaseScene {
         let myLabel = SKLabelNode(fontNamed:CommonConst.font_bold)
         myLabel.text = "Kappa Saga";
         myLabel.fontSize = 32;
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - 100);
+        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - 130);
         self.addChild(myLabel)
     }
     
@@ -169,25 +169,25 @@ class TitleScene: BaseScene {
         let yesAction: UIAlertAction = UIAlertAction(title: "これが俺の名だ",
             style: UIAlertActionStyle.Default,
             handler:{
-                (action:UIAlertAction!) -> Void in
+                (action:UIAlertAction) -> Void in
                 // 入力したテキストを保存
-                let textField = alert.textFields![0] as! UITextField
+                let textField = alert.textFields![0] 
                 
                 var str = textField.text
                 if(str == ""){
                     str = "ツンデレ"
                 }
-                if count(str.utf16) > 4 {
-                    str = (str as NSString).substringToIndex(4)
+                if str!.utf16.count > 4 {
+                    str = (str! as NSString).substringToIndex(4)
                 }
-                CommonData.setData("name", value: str)
+                CommonData.setData("name", value: str!)
                 CommonData.setData("story", value: 1)
                 self.goGameScene()
         })
         let cancelAction: UIAlertAction = UIAlertAction(title: "名乗りたくない",
             style: UIAlertActionStyle.Cancel,
             handler:{
-                (action:UIAlertAction!) -> Void in
+                (action:UIAlertAction) -> Void in
                     self.setDefaultName()
         })
         
@@ -214,7 +214,7 @@ class TitleScene: BaseScene {
         let yesAction: UIAlertAction = UIAlertAction(title: "わかったぜ",
             style: UIAlertActionStyle.Default,
             handler:{
-                (action:UIAlertAction!) -> Void in
+                (action:UIAlertAction) -> Void in
                 CommonData.setData("name", value: "イケメン")
                 CommonData.setData("story", value: 1)
                 self.goGameScene()

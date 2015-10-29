@@ -6,7 +6,7 @@ class DragonNode: SKSpriteNode {
     let half_height :Int = 32
     
     class func makeEnemy() -> MaoNode {
-        var enemy : MaoNode = MaoNode(imageNamed: "g_fighter")
+        let enemy : MaoNode = MaoNode(imageNamed: "g_fighter")
         enemy.zPosition = 999
         enemy.userData =
             [
@@ -15,7 +15,6 @@ class DragonNode: SKSpriteNode {
                 "def": 50,
                 "mdef": 50,
                 "gold": 10000,
-                "score": 1000
         ]
         enemy.name = "boss"
         enemy.setPhysic()

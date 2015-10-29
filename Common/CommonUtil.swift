@@ -10,13 +10,12 @@ class CommonUtil {
         if(max <= 0){
             return 0
         }
-        var rand = Int(arc4random_uniform(UInt32(max)))
+        let rand = Int(arc4random_uniform(UInt32(max)))
         return rand
     }
 
     // 距離の表示
     class func displayDistance(distance : Int) -> String{
-        var res : String
         var distance_km : Int = 0
         var distance_m : Int = 0
         if(distance > 1000){
@@ -35,7 +34,7 @@ class CommonUtil {
     // お金の桁数表示（と年数表示）
     // 2,000,000 のように３桁ずつカンマで表示
     class func displayMoney(gold: Int) -> String {
-        var formatter = NSNumberFormatter()
+        let formatter = NSNumberFormatter()
         formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         formatter.groupingSeparator = ","
         formatter.groupingSize = 3
@@ -47,8 +46,8 @@ class CommonUtil {
             CommonData.setData("gold", value: 0)
         }
         // 年数の表示
-        var day = CommonData.getDataByInt("day")
-        var year : Int = (day/365) + 1
+        let day = CommonData.getDataByInt("day")
+        let year : Int = (day/365) + 1
         str = "カッパ歴\(year)年 \(day)日目  \(str)"
         return str
     }

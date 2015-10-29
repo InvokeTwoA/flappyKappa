@@ -31,7 +31,7 @@ class MugenStageScene: PlayScene {
     }
     
     override func makeBoss(danjon_type : String){
-        var enemy = MaoNode.makeEnemy(_danjon_type)
+        let enemy = MaoNode.makeEnemy(_danjon_type)
         let point : CGPoint = CGPointMake(CGRectGetMaxX(self.frame) - CGFloat(enemy.half_height - 2), CGRectGetMidY(self.frame) - CGFloat(CommonConst.headerHeight + enemy.half_height))
         enemy.position = point
         enemy.name = "maou"
@@ -41,7 +41,7 @@ class MugenStageScene: PlayScene {
     }
     
     func worp(){
-        var mao : MaoNode? = childNodeWithName("maou") as? MaoNode
+        let mao : MaoNode? = childNodeWithName("maou") as? MaoNode
         if mao == nil {
             return
         }
@@ -67,7 +67,7 @@ class MugenStageScene: PlayScene {
             return
         }
         
-        var enemy = GolemNode.makeEnemy(_danjon_type)
+        let enemy = GolemNode.makeEnemy(_danjon_type)
         let point : CGPoint = CGPointMake(CGRectGetMaxX(self.frame) - CGFloat(enemy.half_height - 2), CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + enemy.half_height))
         enemy.position = point
         self.addChild(enemy)
@@ -78,7 +78,7 @@ class MugenStageScene: PlayScene {
             return
         }
 
-        var enemy = BigSlimeNode.makeEnemy(_danjon_type)
+        let enemy = BigSlimeNode.makeEnemy(_danjon_type)
         let point : CGPoint = CGPointMake(CGRectGetMaxX(self.frame) - CGFloat(enemy.half_height - 2), CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + enemy.half_height))
         enemy.position = point
         self.addChild(enemy)
@@ -89,8 +89,6 @@ class MugenStageScene: PlayScene {
     override func beatEnemy(enemyNode: SKSpriteNode){
         let gold = enemyNode.userData?.valueForKey("gold") as! Int
         makeCoin(gold, location: CGPointMake(enemyNode.position.x, enemyNode.position.y))
-        let score = enemyNode.userData?.valueForKey("score") as! Int
-        scoreUp(score)
         
         // ゾンビ状態ならば HP を回復
         // FIXME レベルが上がるとHP吸収量が上がる？
@@ -108,7 +106,7 @@ class MugenStageScene: PlayScene {
             makeSpark(CGPointMake(enemyNode.position.x - 50, enemyNode.position.y + 50))
             makeSpark(CGPointMake(enemyNode.position.x + 50, enemyNode.position.y - 50))
             _boss_beat_flag = true
-            var timer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: Selector("setGameEndFlag"), userInfo: nil, repeats: false)
+            NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: Selector("setGameEndFlag"), userInfo: nil, repeats: false)
         }
         enemyNode.removeFromParent()
     }
@@ -118,7 +116,7 @@ class MugenStageScene: PlayScene {
         if(CommonUtil.rnd(100) > 5) {
             return
         }
-        var enemy = KnightNode.makeEnemy(_danjon_type)
+        let enemy = KnightNode.makeEnemy(_danjon_type)
         let point : CGPoint = CGPointMake(CGRectGetMaxX(self.frame) - CGFloat(enemy.half_height - 2), CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + enemy.half_height))
         enemy.position = point
         _bossName = enemy.userData?.valueForKey("name") as! String
@@ -129,7 +127,7 @@ class MugenStageScene: PlayScene {
         if(CommonUtil.rnd(100) > 5) {
             return
         }
-        var enemy = BossGhostNode.makeEnemy(_danjon_type)
+        let enemy = BossGhostNode.makeEnemy(_danjon_type)
         let point : CGPoint = CGPointMake(CGRectGetMaxX(self.frame) - CGFloat(enemy.half_height - 2), CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + enemy.half_height))
         enemy.position = point
         _bossName = enemy.userData?.valueForKey("name") as! String

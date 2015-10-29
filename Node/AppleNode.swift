@@ -5,7 +5,7 @@ class AppleNode: SKSpriteNode {
     let _height = 20
     
     class func makeApple() -> AppleNode {
-        var node : AppleNode = AppleNode(imageNamed: "apple")
+        let node : AppleNode = AppleNode(imageNamed: "apple")
         node.name = "apple"
         node.zPosition = 999
         node.setPhysic()

@@ -5,7 +5,7 @@ class CoinNode: SKSpriteNode {
     let _height = 20
     
     class func makeCoin(gold : Int) -> CoinNode {
-        var node : CoinNode = CoinNode(imageNamed: "coin")
+        let node : CoinNode = CoinNode(imageNamed: "coin")
         node.name = "coin"
         node.userData = ["gold" : gold]
         node.zPosition = 999
@@ -25,7 +25,7 @@ class CoinNode: SKSpriteNode {
         physic.friction = 0
         physic.restitution = 0.8
         
-        var rnd = CommonUtil.rnd(2)
+        let rnd = CommonUtil.rnd(2)
         if rnd == 0 {
             physic.velocity = CGVectorMake(CGFloat(CommonUtil.rnd(20)), 200)
         } else {

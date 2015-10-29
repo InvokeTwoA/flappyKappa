@@ -18,16 +18,16 @@ class CommonUI {
         let width : CGFloat
         let height : CGFloat = 30
         //print("文字の長さは \(text.utf16Count)\n")
-        if count(text.utf16) <= 5 {
+        if text.utf16.count <= 5 {
             width = 100
         } else {
             // 1文字16と考えて、文字超過分の幅を増やす
-            width = CGFloat(100+(count(text.utf16)-5)*16)
+            width = CGFloat(100+(text.utf16.count-5)*16)
         }
         size = CGSizeMake(width, 30)
 
         // ボタン枠組み（背景）
-        var background : SKSpriteNode = SKSpriteNode(color: UIColor.whiteColor(), size: size)
+        let background : SKSpriteNode = SKSpriteNode(color: UIColor.whiteColor(), size: size)
         background.position = point
         background.zPosition = 100
         background.name = name
@@ -43,7 +43,7 @@ class CommonUI {
         background.physicsBody = physic
 
         // ボタン
-        var button : SKLabelNode = SKLabelNode(fontNamed:CommonConst.font_regular)
+        let button : SKLabelNode = SKLabelNode(fontNamed:CommonConst.font_regular)
         button.text = text
         button.fontSize = 18
         button.position = CGPointMake(0, -button.frame.size.height/2+3);
@@ -56,7 +56,7 @@ class CommonUI {
     
     class func normalText(text: String, name: String, point: CGPoint) -> SKLabelNode {
         // ボタン
-        var button : SKLabelNode = SKLabelNode(fontNamed:CommonConst.font_regular)
+        let button : SKLabelNode = SKLabelNode(fontNamed:CommonConst.font_regular)
         button.text = text
         button.fontSize = 18
         button.position = point;
@@ -84,8 +84,8 @@ class CommonUI {
     }    
     
     class func setHp() -> SKLabelNode {
-        var hp : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
-        var hp_value : Int = CommonData.getDataByInt("hp")
+        let hp : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
+        let hp_value : Int = CommonData.getDataByInt("hp")
         hp.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
         hp.text = "\(hp_value)"
         hp.fontSize = 18

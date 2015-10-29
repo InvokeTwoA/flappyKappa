@@ -10,8 +10,6 @@ class MajanScene: BaseScene {
         let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight*2)
-        let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight*2)
-        let point_y6 : CGFloat = point_y5 - CGFloat(CommonConst.textBlankHeight*2)
         
         setCenterText("ざわ……ざわ……", key_name: "hoge", point_y: point_y1)
         setCenterText("勝てば所持金は２倍。負ければ文無し。", key_name: "hoge", point_y: point_y2)
@@ -40,7 +38,7 @@ class MajanScene: BaseScene {
                 let buyAction: UIAlertAction = UIAlertAction(title: "にやり",
                     style: UIAlertActionStyle.Default,
                     handler:{
-                        (action:UIAlertAction!) -> Void in
+                        (action:UIAlertAction) -> Void in
                         self.dayPast()
                         var gold = CommonData.getDataByInt("gold")
                         gold *= 2
@@ -60,7 +58,7 @@ class MajanScene: BaseScene {
                 let buyAction: UIAlertAction = UIAlertAction(title: "そ、そんなー！",
                     style: UIAlertActionStyle.Default,
                     handler:{
-                        (action:UIAlertAction!) -> Void in
+                        (action:UIAlertAction) -> Void in
                         self.dayPast()
                         CommonData.setData("gold", value: 0)
                         self.reloadScene()
@@ -77,7 +75,7 @@ class MajanScene: BaseScene {
         if _gold < 1000 {
             showAlert("お金が足りないよ", text: "村の発展には1000ゴールド必要です", ok_text: "しょんぼり")
         } else {
-            print("hoge name=\(key_name)")
+            print("hoge name=\(key_name)", terminator: "")
             CommonData.plus(key_name, value: 1)
             CommonData.minus("gold", value: 1000)
             reloadScene()

@@ -23,7 +23,7 @@ class EquipScene: BaseScene {
     }
     
     func setWeapon(key_name: String, point_y: CGFloat){
-        var weapon_label : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
+        let weapon_label : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
         weapon_label.position = CGPointMake(120, point_y)
         weapon_label.fontSize = CGFloat(CommonConst.font_size_normal)
         
@@ -45,7 +45,7 @@ class EquipScene: BaseScene {
             self.addChild(weapon_label)
             
             // はてなを表示
-            var hatena = SKSpriteNode(imageNamed: "hatena.gif")
+            let hatena = SKSpriteNode(imageNamed: "hatena.gif")
             hatena.name = "hatena_\(key_name)"
             hatena.position = CGPointMake(weapon_label.position.x + CGFloat(weapon_label.frame.width/2) + 30, point_y + 10)
             self.addChild(hatena)

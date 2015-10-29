@@ -14,7 +14,7 @@ class GameScene: BaseScene {
     }
     
     func setKapppaNomi(){
-        var kappa : SKSpriteNode = SKSpriteNode(imageNamed: "kappa_nomikai")
+        let kappa : SKSpriteNode = SKSpriteNode(imageNamed: "kappa_nomikai")
         let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) + 100)
         kappa.position = point
         self.addChild(kappa)

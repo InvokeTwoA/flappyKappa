@@ -7,7 +7,7 @@ class BigSlimeNode: SKSpriteNode {
     let half_height :Int = 100
 
     class func makeEnemy(danjon_type : String) -> BigSlimeNode {
-        var enemy : BigSlimeNode = BigSlimeNode(imageNamed: "big_slime")
+        let enemy : BigSlimeNode = BigSlimeNode(imageNamed: "big_slime")
         enemy.zPosition = 999
         var value : Int = 1
         if danjon_type == "hard" {
@@ -22,7 +22,6 @@ class BigSlimeNode: SKSpriteNode {
                 "def": 2,
                 "mdef": 10,
                 "gold": 10,
-                "score": 10,
                 "name" : "巨大スライム"
             ]
         enemy.name = "boss"

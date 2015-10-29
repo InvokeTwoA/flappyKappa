@@ -9,14 +9,14 @@ struct GKLocalPlayerUtil {
         self.localPlayer.authenticateHandler = {(viewController, error) -> Void in
             
             if ((viewController) != nil) {
-                println("ログイン確認処理：失敗-ログイン画面を表示");
-                target.presentViewController(viewController, animated: true, completion: nil);
+                print("ログイン確認処理：失敗-ログイン画面を表示");
+                target.presentViewController(viewController!, animated: true, completion: nil);
             }else{
-                println("ログイン確認処理：成功");
+                print("ログイン確認処理：成功");
                 if (error == nil){
-                    println("ログイン認証：成功");
+                    print("ログイン認証：成功");
                 }else{
-                    println("ログイン認証：失敗");
+                    print("ログイン認証：失敗");
                 }
             }
         }

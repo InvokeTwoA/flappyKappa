@@ -2,7 +2,7 @@ import SpriteKit
 
 class KappaNode: SKSpriteNode {    
     class func makeKappa() -> KappaNode {
-        var kappa : KappaNode = KappaNode(imageNamed: "kappa_32_32")
+        let kappa : KappaNode = KappaNode(imageNamed: "kappa_32_32")
         kappa.name = "kappa"
         return kappa
     }
@@ -22,7 +22,7 @@ class KappaNode: SKSpriteNode {
     
     
     class func makeBigKappa() -> KappaNode {
-        var kappa : KappaNode = KappaNode(imageNamed: "kappa_64_64")
+        let kappa : KappaNode = KappaNode(imageNamed: "kappa_64_64")
         kappa.name = "kappa"
         return kappa
     }

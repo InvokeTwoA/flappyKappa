@@ -9,7 +9,7 @@ class SlimeNode: SKSpriteNode {
     var _dx :Int = 36
 
     class func makeEnemy(danjon_type : String) -> SlimeNode {
-        var enemy = SlimeAnimateNode()
+        let enemy = SlimeAnimateNode()
         
         enemy._dx = 36
         
@@ -36,7 +36,7 @@ class SlimeNode: SKSpriteNode {
     }
     
     class func makeSuperEnemy(danjon_type: String) -> SlimeNode {
-        var enemy : SlimeNode = SlimeNode(imageNamed: "green_slime")
+        let enemy : SlimeNode = SlimeNode(imageNamed: "green_slime")
         enemy._dx = 95
         let value : Int
         if danjon_type == "hard" {
@@ -63,7 +63,7 @@ class SlimeNode: SKSpriteNode {
     }
 
     class func makeMetalEnemy(danjon_type: String) -> SlimeNode {
-        var enemy : SlimeNode = SlimeNode(imageNamed: "metal_slime")
+        let enemy : SlimeNode = SlimeNode(imageNamed: "metal_slime")
         enemy._dx = 200
         let value : Int
         if danjon_type == "hard" {
@@ -107,14 +107,14 @@ class SlimeNode: SKSpriteNode {
         let s1 : SKTexture = SKTexture(imageNamed: "slime1")
         let s2 : SKTexture = SKTexture(imageNamed: "slime2")
         let action = SKAction.animateWithTextures([s1, s2], timePerFrame: 1.00)
-        var enemy : SlimeNode = SlimeNode(imageNamed: "slime1")
+        let enemy : SlimeNode = SlimeNode(imageNamed: "slime1")
         enemy.runAction(SKAction.repeatActionForever(action))
         return enemy
     }
     
     // タイトルでただフワフワしてるだけのスライム
     class func makeDemo()-> SlimeNode {
-        var enemy = SlimeAnimateNode()
+        let enemy = SlimeAnimateNode()
         enemy.name = "slime"
         enemy.zPosition = 999
         let physic = SKPhysicsBody(rectangleOfSize: CGSizeMake(CGFloat(32), CGFloat(32)))

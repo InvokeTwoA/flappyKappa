@@ -7,7 +7,7 @@ class SkeltonNode: SKSpriteNode {
     let _height = 32
     
     class func makeEnemy(danjon_type : String) -> SkeltonNode {
-        var enemy : SkeltonNode = SkeltonNode(imageNamed: "skelton_32_32")
+        let enemy : SkeltonNode = SkeltonNode(imageNamed: "skelton_32_32")
         let value : Int
         if danjon_type == "hard" {
             value = 3
@@ -48,7 +48,7 @@ class SkeltonNode: SKSpriteNode {
     
     // タイトルでただいるだけ
     class func makeDemo()-> WitchNode {
-        var enemy = WitchNode(imageNamed: "skelton_32_32")
+        let enemy = WitchNode(imageNamed: "skelton_32_32")
         enemy.zPosition = 999
         return enemy
     }

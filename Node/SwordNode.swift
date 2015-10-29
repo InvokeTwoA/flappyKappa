@@ -3,7 +3,7 @@ import SpriteKit
 class SwordNode: SKSpriteNode {
     
     class func makeSword() -> SwordNode {
-        var node : SwordNode = SwordNode(imageNamed: "sword")
+        let node : SwordNode = SwordNode(imageNamed: "sword")
         node.name = "sword"
         node.zPosition = 999
 

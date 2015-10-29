@@ -7,7 +7,7 @@ class FighterNode: SKSpriteNode {
     let half_height = 16
     
     class func makeEnemy(danjon_type : String) -> FighterNode {
-        var enemy : FighterNode = FighterNode(imageNamed: "g_fighter")
+        let enemy : FighterNode = FighterNode(imageNamed: "g_fighter")
         let value : Int
         if danjon_type == "hard" {
             value = 3
@@ -22,7 +22,6 @@ class FighterNode: SKSpriteNode {
                 "str" : 3,
                 "def": 2,
                 "gold": 4,
-                "score": 20,
                 "name" : "女戦士"
         ]
         enemy.name = "enemy"
@@ -47,7 +46,7 @@ class FighterNode: SKSpriteNode {
     
     // タイトルでただいるだけ
     class func makeDemo()-> FighterNode {
-        var enemy = FighterNode(imageNamed: "g_fighter")
+        let enemy = FighterNode(imageNamed: "g_fighter")
         enemy.zPosition = 999
         return enemy
     }

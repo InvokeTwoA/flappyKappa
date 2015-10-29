@@ -36,7 +36,7 @@ class WorkScene: BaseScene {
     }
     
     func callSlime(){
-        var slime : SlimeNode? = childNodeWithName("slime") as? SlimeNode
+        let slime : SlimeNode? = childNodeWithName("slime") as? SlimeNode
         let rnd = CommonUtil.rnd(2)
         var point_x = CGRectGetMinX(self.frame) + 50
         if(rnd == 0){
@@ -70,7 +70,7 @@ class WorkScene: BaseScene {
         let buyAction: UIAlertAction = UIAlertAction(title: "失礼しまーす",
             style: UIAlertActionStyle.Default,
             handler:{
-                (action:UIAlertAction!) -> Void in
+                (action:UIAlertAction) -> Void in
                 CommonData.plus("gold", value: self._hit*self._hit*2)
                 self.setMoney()
                 self.goShopScene()
@@ -111,8 +111,6 @@ class WorkScene: BaseScene {
         if (firstBody.categoryBitMask & enemyCategory != 0 ) {
             if secondBody.categoryBitMask & blockCategory != 0 {
                 _hit += 1
-                let dx = -3 + CommonUtil.rnd(7)
-                
                 secondBody.applyImpulse(CGVectorMake(-1,0))
                 updateHit()
             }
@@ -120,7 +118,7 @@ class WorkScene: BaseScene {
     }
     
     func updateHit(){
-        var label : SKLabelNode? = childNodeWithName("hit") as? SKLabelNode
+        let label : SKLabelNode? = childNodeWithName("hit") as? SKLabelNode
         label?.text = "ゴーストに当てた数：\(_hit)"
         label?.zPosition = 3
     }

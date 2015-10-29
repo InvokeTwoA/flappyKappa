@@ -20,26 +20,26 @@ class JobBaseScene: BaseScene {
         self.backgroundColor = UIColor(red:0.0,green:0.5,blue:1.0,alpha:1.0)
         setBaseSetting()
         
-        var titleLabel : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_bold)
+        let titleLabel : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_bold)
         titleLabel.text = _job_name
         let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight))
         titleLabel.position = point
         self.addChild(titleLabel)
         
-        var explainLabel : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
+        let explainLabel : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
         explainLabel.text = "スキル: [\(_skill_name)] "
         explainLabel.fontSize = 18
         let point2 : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:point.y - CGFloat(CommonConst.textBlankHeight))
         explainLabel.position = point2
         self.addChild(explainLabel)
         
-        var hatenaBox = SKSpriteNode(imageNamed: "hatena.gif")
+        let hatenaBox = SKSpriteNode(imageNamed: "hatena.gif")
         hatenaBox.name = "hatena"
         hatenaBox.position = CGPointMake(point2.x + CGFloat(explainLabel.frame.width/2) + 30, point2.y + 10)
         self.addChild(hatenaBox)
         
         /** 成長率 **/
-        var label : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
+        let label : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
         label.text = "成長率"
         label.fontSize = 18
         let point3 : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:point2.y - CGFloat(CommonConst.textBlankHeight*2))
@@ -65,7 +65,7 @@ class JobBaseScene: BaseScene {
     }
     
     func showStatus(text : String, value : Int, point_y: CGFloat){
-        var label : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
+        let label : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
         label.text = "\(text) : \(value)"
         label.fontSize = 18
         label.position = CGPointMake(CGRectGetMidX(self.frame), point_y)
@@ -136,14 +136,14 @@ class JobBaseScene: BaseScene {
         let cancelAction: UIAlertAction = UIAlertAction(title: "やっぱやめた。",
             style: UIAlertActionStyle.Cancel,
             handler:{
-                (action:UIAlertAction!) -> Void in
+                (action:UIAlertAction) -> Void in
         })
         
         // Default 複数指定可
         let defaultAction: UIAlertAction = UIAlertAction(title: "転職するぜ！",
             style: UIAlertActionStyle.Default,
             handler:{
-                (action:UIAlertAction!) -> Void in
+                (action:UIAlertAction) -> Void in
                 CommonData.forgetSkill()
                 self.setJobSkill()
                 self.changeStatus()

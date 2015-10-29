@@ -5,8 +5,8 @@ import AVFoundation
 extension SKNode {
     class func unarchiveFromFile(file : String) -> SKNode? {
         if let path = NSBundle.mainBundle().pathForResource(file, ofType: "sks") {
-            var sceneData = NSData(contentsOfFile: path, options: .DataReadingMappedIfSafe, error: nil)!
-            var archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
+            let sceneData = try! NSData(contentsOfFile: path, options: .DataReadingMappedIfSafe)
+            let archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
             
             archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
             let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as! TitleScene
@@ -20,7 +20,8 @@ extension SKNode {
 
 class GameViewController: UIViewController, NADViewDelegate, AVAudioPlayerDelegate  {
 
-    var nadView: NADView!
+//    var nadView: NADView!
+    private var nadView: NADView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,8 +32,23 @@ class GameViewController: UIViewController, NADViewDelegate, AVAudioPlayerDelega
         //skView.showsPhysics = true
         skView.ignoresSiblingOrder = true
 
+        showAd()
         showTitleScene()
     }
+    
+    func showAd() {
+        nadView = NADView(frame: CGRect(x: 0, y: 0, width: 320, height: CommonConst.adHeight))
+        nadView.setNendID(CommonConst.adKey, spotID: CommonConst.adSpot)
+        nadView.isOutputLog = false
+        nadView.delegate = self
+        nadView.load()
+        self.view?.addSubview(nadView)
+    }
+    
+    func nadViewDidFinishLoad(adView: NADView!) {
+    }
+    
+    
     
     // タイトル画面へ移動
     func showTitleScene(){
@@ -46,11 +62,11 @@ class GameViewController: UIViewController, NADViewDelegate, AVAudioPlayerDelega
         return false
     }
 
-    override func supportedInterfaceOrientations() -> Int {
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
+            return UIInterfaceOrientationMask.AllButUpsideDown
         } else {
-            return Int(UIInterfaceOrientationMask.All.rawValue)
+            return UIInterfaceOrientationMask.All
         }
     }
 

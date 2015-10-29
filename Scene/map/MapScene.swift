@@ -11,7 +11,6 @@ class MapScene: BaseScene {
         let point_y4 = point_y3 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y5 = point_y4 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y6 = point_y5 - CGFloat(CommonConst.textBlankHeight*2)
-        let point_y7 = point_y6 - CGFloat(CommonConst.textBlankHeight*2)
         
         setCenterButton("スライムの洞窟",   key_name: "slime",     point_y: point_y1)
         setCenterButton("スカーフ山",      key_name: "tanuki",     point_y: point_y2)
