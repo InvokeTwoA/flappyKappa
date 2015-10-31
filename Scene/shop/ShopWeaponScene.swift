@@ -111,7 +111,8 @@ class ShopWeaponScene: BaseScene {
 
     func reloadScene(){
         let secondScene = ShopWeaponScene(size: self.frame.size)
-        changeSceneWithoutTr(secondScene)
+        let tr = SKTransition.flipHorizontalWithDuration(1)
+        changeScene(secondScene, tr: tr)
     }
 
     func goNextScene(){

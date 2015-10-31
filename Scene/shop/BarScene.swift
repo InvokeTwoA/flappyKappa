@@ -244,9 +244,9 @@ class BarScene: BaseScene {
     
     func talkKawaii(){
         if (CommonData.getDataByInt("story") == 1)  {
-            showAlert("どうか……", text:"どうか魔王を倒してください\n\n(´；ω；｀)", ok_text: "俺に任せな")
+            showAlert("冴えないカッパね", text:"気安く話しかけないでくれる？", ok_text: "しょんぼり　(´・ω・｀)")
         } else {
-            showAlert("魔王を倒してくれてありがとう！", text:"あなたこそが真の勇者です！\n\n( ＾ω＾)", ok_text: "照れるぜ")
+            showAlert("きゃー、素敵！", text:"あなたこそがカッパの中のカッパ！\n\nカッパ・オブ・カッパだわ！", ok_text: "照れるぜ")
         }
     }
     

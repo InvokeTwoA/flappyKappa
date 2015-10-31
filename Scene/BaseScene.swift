@@ -22,6 +22,8 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     
     var _danjon_type :String = CommonData.getDataByString("danjon_type")
     
+    var _kappa : KappaNode = KappaNode.makeKappa()
+    
     // お金の初期値を設定
     func setMoney(){
         _gold = CommonData.getDataByInt("gold")
@@ -49,15 +51,7 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         background.zPosition = 90
         background.name = "header_status"
         background.physicsBody = CommonUI.setWorldPhysic(size)
-/*
-        let rnd_text : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
-        rnd_text.text = CommonUtil.randomHint()
-        rnd_text.fontSize = 18
-        rnd_text.position = CGPointMake(0, 20)
-        rnd_text.fontColor = UIColor.whiteColor()
-        rnd_text.name = "rnd_text"
-        background.addChild(rnd_text)
-*/        
+
         // 異名を表示
         let name : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
         name.text = CommonUI.displayName()
@@ -87,6 +81,12 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
 */
     }
     
+    func updateGoldText(){
+        let gold : SKLabelNode = childNodeWithName("header_status")?.childNodeWithName("gold_label") as! SKLabelNode
+        let gold_value : Int = CommonData.getDataByInt("gold")
+        gold.text = CommonUtil.displayMoney(gold_value)
+    }
+        
     func dayPast(){
         CommonData.dayPast()
     }
@@ -104,18 +104,16 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     
     // カッパを描画
     func setKappa() {
-        var kappa : KappaNode;
         if _equip == "soul" {
-            kappa = KappaNode.makeBigKappa()
-            kappa.setBigPhysic()
+            _kappa = KappaNode.makeBigKappa()
+            _kappa.setBigPhysic()
         } else {
-            kappa = KappaNode.makeKappa()
-            kappa.setPhysic()
+            _kappa = KappaNode.makeKappa()
+            _kappa.setPhysic()
         }
         let point : CGPoint = CGPoint(x:CGRectGetMinX(self.frame) + 50, y:CGRectGetMidY(self.frame))
-        kappa.position = point
-        
-        self.addChild(kappa)
+        _kappa.position = point
+        self.addChild(_kappa)
         
         // 地面も描画
         let point2 : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y: CGRectGetMinY(self.frame))
@@ -139,12 +137,9 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         }
     }
     
-    func kappaJump(){
+    func kappaJump(kappa : KappaNode){
         let jump : CGFloat = CGFloat(400+_agi)
-        
-        // カッパを飛ばす
-        let kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
-        kappa?.physicsBody?.velocity = CGVectorMake(0, jump)
+        kappa.physicsBody!.velocity = CGVectorMake(0, jump)
     }
 
     // 右と左の画面は時に薄い壁を設定
@@ -155,7 +150,7 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         physic.affectedByGravity = false
         physic.allowsRotation = false
         physic.dynamic = false
-        physic.categoryBitMask = horizonWorldCategory
+        physic.categoryBitMask = horizonWorldCategory | leftHorizonWorldCategory
         let background : SKSpriteNode = SKSpriteNode(color: UIColor.blackColor(), size: size)
         background.position = point
         background.zPosition = 100
@@ -189,13 +184,11 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     }
     
     func swipeRight(gesture: UISwipeGestureRecognizer){
-        let kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
-        kappa?.physicsBody?.applyImpulse(CGVectorMake(CGFloat(_agi), 0))
+        _kappa.physicsBody?.applyImpulse(CGVectorMake(CGFloat(_agi), 0))
     }
     
     func swipeLeft(gesture: UISwipeGestureRecognizer){
-        let kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
-        kappa?.physicsBody?.applyImpulse(CGVectorMake(CGFloat(-1*_agi), 0))
+        _kappa.physicsBody?.applyImpulse(CGVectorMake(CGFloat(-1*_agi), 0))
     }
     
     // 画面遷移前など、所持金を記録
@@ -226,14 +219,17 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         let startButton: SKLabelNode = CommonUI.normalText(text, name: key_name, point: point)
         self.addChild(startButton)
     }
-
-    func setPicture(path : String){
-        let kappa : SKSpriteNode = SKSpriteNode(imageNamed: path)
-        let point : CGPoint = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight * 2 + 80))
-        kappa.position = point
-        self.addChild(kappa)
-    }
     
+    func setPicture(path: String, key_name: String, point_y : CGFloat){
+        let point : CGPoint = CGPoint(x:CGRectGetMinX(self.frame) + 100, y:point_y)
+//        let startButton: SKLabelNode = CommonUI.normalText(text, name: key_name, point: point)
+        let picture = SKSpriteNode(imageNamed: path)
+        picture.name = key_name
+        picture.position = point
+        self.addChild(picture)
+    }
+
+
     // 確率で異名を変更
     func changeNickname(nickname :String, percent : Int){
         if CommonUtil.rnd(100) < percent {
@@ -255,23 +251,7 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         secondScene.scaleMode = SKSceneScaleMode.AspectFill
         skView.presentScene(secondScene, transition: tr)
     }
-    
-    func changeSceneWithLongDuration(secondScene: SKScene, tr : SKTransition, duration : NSTimeInterval = 1.0){
-        saveMoney()
-        let skView = self.view! as SKView
-        secondScene.scaleMode = SKSceneScaleMode.AspectFill
-        skView.presentScene(secondScene, transition: tr)
-    }
-    
-    func changeSceneWithoutTr(secondScene: SKScene){
-//        CommonData.setData("adTime", value: 0.0)
-        saveMoney()
-        let skView = self.view! as SKView
-        CommonData.setData("adTime", value: 0.1)
-        secondScene.scaleMode = SKSceneScaleMode.AspectFill
-        skView.presentScene(secondScene)
-    }    
-    
+        
     func setSlimeDemo(){
         let slime = SlimeNode.makeDemo()
         let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) + 10, y:CGRectGetMidY(self.frame) + 50)
@@ -289,9 +269,15 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         if (touchedNode.name != nil) {
             checkTochEvent(touchedNode.name!)
         }
-        kappaJump()
+        
+        // カッパを飛ばす
+        if (_kappa.parent == nil) {
+            return
+        }
+        let from = _kappa.position
+        kappaJump(_kappa)
         setBattleTap()
-        setSword(location)
+        setSword(from, to: location)
     }
     
     func setBattleTap(){
@@ -299,9 +285,7 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     }
     
     // 剣を作成。
-    func setSword(to: CGPoint){
-        let kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
-        let from = kappa!.position
+    func setSword(from: CGPoint, to: CGPoint){
         let sword : SwordNode = SwordNode.makeSword()
         if isCritical() {
             sword.physicsBody?.allowsRotation = true
@@ -351,6 +335,9 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         let particle = SparkEmitterNode.makeSpark("Spark")
         particle.position = location!
         particle.zPosition = 1
+        
+        let fade : SKAction = SKAction.fadeOutWithDuration(4)
+        particle.runAction(fade)        
         self.addChild(particle)
     }
 

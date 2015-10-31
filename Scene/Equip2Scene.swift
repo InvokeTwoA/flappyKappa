@@ -63,8 +63,8 @@ class Equip2Scene: BaseScene {
         } else if name == "nothing" {
             CommonData.setData("equip_weapon", value: "何もなし")
             let secondScene = Equip2Scene(size: self.frame.size)
-            changeSceneWithoutTr(secondScene)
-        
+            let tr = SKTransition.flipHorizontalWithDuration(1)
+            changeScene(secondScene, tr: tr)
         } else if name == "hatena_oretue" {
             showAlert(WeaponSetting.getName("oretue"), text: WeaponSetting.getExplain("oretue"), ok_text: "なるほどねー")
         } else if name == "hatena_juryoku" {
@@ -76,19 +76,23 @@ class Equip2Scene: BaseScene {
         } else if name == "equip_oretue" {
             CommonData.setData("equip_weapon", value: "oretue")
             let secondScene = Equip2Scene(size: self.frame.size)
-            changeSceneWithoutTr(secondScene)
+            let tr = SKTransition.flipHorizontalWithDuration(1)
+            changeScene(secondScene, tr: tr)
         } else if name == "equip_soul" {
             CommonData.setData("equip_weapon", value: "soul")
             let secondScene = Equip2Scene(size: self.frame.size)
-            changeSceneWithoutTr(secondScene)
+            let tr = SKTransition.flipHorizontalWithDuration(1)
+            changeScene(secondScene, tr: tr)
         } else if name == "equip_juryoku" {
             CommonData.setData("equip_weapon", value: "juryoku")
             let secondScene = Equip2Scene(size: self.frame.size)
-            changeSceneWithoutTr(secondScene)
+            let tr = SKTransition.flipHorizontalWithDuration(1)
+            changeScene(secondScene, tr: tr)
         } else if name == "equip_shine" {
             CommonData.setData("equip_weapon", value: "shine")
             let secondScene = Equip2Scene(size: self.frame.size)
-            changeSceneWithoutTr(secondScene)
+            let tr = SKTransition.flipHorizontalWithDuration(1)
+            changeScene(secondScene, tr: tr)
         }
     }
     
@@ -103,7 +107,7 @@ class Equip2Scene: BaseScene {
     func goGameSceneWithClose(){
         let secondScene = GameScene(size: self.frame.size)
         let tr = SKTransition.doorsCloseHorizontalWithDuration(1)
-        changeSceneWithLongDuration(secondScene, tr: tr)
+        changeScene(secondScene, tr: tr)
     }
     
     override func update(currentTime: CFTimeInterval) {

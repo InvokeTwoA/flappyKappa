@@ -7,45 +7,20 @@ class GameScene: BaseScene {
     
     override func didMoveToView(view: SKView) {
         setBaseSetting()
-        setShopButton()
-        setAdventureButton()
-        setStatusButton()
-        setEquipButton()
-    }
-    
-    func setKapppaNomi(){
-        let kappa : SKSpriteNode = SKSpriteNode(imageNamed: "kappa_nomikai")
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) + 100)
-        kappa.position = point
-        self.addChild(kappa)
-    }
 
-    // 冒険ボタンを設置
-    func setAdventureButton() {
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - CGFloat(CommonConst.textBlankHeight))
-        let startButton: SKSpriteNode = CommonUI.normalButton("冒険する", name: "adventure", point: point)
-        self.addChild(startButton)
-    }
-    
-    //「街に行く」ボタンを設置
-    func setShopButton() {
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - CGFloat(CommonConst.textBlankHeight*3))
-        let startButton: SKSpriteNode = CommonUI.normalButton("街にでかける", name: "shop", point: point)
-        self.addChild(startButton)
-    }
+        
+        let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*2)
+        let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight*3)
+        let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight*3)
+        let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight*3)
+        let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight*3)
+        
 
-    // ステータス画面へ遷移するボタンを設置
-    func setStatusButton() {
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)  - CGFloat(CommonConst.textBlankHeight*5))
-        let startButton: SKSpriteNode = CommonUI.normalButton("人生を見直す", name: "status", point: point)
-        self.addChild(startButton)
-    }
-    
-    // 装備画面へ遷移するボタンを設置
-    func setEquipButton() {
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)  - CGFloat(CommonConst.textBlankHeight*7))
-        let startButton: SKSpriteNode = CommonUI.normalButton("装備を整える", name: "equip", point: point)
-        self.addChild(startButton)
+        setPicture("miku_32_32", key_name: "miku", point_y: point_y1)
+        setButton("冒険する",     key_name: "adventure", point_y:  point_y2)
+        setButton("街に出かける",  key_name: "shop", point_y:  point_y3)
+        setButton("人生を見直す",  key_name: "status", point_y:  point_y4)
+        setButton("装備を整える",  key_name: "equip", point_y:  point_y5)
     }
 
     // タッチイベント
@@ -58,6 +33,8 @@ class GameScene: BaseScene {
             goStatus()
         } else if name == "equip" {
             goEquip()
+        } else if name == "miku" {
+            talkMiku()
         }
     }
     
@@ -65,7 +42,7 @@ class GameScene: BaseScene {
     func goAdventure(){
         let secondScene = MapScene(size: self.frame.size)
         let tr = SKTransition.flipVerticalWithDuration(1)
-        changeSceneWithLongDuration(secondScene, tr: tr)
+        changeScene(secondScene, tr: tr)
     }
     
     // 街画面へ
@@ -79,14 +56,22 @@ class GameScene: BaseScene {
     func goStatus(){
         let secondScene = StatusScene(size: self.frame.size)
         let tr = SKTransition.doorsOpenHorizontalWithDuration(1)
-        changeSceneWithLongDuration(secondScene, tr: tr)
+        changeScene(secondScene, tr: tr)
     }
 
     // 装備画面へ
     func goEquip(){
         let secondScene = EquipScene(size: self.frame.size)
         let tr = SKTransition.doorsOpenHorizontalWithDuration(1)
-        changeSceneWithLongDuration(secondScene, tr: tr)
+        changeScene(secondScene, tr: tr)
+    }
+    
+    func talkMiku(){
+        if (CommonData.getDataByInt("story") == 1)  {
+            showAlert("世を憂う少女", text:"世界は闇に支配されています。\n(背景描くのが面倒だった訳ではないんです。魔王の仕業です)\n\nどうか魔王を倒してください\n\n(´；ω；｀)\n\n", ok_text: "俺に任せな")
+        } else {
+            showAlert("魔王を倒してくれてありがとう！", text:"あなたこそが真の勇者です！\n\n( ＾ω＾)", ok_text: "照れるぜ")
+        }
     }
     
     

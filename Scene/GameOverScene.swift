@@ -46,7 +46,7 @@ class GameOverScene: BaseScene {
     func goStatus(){
         let nextScene = StatusScene(size: self.frame.size)
         let tr = SKTransition.flipHorizontalWithDuration(1)
-        changeSceneWithLongDuration(nextScene, tr: tr, duration: 1)
+        changeScene(nextScene, tr: tr)
     }
     
     

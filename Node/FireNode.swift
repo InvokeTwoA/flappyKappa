@@ -11,7 +11,7 @@ class FireNode: SKEmitterNode {
         physic.affectedByGravity = false
         physic.allowsRotation = false
         physic.categoryBitMask = fireCategory
-        physic.contactTestBitMask = enemyCategory
+        physic.contactTestBitMask = enemyCategory | worldCategory | horizonWorldCategory
         physic.collisionBitMask = 0
         particle.physicsBody = physic
         particle.zPosition = 999

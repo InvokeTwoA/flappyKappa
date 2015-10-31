@@ -11,7 +11,7 @@ class EndingScene: BaseScene {
         setBaseSetting()
         
         // キャラ設置
-        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:CGRectGetMaxY(self.frame) - 50)
+        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:CGRectGetMaxY(self.frame) - CGFloat(CommonConst.adHeight + 16) - 30)
         setGhostDemo(point)
         setFighter()
         setWitch()
@@ -23,6 +23,7 @@ class EndingScene: BaseScene {
         setKappa()
         setSlimeDemo()
         setMetal()
+        setMiku()
         
         setTitleLabel()
         setBackButton("再び冒険へ")
@@ -102,12 +103,19 @@ class EndingScene: BaseScene {
     
     func setMetal(){
         let chara = SKSpriteNode(imageNamed: "metal_slime")
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 100)
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) - 50, y:CGRectGetMidY(self.frame) - 100)
+        chara.position = point
+        self.addChild(chara)
+    }
+    
+    func setMiku(){
+        let chara = SKSpriteNode(imageNamed: "miku_32_32")
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) + 50, y:CGRectGetMidY(self.frame) - 100)
         chara.position = point
         self.addChild(chara)
     }
 
-    override func setSword(to: CGPoint) {
+    override func setSword(from: CGPoint, to: CGPoint) {
         return
     }
     
@@ -151,7 +159,7 @@ class EndingScene: BaseScene {
         }
     }
     
-    override func kappaJump() {
+    override func kappaJump(kappa: KappaNode) {
     }
     override func setBattleTap() {
     }

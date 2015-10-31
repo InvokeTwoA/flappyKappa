@@ -65,19 +65,23 @@ class Equip3Scene: BaseScene {
         } else if name == "equip_habel" {
             CommonData.setData("equip_weapon", value: "habel")
             let secondScene = Equip3Scene(size: self.frame.size)
-            changeSceneWithoutTr(secondScene)
+            let tr = SKTransition.flipHorizontalWithDuration(1)
+            changeScene(secondScene, tr: tr)
         } else if name == "equip_kabuto" {
             CommonData.setData("equip_weapon", value: "kabuto")
             let secondScene = Equip3Scene(size: self.frame.size)
-            changeSceneWithoutTr(secondScene)
+            let tr = SKTransition.flipHorizontalWithDuration(1)
+            changeScene(secondScene, tr: tr)
         } else if name == "equip_golden" {
             CommonData.setData("equip_weapon", value: "golden")
             let secondScene = Equip3Scene(size: self.frame.size)
-            changeSceneWithoutTr(secondScene)
+            let tr = SKTransition.flipHorizontalWithDuration(1)
+            changeScene(secondScene, tr: tr)
         } else if name == "equip_bringer" {
             CommonData.setData("equip_weapon", value: "bringer")
             let secondScene = Equip3Scene(size: self.frame.size)
-            changeSceneWithoutTr(secondScene)
+            let tr = SKTransition.flipHorizontalWithDuration(1)
+            changeScene(secondScene, tr: tr)
         }
     }
     
@@ -85,7 +89,7 @@ class Equip3Scene: BaseScene {
     func goGameSceneWithClose(){
         let secondScene = GameScene(size: self.frame.size)
         let tr = SKTransition.doorsCloseHorizontalWithDuration(1)
-        changeSceneWithLongDuration(secondScene, tr: tr)
+        changeScene(secondScene, tr: tr)
     }
     
     override func update(currentTime: CFTimeInterval) {

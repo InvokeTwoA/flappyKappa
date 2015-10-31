@@ -332,9 +332,8 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
             enemy.position = point
 
             // カッパに向かって突撃してくる
-            let kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
             let duration : Int = CommonUtil.rnd(4) + 2
-            let action : SKAction = SKAction.moveTo(kappa!.position, duration: NSTimeInterval(duration))
+            let action : SKAction = SKAction.moveTo(_kappa.position, duration: NSTimeInterval(duration))
             action.timingMode = SKActionTimingMode.EaseIn
             enemy.runAction(action, completion:
                 {
@@ -358,8 +357,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
             enemy.position = point
             
             // カッパに向かって突撃してくる
-            let kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
-            let action : SKAction = SKAction.moveTo(kappa!.position, duration: 3)
+            let action : SKAction = SKAction.moveTo(_kappa.position, duration: 3)
             action.timingMode = SKActionTimingMode.EaseInEaseOut
             enemy.runAction(action, completion:
                 {
@@ -466,15 +464,14 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     }
     
     override func setBattleTap(){
-        let kappa : KappaNode? = childNodeWithName("kappa") as? KappaNode
         var frequency = 8
         if _equip == "juryoku" {
             frequency = 5
         }
         _tapCount += 1
-        // 10回タップ毎に１回ファイアボールを発動
+        // 8回タップ毎に１回ファイアボールを発動
         if(_tapCount%frequency == 0){
-            setFireBall(kappa!.position)
+            setFireBall(_kappa.position)
         }
     }
     
@@ -561,7 +558,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         
         // 炎の衝突判定
         if (firstBody.categoryBitMask & fireCategory != 0 ) {
-            if secondBody.categoryBitMask & worldCategory != 0 {
+            if secondBody.categoryBitMask & horizonWorldCategory != 0 {
                 firstBody.node?.removeFromParent()
             }
         }
@@ -597,8 +594,12 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
                 firstBody.node?.removeFromParent()
             }
         }
-
-
+        // ブロック
+        if (firstBody.categoryBitMask & blockCategory != 0 ) {
+            if secondBody.categoryBitMask & leftHorizonWorldCategory != 0 {
+                firstBody.node?.removeFromParent()
+            }
+        }
     }
     
     // 衝突時など、火花を出す
@@ -856,7 +857,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         stopBGM()
         let secondScene = GameOverScene(size: self.frame.size)
         let tr = SKTransition.fadeWithColor(UIColor.whiteColor(), duration: 4)
-        changeSceneWithLongDuration(secondScene, tr: tr, duration: 4)
+        changeScene(secondScene, tr: tr)
     }
     
     func goGameClearScene() {
@@ -864,7 +865,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         dataSave()
         let secondScene = GameClearScene(size: self.frame.size)
         let tr = SKTransition.fadeWithColor(UIColor.whiteColor(), duration: 4)
-        changeSceneWithLongDuration(secondScene, tr: tr, duration: 4)
+        changeScene(secondScene, tr: tr)
     }
     
     // 画面遷移時、データを保存する

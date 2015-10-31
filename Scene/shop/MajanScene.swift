@@ -10,6 +10,7 @@ class MajanScene: BaseScene {
         let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight*2)
+
         
         setCenterText("ざわ……ざわ……", key_name: "hoge", point_y: point_y1)
         setCenterText("勝てば所持金は２倍。負ければ文無し。", key_name: "hoge", point_y: point_y2)
@@ -18,6 +19,7 @@ class MajanScene: BaseScene {
         setCenterText("あんたの勝率は\(_per)%だ", key_name: "hoge", point_y: point_y3)
         
         setCenterButton("今なら負ける気がしない", key_name: "shoubu", point_y: point_y4)
+        
         setBackButton("帰ります")
     }
     
@@ -88,8 +90,7 @@ class MajanScene: BaseScene {
     
     
     func reloadScene(){
-        let secondScene = MajanScene(size: self.frame.size)
-        changeSceneWithoutTr(secondScene)
+        updateGoldText()
     }
     
     // 冒険へ

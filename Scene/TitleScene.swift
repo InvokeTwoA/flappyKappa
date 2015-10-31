@@ -10,7 +10,7 @@ class TitleScene: BaseScene {
         setBaseSetting()
         
         // キャラ設置
-        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:CGRectGetMaxY(self.frame) - CGFloat(CommonConst.adHeight - 16))
+        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:CGRectGetMaxY(self.frame) - CGFloat(CommonConst.adHeight + 16) - 30)
         setGhostDemo(point)
         setFighter()
         setWitch()
@@ -128,8 +128,6 @@ class TitleScene: BaseScene {
             worldBreak()
         } else if name == "setting" {
             goSettingScene()
-        } else {
-            kappaJump()
         }
     }
     

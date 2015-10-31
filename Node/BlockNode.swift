@@ -29,6 +29,7 @@ class BlockNode: SKSpriteNode {
         physic.affectedByGravity = false
         physic.allowsRotation = false
         physic.categoryBitMask = blockCategory
+        physic.contactTestBitMask = leftHorizonWorldCategory
         physic.collisionBitMask = 0
         physic.linearDamping = 0
         physic.friction = 0

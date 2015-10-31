@@ -22,7 +22,7 @@ class DevelopScene: BaseScene {
         setCenterButton("武器屋 LV\(str_dev)", key_name: "str_dev", point_y: point_y2)
         setCenterButton("プロレス屋 LV\(def_dev)", key_name: "def_dev", point_y: point_y3)
         setCenterButton("学校 LV\(int_dev)", key_name: "int_dev", point_y: point_y4)
-        setCenterButton("医療センター LV\(pri_dev)", key_name: "pri_dev", point_y: point_y5)
+        setCenterButton("病院 LV\(pri_dev)", key_name: "pri_dev", point_y: point_y5)
         setCenterButton("雀荘 LV\(luck_dev)", key_name: "luck_dev", point_y: point_y6)
         setBackButton("帰るぜ")
     }
@@ -49,15 +49,21 @@ class DevelopScene: BaseScene {
             }
         }
     }
-    
-    override func saveMoney() {
-        return
+        
+    func updateText(key: String, display_name: String){
+        let label = childNodeWithName(key) as! SKLabelNode
+        let lv = CommonData.getDataByInt(key)
+        label.text = "\(display_name) LV\(lv)"
     }
     
-    
     func reloadScene(){
-        let secondScene = DevelopScene(size: self.frame.size)
-        changeSceneWithoutTr(secondScene)
+        updateGoldText()
+        
+        updateText("str_dev", display_name: "武器屋")
+        updateText("def_dev", display_name: "プロレス屋")
+        updateText("int_dev", display_name: "学校")
+        updateText("pri_dev", display_name: "病院")
+        updateText("luck_dev", display_name: "雀荘")
     }
     
     // 冒険へ

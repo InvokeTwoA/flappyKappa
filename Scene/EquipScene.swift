@@ -68,24 +68,26 @@ class EquipScene: BaseScene {
             showAlert(WeaponSetting.getName("shoes"), text: WeaponSetting.getExplain("shoes"), ok_text: "ふむふむ")
         } else if name == "hatena_hammer" {
             showAlert(WeaponSetting.getName("hammer"), text: WeaponSetting.getExplain("hammer"), ok_text: "それは良い")
-            
         } else if name == "equip_long" {
             CommonData.setData("equip_weapon", value: "long")
             let secondScene = EquipScene(size: self.frame.size)
-            changeSceneWithoutTr(secondScene)
+            let tr = SKTransition.flipHorizontalWithDuration(1)
+            changeScene(secondScene, tr: tr)
         } else if name == "equip_katana" {
             CommonData.setData("equip_weapon", value: "katana")
             let secondScene = EquipScene(size: self.frame.size)
-            changeSceneWithoutTr(secondScene)
+            let tr = SKTransition.flipHorizontalWithDuration(1)
+            changeScene(secondScene, tr: tr)
         } else if name == "equip_shoes" {
             CommonData.setData("equip_weapon", value: "shoes")
             let secondScene = EquipScene(size: self.frame.size)
-            changeSceneWithoutTr(secondScene)
+            let tr = SKTransition.flipHorizontalWithDuration(1)
+            changeScene(secondScene, tr: tr)
         } else if name == "equip_hammer" {
             CommonData.setData("equip_weapon", value: "hammer")
             let secondScene = EquipScene(size: self.frame.size)
-            changeSceneWithoutTr(secondScene)
-            
+            let tr = SKTransition.flipHorizontalWithDuration(1)
+            changeScene(secondScene, tr: tr)
         }
     }
     
@@ -100,7 +102,7 @@ class EquipScene: BaseScene {
     func goGameSceneWithClose(){
         let secondScene = GameScene(size: self.frame.size)
         let tr = SKTransition.doorsCloseHorizontalWithDuration(1)
-        changeSceneWithLongDuration(secondScene, tr: tr)
+        changeScene(secondScene, tr: tr)
     }
     
     override func update(currentTime: CFTimeInterval) {

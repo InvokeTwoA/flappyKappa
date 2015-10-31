@@ -31,7 +31,7 @@ class Map2Scene: BaseScene {
         return
     }
     
-    override func setSword(to: CGPoint) {
+    override func setSword(from: CGPoint, to: CGPoint) {
         return
     }
     
