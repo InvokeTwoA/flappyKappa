@@ -222,13 +222,20 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     
     func setPicture(path: String, key_name: String, point_y : CGFloat){
         let point : CGPoint = CGPoint(x:CGRectGetMinX(self.frame) + 100, y:point_y)
-//        let startButton: SKLabelNode = CommonUI.normalText(text, name: key_name, point: point)
         let picture = SKSpriteNode(imageNamed: path)
         picture.name = key_name
         picture.position = point
         self.addChild(picture)
     }
 
+    func setCenterPicture(path: String, key_name: String, point_y : CGFloat){
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:point_y)
+        let picture = SKSpriteNode(imageNamed: path)
+        picture.name = key_name
+        picture.position = point
+        self.addChild(picture)
+    }
+    
 
     // 確率で異名を変更
     func changeNickname(nickname :String, percent : Int){
