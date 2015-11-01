@@ -1,26 +1,26 @@
 import SpriteKit
-class NoukinStageScene: PlayScene {
+class SeizonStageScene: PlayScene {
     
     override func setStageValue() {
-        _distance = 3000
+        _distance = 1500
+        _hp = 1
+        _maxhp = 1
+        changeLifeLabel()
+        changeLifeBar()
     }
     
     // 敵を作成
     override func generateEnemy(){
         makeApple()
-        makeBlock(13)
-        makeSuperSlime(15)
-        makeSkelton(20)
-        makeMiira(15)
-        makeMetalSlime()
-    }
-    
-    override func setFireBall(location: CGPoint){
-        return
+        makeBlock(10)
+        makeSlime(50)
+        makeFighter(15)
+        makeSister(20)
+        makeSuperSlime(10)
     }
     
     override func makeBoss(danjon_type : String){
-        let enemy = KnightNode.makeEnemy(_danjon_type)
+        let enemy = GolemNode.makeEnemy(_danjon_type)
         let point : CGPoint = CGPointMake(CGRectGetMaxX(self.frame) - CGFloat(enemy.half_height - 2), CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + enemy.half_height))
         enemy.position = point
         _bossName = enemy.userData?.valueForKey("name") as! String

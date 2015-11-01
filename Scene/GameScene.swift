@@ -11,9 +11,9 @@ class GameScene: BaseScene {
         
         let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*2)
         let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight*3)
-        let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight*3)
-        let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight*3)
-        let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight*3)
+        let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight*2)
+        let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight*2)
+        let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight*2)
         
 
         setPicture("miku_32_32", key_name: "miku", point_y: point_y1)

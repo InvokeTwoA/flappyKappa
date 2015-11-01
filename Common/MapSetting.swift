@@ -3,41 +3,37 @@ import SpriteKit
 
 class MapSetting {
     class func nextScene(size : CGSize) -> SKScene {
-        var nextScene : SKScene
         let name : String = CommonData.getDataByString("stage_name")
         if name == "slime" {
-            nextScene = SlimeStageScene(size: size)
-            return nextScene
+            return SlimeStageScene(size: size)
         } else if name == "tanuki" {
-            nextScene = TanukiStageScene(size: size)
-            return nextScene
+            return TanukiStageScene(size: size)
         } else if name == "golem" {
-            nextScene = GolemStageScene(size: size)
-            return nextScene
+            return GolemStageScene(size: size)
         } else if name == "dojo_g" {
-            nextScene = DojoGStageScene(size: size)
-            return nextScene
+            return DojoGStageScene(size: size)
         } else if name == "maou" {
-            nextScene = MaoStageScene(size: size)
-            return nextScene
+            return MaoStageScene(size: size)
         } else if name == "noukin" {
-            nextScene = NoukinStageScene(size: size)
-            return nextScene
+            return NoukinStageScene(size: size)
         } else if name == "taiman" {
-            nextScene = TaimanStageScene(size: size)
-            return nextScene
+            return TaimanStageScene(size: size)
         } else if name == "maho" {
-            nextScene = MahoStageScene(size: size)
-            return nextScene
+            return MahoStageScene(size: size)
         } else if name == "kabe" {
-            nextScene = KabeStageScene(size: size)
-            return nextScene
+            return KabeStageScene(size: size)
         } else if name == "mugen" {
-            nextScene = MugenStageScene(size: size)
-            return nextScene
+            return MugenStageScene(size: size)
+        } else if name == "odon" {
+            return OdonStageScene(size: size)
+        } else if name == "seizon" {
+            return SeizonStageScene(size: size)
+        } else if name == "white" {
+            return WhiteStageScene(size: size)
+        } else if name == "kettou" {
+            return KettouStageScene(size: size)
         } else {
-            nextScene = SlimeStageScene(size: size)
-            return nextScene
+            return SlimeStageScene(size: size)
         }
     }
     
@@ -64,6 +60,14 @@ class MapSetting {
             name = "デスマス城"
         case "mugen":
             name = "無限の住人"
+        case "odon":
+            name = "オデン教会"
+        case "seizon":
+            name = "生存率3%"
+        case "white":
+            name = "ホワイトベース"
+        case "kettou":
+            name = "１対１の決闘"
         default:
             name = ""
         }
@@ -92,6 +96,14 @@ class MapSetting {
         case "kabe":
             name = "デカイム"
         case "mugen":
+            name = "魔王"
+        case "odon":
+            name = "メガデス"
+        case "seizon":
+            name = "メガデス"
+        case "white":
+            name = "鏡の騎士"
+        case "kettou":
             name = "魔王"
         default:
             name = ""
@@ -122,6 +134,14 @@ class MapSetting {
             name = "初見殺しステージ"
         case "mugen":
             name = "やり込みたい人向け"
+        case "odon":
+            name = "ここは床に触れるとダメージ"
+        case "seizon":
+            name = "ここはHPが1の状態で戦う"
+        case "white":
+            name = "雪が全てを白く染めている。"
+        case "kettou":
+            name = "魔王と１対１で戦ってみよう"
         default:
             name = ""
         }
@@ -147,6 +167,14 @@ class MapSetting {
             name = "敏捷ちゃんと上げてる？"
         case "mugen":
             name = "全ボス登場の最高難易度ステージ"
+        case "odon":
+            name = "儲けやすいステージは見つけた？"
+        case "seizon":
+            name = "一瞬の油断が命取り"
+        case "white":
+            name = "敵の動きの法則性を見極めろ！"
+        case "kettou":
+            name = "魔王はワープと共に大量の敵を召喚"
         default:
             name = ""
         }
@@ -174,8 +202,16 @@ class MapSetting {
             name = "レア報酬：LVが１になる"
         case "kabe":
             name = "レア報酬：聖シャインの剣"
-        case "kabe":
-            name = "レア報酬などない"            
+        case "mugen":
+            name = "報酬：真のエンディング"
+        case "odon":
+            name = "レア報酬：紹介状"
+        case "seizon":
+            name = "レア報酬：たぬきブリンガー"
+        case "white":
+            name = "レア報酬：魔王城の鍵"
+        case "kettou":
+            name = "レア報酬：カッパソード"
         default:
             name = ""
         }

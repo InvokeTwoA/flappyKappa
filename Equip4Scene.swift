@@ -1,6 +1,6 @@
 // アイテム装備
 import SpriteKit
-class Equip3Scene: BaseScene {
+class Equip4Scene: BaseScene {
     
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.1,green:0.0,blue:0.1,alpha:1.0)
@@ -11,12 +11,12 @@ class Equip3Scene: BaseScene {
         let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight * 2)
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight * 2)
         let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight * 2)
-        let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight * 2)
+        /*
         setWeapon("habel", point_y: point_y1)
         setWeapon("kabuto", point_y: point_y2)
         setWeapon("golden", point_y: point_y3)
-        setWeapon("bringer", point_y: point_y4)
-        setCenterButton("次へ", key_name: "next", point_y: point_y5)
+*/
+        setWeapon("kappa_sword", point_y: point_y4)
     }
     
     func setWeapon(key_name: String, point_y: CGFloat){
@@ -55,16 +55,14 @@ class Equip3Scene: BaseScene {
     override func checkTochEvent(name: String) {
         if name == "back" {
             goGameSceneWithClose()
-        } else if name == "next" {
-            goNext()
         } else if name == "hatena_habel" {
             showAlert(WeaponSetting.getName("habel"), text: WeaponSetting.getExplain("habel"), ok_text: "なるほどねー")
         } else if name == "hatena_kabuto" {
-            showAlert(WeaponSetting.getName("kabuto"), text: WeaponSetting.getExplain("kabuto"), ok_text: "へぇー")
+            showAlert(WeaponSetting.getName("juryoku"), text: WeaponSetting.getExplain("kabuto"), ok_text: "へぇー")
         } else if name == "hatena_golden" {
             showAlert(WeaponSetting.getName("golden"), text: WeaponSetting.getExplain("golden"), ok_text: "ふむふむ")
-        } else if name == "hatena_bringer" {
-            showAlert(WeaponSetting.getName("bringer"), text: WeaponSetting.getExplain("bringer"), ok_text: "すげえ")
+        } else if name == "hatena_kappa_sword" {
+            showAlert(WeaponSetting.getName("kappa_sword"), text: WeaponSetting.getExplain("kappa_sword"), ok_text: "すげえ")
         } else if name == "equip_habel" {
             CommonData.setData("equip_weapon", value: "habel")
             let secondScene = Equip3Scene(size: self.frame.size)
@@ -80,17 +78,15 @@ class Equip3Scene: BaseScene {
             let secondScene = Equip3Scene(size: self.frame.size)
             let tr = SKTransition.flipHorizontalWithDuration(1)
             changeScene(secondScene, tr: tr)
-        } else if name == "equip_bringer" {
-            CommonData.setData("equip_weapon", value: "bringer")
-            let secondScene = Equip3Scene(size: self.frame.size)
-            let tr = SKTransition.flipHorizontalWithDuration(1)
-            changeScene(secondScene, tr: tr)
+        } else if name == "equip_kappa_sword" {
+            CommonData.setData("equip_weapon", value: "kappa_sword")
+            reloadScene()
         }
     }
     
-    func goNext(){
+    func reloadScene(){
         let secondScene = Equip4Scene(size: self.frame.size)
-        let tr = SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.5)
+        let tr = SKTransition.flipHorizontalWithDuration(1)
         changeScene(secondScene, tr: tr)
     }
     

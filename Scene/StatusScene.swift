@@ -1,3 +1,4 @@
+import Social
 // ステータス表示
 import SpriteKit
 class StatusScene: BaseScene {
@@ -29,6 +30,7 @@ class StatusScene: BaseScene {
         lvLabel.position = CGPointMake(CGRectGetMidX(self.frame), y1)
         self.addChild(lvLabel)
 
+        setPicture("miku_32_32", key_name: "miku", point_y: y2)
         
         showStatusWithoutUp("hp", display_key: "HP",  y: y3)
         showStatus("str",   display_key: "筋力", y: y4)
@@ -111,13 +113,14 @@ class StatusScene: BaseScene {
         label.text = "\(display_key) : \(val)"
     }
     
-    
     // タッチイベント
     override func checkTochEvent(name: String) {
         if name == "back" {
             goGameSceneWithClose()
         } else if name == "lv_up" {
             levelUp()
+        } else if name == "miku" {
+            tweet()
         } else if name == "skill" {
             goSkill()
         }
@@ -143,6 +146,7 @@ class StatusScene: BaseScene {
         updateStatus("int",   display_key: "知恵")
         updateStatus("def",   display_key: "体力")
         updateStatus("pri",   display_key: "精神")
+        updateStatus("agi",   display_key: "敏捷")
         updateStatus("luck",   display_key: "幸運")
 
         let costLabel : SKLabelNode = childNodeWithName("cost") as! SKLabelNode
@@ -152,6 +156,20 @@ class StatusScene: BaseScene {
             lv_up?.removeFromParent()
         }
 
+    }
+    
+    func tweet(){
+        let twitterCmp : SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+        
+        let nickname = CommonUI.displayName()
+        twitterCmp.setInitialText("俺様が\(nickname)だ！！  #かっぱサーガ")
+        
+        let image = CommonUtil.screenShot(self.view!)
+        twitterCmp.addImage(image)
+        
+        let currentViewController : UIViewController? = UIApplication.sharedApplication().keyWindow?.rootViewController!
+        //ツイート画面を表示
+        currentViewController?.presentViewController(twitterCmp, animated: true, completion: nil)
     }
     
     // スキルページへと繊維。ページ数は1

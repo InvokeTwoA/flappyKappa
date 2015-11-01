@@ -8,22 +8,17 @@ class BarScene: BaseScene {
         self.backgroundColor = UIColor(red:0.0,green:0.5,blue:1.0,alpha:1.0)
         setBaseSetting()
         
-        let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*2)
+        let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight)
         let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight*2)
-        let point_y6 : CGFloat = point_y5 - CGFloat(CommonConst.textBlankHeight*2)
-        let point_y7 : CGFloat = point_y6 - CGFloat(CommonConst.textBlankHeight*2)
         
         setButton("酔っぱらい冒険者", key_name: "yoi",   point_y: point_y1)
         setButton("謎の男",         key_name: "zombi", point_y: point_y2)
         setButton("親切なペイトン",   key_name: "sinsetu", point_y: point_y3)
         setButton("りんご売りの少女",  key_name: "ringo", point_y: point_y4)
-        setButton("怪しい神父",       key_name: "kami", point_y: point_y5)
-        setButton("かわいい子",       key_name: "kawaii", point_y: point_y6)
-        setButton("ランダムじいさん",   key_name: "hint", point_y: point_y7)
-        
+        setCenterButton("他の酒場で二次会だ！", key_name: "bar2", point_y: point_y5)
         setBackButton("あばよ！")
     }
     
@@ -37,12 +32,8 @@ class BarScene: BaseScene {
             talkSinsetu()
         } else if name == "ringo" {
             talkRingo()
-        } else if name == "kami" {
-            talkKami()
-        } else if name == "kawaii" {
-            talkKawaii()
-        } else if name == "hint" {
-            talkHint()
+        } else if name == "bar2" {
+            goBar2Scene()
         } else if name == "back" {
             goShopScene()
         }
@@ -170,7 +161,7 @@ class BarScene: BaseScene {
             style: UIAlertActionStyle.Default,
             handler:{
                 (action:UIAlertAction) -> Void in
-                self.showAlert("敵の攻撃は避けられない", text: "一部の敵は出現時にあなたの位置を記録してそこを目指して移動します。\nなのでジッとしていては確実に襲われるので適度に動きましょう。\n\nシスターやガイコツは倒さなければ画面から消えないので、増える前に積極的に倒すのが吉です。", ok_text: "サンキュー")
+                self.showAlert("敵の攻撃が避けられない", text: "一部の敵は出現時にあなたの位置を記録してそこを目指して移動します。\nなのでジッとしていては確実に襲われるので適度に動きましょう。\n\nシスターやガイコツ、ミイラは倒さなければ画面から消えないので、増える前に積極的に倒すのが吉です。\n逆に言えば他のモンスターは無視しても構わないのです。", ok_text: "サンキュー")
         })
         
         let q2Action: UIAlertAction = UIAlertAction(title: "上級職って？",
@@ -238,22 +229,13 @@ class BarScene: BaseScene {
         showAlert("りんご売りの少女", text: "戦闘中、たまに出てくるリンゴを食べるとHPが回復します。\n（回復量は精神に依存）\n\nボスを倒した後はどんなにHPが減っても死なないのでゆっくりとコイン集めをしてください。", ok_text: "なるほどね")
     }
 
-    func talkKami(){
-        showAlert("おお、神よ！", text:"セーブデータを消したいならばタイトル画面で「地球を破壊する」を4回押せば良いのですね", ok_text: "……関わらないでおこう")
+    func goBar2Scene(){
+        let secondScene = Bar2Scene(size: self.frame.size)
+        let tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
+        changeScene(secondScene, tr: tr)
     }
-    
-    func talkKawaii(){
-        if (CommonData.getDataByInt("story") == 1)  {
-            showAlert("冴えないカッパね", text:"気安く話しかけないでくれる？", ok_text: "しょんぼり　(´・ω・｀)")
-        } else {
-            showAlert("きゃー、素敵！", text:"あなたこそがカッパの中のカッパ！\n\nカッパ・オブ・カッパだわ！", ok_text: "照れるぜ")
-        }
-    }
-    
-    func talkHint(){
-            showAlert("ヒントをやろう", text:CommonUtil.randomHint(), ok_text: "ふむふむ")
-    }
-    
+
+
     func goShopScene(){
         let secondScene = ShopScene(size: self.frame.size)
         let tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)

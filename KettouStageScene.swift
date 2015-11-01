@@ -1,24 +1,12 @@
 import SpriteKit
-class MaoStageScene: PlayScene {
+class KettouStageScene: PlayScene {
     
     override func setStageValue() {
-        _distance = 2500
+        _distance = 50
     }
-    
-    override func setBGM(){
-        prepareBGM("last_boss")
-    }
-
     
     // 敵を作成
     override func generateEnemy(){
-        makeApple()
-        makeBlock(10)
-        makeSuperSlime(25)
-        makeSister(25)
-        makeWitch(25)
-        makeFighter(20)
-        makeMiira(25)
         makeMetalSlime()
     }
     
@@ -29,8 +17,7 @@ class MaoStageScene: PlayScene {
         enemy.name = "boss"
         _bossName = enemy.userData?.valueForKey("name") as! String
         self.addChild(enemy)
-
+        
         Maoworp()
     }
-
 }

@@ -79,7 +79,7 @@ class CommonUtil {
     
     class func randomHint() -> String{
         let str : String
-        let rnd : Int = CommonUtil.rnd(24)
+        let rnd : Int = CommonUtil.rnd(31)
         switch rnd {
         case 0:
             str = "魔王のHPは日数と一緒"
@@ -124,15 +124,42 @@ class CommonUtil {
         case 20:
             str = "会心の一撃は幸運が高いと追加ダメージ"
         case 21:
-            str = "文無しの時に転職屋に行くと……"
+            str = "「文無し」の時に転職屋に行くと……"
         case 22:
             str = "「真の」の時に転職屋に行くと……"
         case 23:
             str = "ネバーギブアップ"
+        case 24:
+            str = "「即戦力の」の時に転職屋に行くと……"
+        case 25:
+            str = "たくさん働いてると「即戦力の」になれるぞ"
+        case 26:
+            str = "「魔の」子供だと体力や力が1になる代わり膨大な魔力を持つそうだ"
+        case 27:
+            str = "たまに文無しやお金持ちな勇者が誕生する事がある"
+        case 28:
+            str = "即戦力の勇者だと初めからレベル10らしい"
+        case 29:
+            str = "アプリを宣伝してくれると作者は泣いて喜ぶのだ"
+        case 30:
+            str = "攻略サイトをググれ！"
         default:
             str = "ぶひー！"
         }
         return str
     }
     
+    class func screenShot(view : UIView) -> UIImage {
+        // スクリーンショットの取得開始
+        UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, 1.0)
+        
+        // 描画
+        view.drawViewHierarchyInRect(view.bounds, afterScreenUpdates: true)
+        
+        // 描画が行われたスクリーンショットの取得
+        let screenShot = UIGraphicsGetImageFromCurrentImageContext()
+        // スクリーンショットの取得終了
+        UIGraphicsEndImageContext()
+        return screenShot
+    }
 }

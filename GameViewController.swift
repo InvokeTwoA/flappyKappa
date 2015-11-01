@@ -26,12 +26,13 @@ class GameViewController: UIViewController, NADViewDelegate, AVAudioPlayerDelega
         super.viewDidLoad()
 
         // skviewの設定
-        //let skView = self.view as! SKView
-        //skView.showsFPS = true
-        //skView.showsNodeCount = true
-        //skView.showsPhysics = true
-        //skView.ignoresSiblingOrder = true
-
+        /*
+        let skView = self.view as! SKView
+        skView.showsFPS = true
+        skView.showsNodeCount = true
+        skView.showsPhysics = true
+        skView.ignoresSiblingOrder = true
+        */
         showAd()
         showTitleScene()
     }

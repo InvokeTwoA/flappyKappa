@@ -41,14 +41,19 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     
     var _audioPlayer:AVAudioPlayer!
     
+    var _textColor : UIColor = UIColor.whiteColor()    
+    
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.0,green:0.0,blue:0.0,alpha:1.0)
         setBaseSetting()
         setBackGroundImage()
         setInitData()
-        setStageValue()
         setFooter()
+        setStageValue()
         setDistance()
+        if _job == "遊び人" {
+            _distance = 10
+        }
         
         setBGM()
         playBGM()
@@ -186,6 +191,10 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         case "habel":
             _maxhp = 50
             _hp = 50
+        case "kappa_sword":
+            _maxhp = 30
+            _hp = 30
+            _str = _day
         default:
             name = "a"
         }
@@ -255,6 +264,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
         label.fontSize = CGFloat(CommonConst.font_size_normal)
         label.zPosition = 999
+        label.fontColor = _textColor
 
         if(life > 0){
             label.text = "\(name) 残りHP \(life)"
@@ -372,6 +382,19 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     func makeSister(per : Int){
         if(CommonUtil.rnd(100) < per) {
             let enemy = SisterNode.makeEnemy(_danjon_type)
+            let enemy_harf_height : Int = enemy.half_height
+            let min_height: Int = CommonConst.footerHeight + enemy_harf_height
+            let height: Int = Int(_stageHeight) - enemy_harf_height - 20
+            let x : Int = 20 + CommonUtil.rnd( Int(CGRectGetMaxY(self.frame)) - 40)
+            let point : CGPoint = CGPointMake(CGFloat(x), CGFloat(min_height + height))
+            enemy.position = point
+            self.addChild(enemy)
+        }
+    }
+    
+    func makeMiira(per : Int){
+        if(CommonUtil.rnd(100) < per) {
+            let enemy = MiiraNode.makeEnemy(_danjon_type)
             let enemy_harf_height : Int = enemy.half_height
             let min_height: Int = CommonConst.footerHeight + enemy_harf_height
             let height: Int = CommonUtil.rnd(Int(_stageHeight) - enemy_harf_height)
@@ -529,17 +552,14 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
                 damaged(damage, point: firstBody.node!.position, color: UIColor.redColor())
                 secondBody.node?.removeFromParent()
                 return
+            } else if secondBody.categoryBitMask & downWorldCategory != 0 {
+                hitDownWorld(firstBody)
             } else if secondBody.categoryBitMask & wallCategory != 0 {
                 if _equip != "kabuto" {
                     makeSpark(firstBody.node?.position)
                     let damage = 1
                     damaged(damage, point: firstBody.node!.position, color: UIColor.redColor())
                 }
-                return
-            } else if secondBody.categoryBitMask & goalCategory != 0 {
-                _game_end_flag = true
-                secondBody.node?.removeFromParent()
-                return
             }
         }
 
@@ -549,7 +569,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
                 firstBody.node?.removeFromParent()
             } else if secondBody.categoryBitMask & fireCategory != 0 {
                 makeSpark(firstBody.node?.position)
-                displayDamage(_int, point: firstBody.node!.position, color: UIColor.whiteColor())
+                displayDamage(_int, point: firstBody.node!.position, color: _textColor)
                 hitFire(firstBody, fireBody: secondBody)
             } else if secondBody.categoryBitMask & swordCategory != 0 {
                 hitSword(firstBody,swordBody: secondBody)
@@ -610,6 +630,8 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         self.addChild(particle)
     }
 
+    func hitDownWorld(firstBody : SKPhysicsBody){
+    }
     
     func makeCoin(gold : Int, location: CGPoint?){
         let coin : CoinNode = CoinNode.makeCoin(gold)
@@ -696,7 +718,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
             _bossHP -= damage
             showBossName()
         }
-        displayDamage(damage, point: firstBody.node!.position, color: UIColor.whiteColor())
+        displayDamage(damage, point: firstBody.node!.position, color: _textColor)
         if(enemyHP <= 0){
             beatEnemy(enemyNode)
         } else {
@@ -826,6 +848,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         let distanceLabel : SKLabelNode? = childNodeWithName("distance") as? SKLabelNode
         let distance = CommonUtil.displayDistance(_distance)
         distanceLabel?.text = "残り \(distance)"
+        distanceLabel?.fontColor = _textColor
 //        distanceLabel?.zPosition = 3
     }
     
@@ -845,6 +868,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     func beatBoss(){
         let distanceLabel : SKLabelNode? = childNodeWithName("distance") as? SKLabelNode
         distanceLabel?.text = "ボス撃破!!!!"
+        distanceLabel?.fontColor = _textColor
         distanceLabel?.zPosition = 3
     }
 
@@ -856,7 +880,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     func goGameOver(){
         stopBGM()
         let secondScene = GameOverScene(size: self.frame.size)
-        let tr = SKTransition.fadeWithColor(UIColor.whiteColor(), duration: 4)
+        let tr = SKTransition.fadeWithColor(_textColor, duration: 4)
         changeScene(secondScene, tr: tr)
     }
     
@@ -864,13 +888,36 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         stopBGM()
         dataSave()
         let secondScene = GameClearScene(size: self.frame.size)
-        let tr = SKTransition.fadeWithColor(UIColor.whiteColor(), duration: 4)
+        let tr = SKTransition.fadeWithColor(_textColor, duration: 4)
         changeScene(secondScene, tr: tr)
     }
     
     // 画面遷移時、データを保存する
     func dataSave(){
         CommonData.setData("gold", value: _gold)
+    }
+    
+    // 魔王専用の動き。ワープ。
+    func Maoworp(){
+        let mao : MaoNode? = childNodeWithName("boss") as? MaoNode
+        if mao == nil {
+            return
+        }
+        
+        // ワープ時に敵を召喚
+        for var i=0; i<10;i++ {
+            makeGhost(100)
+            
+        }
+        makeSkelton(100)
+        makeMiira(100)
+        
+        let height: Int = CommonUtil.rnd(Int(_stageHeight) - 40) + CommonConst.footerHeight
+        let point_x : Int = CommonUtil.rnd(Int(CGRectGetMaxX(self.frame)-80)) + 40
+        let point : CGPoint = CGPointMake(CGFloat(point_x), CGFloat(height))
+        mao!.position = point
+        
+        NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: Selector("Maoworp"), userInfo: nil, repeats: false)
     }
     
     override func update(currentTime: CFTimeInterval) {

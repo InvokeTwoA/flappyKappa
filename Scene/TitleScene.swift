@@ -10,8 +10,24 @@ class TitleScene: BaseScene {
         setBaseSetting()
         
         // キャラ設置
-        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:CGRectGetMaxY(self.frame) - CGFloat(CommonConst.adHeight + 16) - 30)
+        let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight)
+        let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight)
+        let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight * 3)
+        let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight * 3)
+        let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight * 3)
+        
+        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:point_y1)
         setGhostDemo(point)
+        
+        let myLabel = SKLabelNode(fontNamed:CommonConst.font_bold)
+        myLabel.text = "Kappa Saga";
+        myLabel.fontSize = 32;
+        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:point_y2);
+        self.addChild(myLabel)
+
+        setCenterButton("はじめる", key_name: "start", point_y: point_y3)
+        setCenterButton("地球を破壊する", key_name: "break", point_y: point_y4)
+        setCenterButton("せってい", key_name: "setting", point_y: point_y5)
         setFighter()
         setWitch()
         setSister()
@@ -19,11 +35,9 @@ class TitleScene: BaseScene {
         setSkelton()
         setMaou()
         setMetal()
+        setHeroin()
+        setMiira()
         
-        setTitleLabel()
-        setStartButton()
-        setBreakButton()
-        setSettingButton()
         setFireButton()
     }
     
@@ -85,40 +99,25 @@ class TitleScene: BaseScene {
         self.addChild(chara)
     }
     
+    func setHeroin(){
+        let chara = SKSpriteNode(imageNamed: "miku_32_32")
+        let point : CGPoint = CGPoint(x:CGRectGetMinX(self.frame) + 40, y:CGRectGetMidY(self.frame) + 50 )
+        chara.position = point
+        self.addChild(chara)
+    }
+    
+    func setMiira(){
+        let chara = SKSpriteNode(imageNamed: "miira_32_32")
+        let point : CGPoint = CGPoint(x:CGRectGetMinX(self.frame) + 40, y:CGRectGetMidY(self.frame) - 50 )
+        chara.position = point
+        self.addChild(chara)
+    }
+    
     // 炎画像を出す
     func setFireButton(){
         let point : CGPoint = CGPoint(x: CGRectGetMidX(self.frame) + 50, y: 50)
         let fire = FireNode.make(point)
         self.addChild(fire)
-    }
-    
-    // タイトルラベルを設置
-    func setTitleLabel() {
-        let myLabel = SKLabelNode(fontNamed:CommonConst.font_bold)
-        myLabel.text = "Kappa Saga";
-        myLabel.fontSize = 32;
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - 130);
-        self.addChild(myLabel)
-    }
-    
-    // スタートボタンを設置
-    func setStartButton(){
-        let point : CGPoint = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) + 100)
-        let startLabel = CommonUI.normalButton("はじめる", name: "start", point: point)
-        self.addChild(startLabel)
-    }
-
-    // 世界破壊ボタンを設置
-    func setBreakButton(){
-        let point : CGPoint = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) + 0)
-        let startLabel = CommonUI.normalButton("地球を破壊する", name: "break", point: point)
-        self.addChild(startLabel)
-    }
-    
-    func setSettingButton(){
-        let point : CGPoint = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) - 100)
-        let startLabel = CommonUI.normalButton("せってい", name: "setting", point: point)
-        self.addChild(startLabel)
     }
     
     override func checkTochEvent(name: String) {
@@ -180,7 +179,7 @@ class TitleScene: BaseScene {
                 }
                 CommonData.setData("name", value: str!)
                 CommonData.setData("story", value: 1)
-                self.goGameScene()
+                self.goOpeningScene()
         })
         let cancelAction: UIAlertAction = UIAlertAction(title: "名乗りたくない",
             style: UIAlertActionStyle.Cancel,
@@ -215,22 +214,26 @@ class TitleScene: BaseScene {
                 (action:UIAlertAction) -> Void in
                 CommonData.setData("name", value: "イケメン")
                 CommonData.setData("story", value: 1)
-                self.goGameScene()
+                self.goOpeningScene()
         })
         alert.addAction(yesAction)
         // UIAlertControllerにtextFieldを追加
         self.view?.window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
     }
+
+    
+    func goOpeningScene(){
+        let secondScene = OpeningScene(size: self.frame.size)
+        let tr = SKTransition.doorwayWithDuration(2)
+        changeScene(secondScene, tr: tr)
+    }
+
     
     func goGameScene(){
-        CommonData.setData("adTime", value: 2)
         let secondScene = GameScene(size: self.frame.size)
         let tr = SKTransition.doorwayWithDuration(2)
-        let skView = self.view! as SKView
-        secondScene.scaleMode = SKSceneScaleMode.AspectFill
-        skView.presentScene(secondScene, transition: tr)
+        changeScene(secondScene, tr: tr)
     }
-    
     
     // ゲーム画面へ
     func goSettingScene() {

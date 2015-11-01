@@ -16,10 +16,7 @@ class Map2Scene: BaseScene {
         setCenterButton("FE闘技場",      key_name: "taiman",     point_y: point_y2)
         setCenterButton("魔法科中学校",        key_name: "maho",     point_y: point_y3)
         setCenterButton("デスマス城",     key_name: "kabe",    point_y: point_y4)
-        if(CommonData.getDataByInt("story") > 1){
-            setCenterButton("無限の住人",     key_name: "mugen",    point_y: point_y5)
-        }
-
+        setCenterButton("もっと寄り道する", key_name: "next", point_y: point_y5)
         setBackButton("街に戻るンゴ")
     }
     
@@ -38,6 +35,8 @@ class Map2Scene: BaseScene {
     override func checkTochEvent(name: String) {
         if name == "back" {
             backAdventure()
+        } else if name == "next" {
+            goNext()
         } else if name == "kappa" {
         } else if name == "sword" {
         
@@ -45,6 +44,12 @@ class Map2Scene: BaseScene {
             CommonData.setData("stage_name", value: name)
             changeScene(MapPrepareScene(size: self.frame.size), tr: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1))
         }
+    }
+    
+    func goNext(){
+        let secondScene = Map3Scene(size: self.frame.size)
+        let tr = SKTransition.flipVerticalWithDuration(1)
+        changeScene(secondScene, tr: tr)
     }
     
     func backAdventure(){

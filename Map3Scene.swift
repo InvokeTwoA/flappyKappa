@@ -1,6 +1,7 @@
-//ダンジョン選択画面
+//ダンジョン選択画面 その２
 import SpriteKit
-class MapScene: BaseScene {
+class Map3Scene: BaseScene {
+    
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.0,green:0.5,blue:1.0,alpha:1.0)
         setBaseSetting()
@@ -10,21 +11,22 @@ class MapScene: BaseScene {
         let point_y3 = point_y2 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y4 = point_y3 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y5 = point_y4 - CGFloat(CommonConst.textBlankHeight*2)
-        let point_y6 = point_y5 - CGFloat(CommonConst.textBlankHeight*2)
         
-        setCenterButton("スライムの洞窟",   key_name: "slime",     point_y: point_y1)
-        setCenterButton("スカーフ山",      key_name: "tanuki",     point_y: point_y2)
-        setCenterButton("アノーレ・ロンド遺跡",        key_name: "golem",     point_y: point_y3)
-        setCenterButton("サイレント昼",     key_name: "dojo_g",    point_y: point_y4)
-        setCenterButton("ラスボス（魔王城）", key_name: "maou",    point_y: point_y5)
-        setCenterButton("寄り道をする", key_name: "next",    point_y: point_y6)
+        setCenterButton("オデン教会", key_name: "odon",   point_y: point_y1)
+        setCenterButton("生存率3%",      key_name: "seizon",     point_y: point_y2)
+        setCenterButton("ホワイトベース",  key_name: "white", point_y: point_y3)
+        if(CommonData.getDataByInt("story") > 1){
+            setCenterButton("１対１の決闘",    key_name: "kettou", point_y: point_y4)
+            setCenterButton("無限の住人",     key_name: "mugen",  point_y: point_y5)
+        }
+        
         setBackButton("街に戻るンゴ")
     }
     
     override func setSlimeDemo() {
         return
     }
-
+    
     override func setKappa(){
         return
     }
@@ -36,28 +38,13 @@ class MapScene: BaseScene {
     override func checkTochEvent(name: String) {
         if name == "back" {
             backAdventure()
-        } else if name == "next" {
-            goNext()
         } else if name == "kappa" {
         } else if name == "sword" {
-        } else if name == "maou" {
-            if CommonData.getDataByInt("mao_key") == 1 {
-                CommonData.setData("stage_name", value: name)
-                changeScene(MapPrepareScene(size: self.frame.size), tr: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1))
-            } else {
-                showAlert("鍵がかかっていて入れない！", text: "魔王め、なんて用心深いんだ", ok_text: "他の場所へ行こう")
-            }
+            
         } else {
             CommonData.setData("stage_name", value: name)
             changeScene(MapPrepareScene(size: self.frame.size), tr: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1))
         }
-    }
-    
-    func goNext(){
-        let secondScene = Map2Scene(size: self.frame.size)
-        let tr = SKTransition.flipVerticalWithDuration(1)
-        changeScene(secondScene, tr: tr)
-    
     }
     
     func backAdventure(){

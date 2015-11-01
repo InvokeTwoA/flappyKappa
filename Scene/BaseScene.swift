@@ -73,12 +73,6 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         background.addChild(gold)
         
         self.addChild(background)
-/*
-        let adTime : NSTimeInterval = CommonData.getDataByNSTimeInterval("adTime")
-        if adTime != 0.0 {
-            NSTimer.scheduledTimerWithTimeInterval(adTime, target: self, selector: Selector("showAd"), userInfo: nil, repeats: false)
-        }
-*/
     }
     
     func updateGoldText(){
@@ -140,6 +134,12 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     func kappaJump(kappa : KappaNode){
         let jump : CGFloat = CGFloat(400+_agi)
         kappa.physicsBody!.velocity = CGVectorMake(0, jump)
+        
+        copyJump()
+    }
+    
+    // カッパのジャンプに反応して動くキャラ
+    func copyJump(){
     }
 
     // 右と左の画面は時に薄い壁を設定
@@ -185,11 +185,22 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     
     func swipeRight(gesture: UISwipeGestureRecognizer){
         _kappa.physicsBody?.applyImpulse(CGVectorMake(CGFloat(_agi), 0))
+        copyRight()
     }
     
     func swipeLeft(gesture: UISwipeGestureRecognizer){
         _kappa.physicsBody?.applyImpulse(CGVectorMake(CGFloat(-1*_agi), 0))
+        copyLeft()
     }
+    
+    func copyRight(){
+    
+    }
+    
+    func copyLeft(){
+    
+    }
+    
     
     // 画面遷移前など、所持金を記録
     func saveMoney(){
@@ -267,24 +278,23 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         self.addChild(slime)
     }
     
-    
     // タッチイベント
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        let touch = touches.first! as UITouch
-        let location = touch.locationInNode(self)
-        let touchedNode = self.nodeAtPoint(location)
-        if (touchedNode.name != nil) {
-            checkTochEvent(touchedNode.name!)
+        for touch: AnyObject in touches {
+            let location = touch.locationInNode(self)
+            let touchedNode = self.nodeAtPoint(location)
+            if (touchedNode.name != nil) {
+                checkTochEvent(touchedNode.name!)
+            }
+            // カッパを飛ばす
+            if (_kappa.parent == nil) {
+                return
+            }
+            let from = _kappa.position
+            kappaJump(_kappa)
+            setBattleTap()
+            setSword(from, to: location)
         }
-        
-        // カッパを飛ばす
-        if (_kappa.parent == nil) {
-            return
-        }
-        let from = _kappa.position
-        kappaJump(_kappa)
-        setBattleTap()
-        setSword(from, to: location)
     }
     
     func setBattleTap(){

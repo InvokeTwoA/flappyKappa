@@ -10,19 +10,18 @@ class SisterNode: SKSpriteNode {
         let enemy : SisterNode = SisterNode(imageNamed: "sister_32_32")
         let value : Int
         if danjon_type == "hard" {
-            value = 3
-        } else if danjon_type == "special" {
             value = 2
+        } else if danjon_type == "special" {
+            value = 3
         } else {
             value = 1
         }
         enemy.userData =
             [
                 "hp" : 20*value,
-                "str" : 3,
-                "def": 5,
-                "gold": 7,
-                "score": 20,
+                "str" : 6,
+                "def": 0,
+                "gold": 9,
                 "name" : "シスター"
         ]
         enemy.name = "enemy"
@@ -38,11 +37,11 @@ class SisterNode: SKSpriteNode {
         physic.allowsRotation = false
         physic.categoryBitMask = enemyCategory
         physic.contactTestBitMask = fireCategory | swordCategory | worldCategory
-        physic.collisionBitMask = worldCategory | wallCategory | downWorldCategory | horizonWorldCategory
+        physic.collisionBitMask = horizonWorldCategory | downWorldCategory | worldCategory | wallCategory
         physic.linearDamping = 0
         physic.friction = 0
         physic.restitution = 1.0
-        physic.velocity = CGVectorMake(-30, -30)
+        physic.velocity = CGVectorMake(0, -50)
         self.physicsBody = physic
         
         self.physicsBody = physic

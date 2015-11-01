@@ -8,11 +8,12 @@ class JigenScene: BaseScene {
         let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight)
         let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight*2)
+        let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight*2)
         
         setCenterButton("レビューしてあげよう", key_name: "review", point_y: point_y1)
-        setCenterPicture("miku_32_32",              key_name: "miku", point_y: point_y2)
+        setCenterPicture("miku_32_32",        key_name: "miku", point_y: point_y2)
         setCenterButton("過去の物語をプレイする", key_name: "kako", point_y: point_y3)
-        
+        setCenterPicture("metal_slime",        key_name: "metaru", point_y: point_y4)
         setBackButton("こんな場所にもう用はない！")
     }
     
@@ -30,6 +31,8 @@ class JigenScene: BaseScene {
             talkMiku()
         } else if name == "review" {
             goReview()
+        } else if name == "metaru" {
+            talkMetaru()
         } else if name == "back" {
             goGameScene()
         }
@@ -53,15 +56,19 @@ class JigenScene: BaseScene {
     func goKako() {
         let appID = CommonConst.senjoId
         let itunesURL:String = "itms-apps://itunes.apple.com/app/bars/id\(appID)"
-        print("url=\(itunesURL)")
         let url = NSURL(string:itunesURL)
         let app:UIApplication = UIApplication.sharedApplication()
         app.openURL(url!)
     }
     
     func talkMiku(){
-        showAlert("看板娘", text:"レビューをしてくれたらカッパ神は心から喜ぶんだよ", ok_text: "いつつの……星が呼んでる……？")
+        showAlert("評価の女神　イツ・ツスター", text:"レビューをしてくれたらカッパ神は心から喜ぶんだよ", ok_text: "いつつの……星が呼んでる……？")
     }
+
+    func talkMetaru(){
+        showAlert("言い訳の神アシタカーラ", text:"アップルストアにうまく飛ばない場合は、カッパ神が調子悪いので許してあげよう\n\niOS9にしか対応してないかも、しれぬ……", ok_text: "えー。仕方ないなぁ")
+    }
+
     
     override func update(currentTime: CFTimeInterval) {
     }

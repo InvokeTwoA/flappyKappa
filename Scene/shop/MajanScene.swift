@@ -77,7 +77,6 @@ class MajanScene: BaseScene {
         if _gold < 1000 {
             showAlert("お金が足りないよ", text: "村の発展には1000ゴールド必要です", ok_text: "しょんぼり")
         } else {
-            print("hoge name=\(key_name)", terminator: "")
             CommonData.plus(key_name, value: 1)
             CommonData.minus("gold", value: 1000)
             reloadScene()
@@ -87,7 +86,6 @@ class MajanScene: BaseScene {
     override func saveMoney() {
         return
     }
-    
     
     func reloadScene(){
         updateGoldText()

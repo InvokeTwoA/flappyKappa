@@ -14,14 +14,15 @@ class MugenStageScene: PlayScene {
     override func generateEnemy(){
         makeApple()
         makeBlock(10)
-        makeAllBlock(18)
+        makeAllBlock(35)
         makeSlime(25)
         makeSuperSlime(15)
-        makeSister(20)
+        makeSister(10)
         makeWitch(25)
         makeFighter(5)
         makeSkelton(5)
         makeGhost(5)
+        makeMiira(10)
         
         // boss
         makeGolem()

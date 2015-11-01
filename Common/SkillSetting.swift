@@ -31,6 +31,8 @@ class SkillSetting {
             name = "カッパスラッシュ"
         case "kenja":
             name = "瞑想（居眠り）"
+        case "asobi":
+            name = "明日があるさ"
         default:
             name = ""
         }
@@ -67,6 +69,8 @@ class SkillSetting {
             name = "戦闘中の攻撃力と知恵に精神の値を加算。\n"
         case "kenja":
             name = "戦闘中、時間経過と共にHPが1回復 \n"
+        case "asobi":
+            name = "すぐにボスと戦う事ができる。\n\nズルしちゃえー"
         default:
             name = ""
         }

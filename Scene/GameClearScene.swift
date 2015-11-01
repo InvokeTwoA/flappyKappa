@@ -27,11 +27,6 @@ class GameClearScene: BaseScene, AVAudioPlayerDelegate {
         let y5 = y4 - CGFloat(CommonConst.textBlankHeight)
         let y6 = y5 - CGFloat(CommonConst.textBlankHeight)
         
-        if _stage == "mugen" {
-            changeNickname("伝説の", percent: 100)
-        }
-        
-        
         if _stage == "maou" {
             changeNickname("真の", percent: 77)
             setCenterText("こうして世界に平和は訪れた", key_name: "text1", point_y: y1)
@@ -42,6 +37,16 @@ class GameClearScene: BaseScene, AVAudioPlayerDelegate {
             setCenterText("中々できる事じゃないよ。", key_name: "text4", point_y: y5)
 
             setBackButton("こらこら、よさないか")
+        } else if _stage == "mugen" {
+            let nickname = CommonUI.displayName()
+            setCenterText("さすが\(nickname)", key_name: "text1", point_y: y1)
+            setCenterText("カッパでも勇者になれる……", key_name: "text2", point_y: y2)
+            setCenterText("それを君は見事に証明したのだ！", key_name: "text3", point_y: y3)
+            setCenterText("しかしこの世に光と闇がある限り", key_name: "text4", point_y: y4)
+            setCenterText("やがて新たな悪も生まれるだろう", key_name: "text5", point_y: y5)
+            setCenterText("「俺たちの戦いはこれからだぁ！」", key_name: "text6", point_y: y6)
+            changeNickname("伝説の", percent: 100)
+            setBackButton("次回作にご期待ください")
         } else {
             setCenterText("君は冒険の目的を達成した。", key_name: "text1", point_y: y1)
             setCenterText("しかし魔王がいる限り戦いは続く", key_name: "text2", point_y: y2)
@@ -78,8 +83,20 @@ class GameClearScene: BaseScene, AVAudioPlayerDelegate {
             case "kabe":
                 setCenterText("聖シャインの剣を手に入れた", key_name: "text6", point_y: y6)
                 CommonData.setData("weapon_shine", value: 1)
+            case "odon":
+                setCenterText("紹介状を手に入れた", key_name: "text6", point_y: y6)
+                CommonData.setData("shoukai", value: 1)
+            case "seizon":
+                setCenterText("たぬきブリンガーを手に入れた", key_name: "text6", point_y: y6)
+                CommonData.setData("weapon_bringer", value: 1)
+            case "white":
+                setCenterText("魔王城の鍵を手に入れた", key_name: "text6", point_y: y6)
+                CommonData.setData("mao_key", value: 1)
+            case "kettou":
+                setCenterText("カッパソードを手に入れた", key_name: "text6", point_y: y6)
+                CommonData.setData("weapon_kappa_sword", value: 1)
             default:
-                print("報酬が用意されてません", terminator: "")
+                print("しかし空っぽだった", terminator: "")
             }
         }
         prepareBGM("clear")

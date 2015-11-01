@@ -28,8 +28,10 @@ class JobScene: BaseScene {
                 setCenterButton("勇者", key_name: "hero", point_y: point_y6)
             } else if _nickname == "文無し" {
                 setCenterButton("勝負師", key_name: "akagi", point_y: point_y6)
-            } else {
+            } else if _nickname == "即戦力の"{
                 setCenterButton("プロデューサー", key_name: "p", point_y: point_y6)
+            } else {
+                setCenterButton("遊び人", key_name: "asobi", point_y: point_y6)
             }
         }
         
@@ -52,6 +54,8 @@ class JobScene: BaseScene {
             goJobAkagiScene()
         } else if name == "p" {
             goJobProducerScene()
+        } else if name == "asobi" {
+            goJobAsobiScene()
         } else if name == "hero" {
             goJobHeroScene()
         } else if name == "kenja" {
@@ -114,6 +118,13 @@ class JobScene: BaseScene {
         let tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
         changeScene(secondScene, tr: tr)
     }
+    
+    func goJobAsobiScene(){
+        let secondScene = JobAsobiScene(size: self.frame.size)
+        let tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
+        changeScene(secondScene, tr: tr)
+    }
+    
     func goJobKenjaScene(){
         let secondScene = JobKenjaScene(size: self.frame.size)
         let tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)

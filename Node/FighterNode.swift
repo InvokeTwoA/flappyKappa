@@ -10,9 +10,9 @@ class FighterNode: SKSpriteNode {
         let enemy : FighterNode = FighterNode(imageNamed: "g_fighter")
         let value : Int
         if danjon_type == "hard" {
-            value = 3
-        } else if danjon_type == "special" {
             value = 2
+        } else if danjon_type == "special" {
+            value = 3
         } else {
             value = 1
         }

@@ -13,7 +13,7 @@ class KappaNode: SKSpriteNode {
         physic.affectedByGravity = true
         physic.allowsRotation = false
         physic.categoryBitMask = heroCategory
-        physic.contactTestBitMask = goalCategory | coinCategory | worldCategory | wallCategory | enemyCategory | itemCategory | blockCategory
+        physic.contactTestBitMask = goalCategory | coinCategory | worldCategory | wallCategory | enemyCategory | itemCategory | blockCategory | downWorldCategory
         physic.collisionBitMask = worldCategory | wallCategory | horizonWorldCategory | downWorldCategory
         physic.linearDamping = 0
         physic.friction = 0
@@ -33,7 +33,7 @@ class KappaNode: SKSpriteNode {
         physic.affectedByGravity = true
         physic.allowsRotation = false
         physic.categoryBitMask = heroCategory
-        physic.contactTestBitMask = goalCategory | coinCategory | worldCategory | wallCategory | enemyCategory | itemCategory | blockCategory
+        physic.contactTestBitMask = goalCategory | coinCategory | worldCategory | wallCategory | enemyCategory | itemCategory | blockCategory | downWorldCategory
         physic.collisionBitMask = worldCategory | wallCategory | horizonWorldCategory | downWorldCategory
         physic.linearDamping = 0
         physic.friction = 0

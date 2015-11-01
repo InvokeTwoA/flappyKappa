@@ -11,7 +11,6 @@ class ShopScene: BaseScene {
         let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y6 : CGFloat = point_y5 - CGFloat(CommonConst.textBlankHeight*2)
-        let point_y7 : CGFloat = point_y6 - CGFloat(CommonConst.textBlankHeight*2)
         
         setCenterButton("武器屋に行くぜ", key_name: "weapon_shop", point_y: point_y1)
         setCenterButton("酒でも飲むか！", key_name: "bar", point_y: point_y2)
@@ -19,9 +18,7 @@ class ShopScene: BaseScene {
         setCenterButton("転職するか", key_name: "job", point_y: point_y4)
         setCenterButton("村を発展させる", key_name: "develop", point_y: point_y5)
         setCenterButton("雀荘に行く", key_name: "majan", point_y: point_y6)
-        if _day > 5 {
-            setCenterButton("次元の狭間に飛び込む", key_name: "jigen", point_y: point_y7)
-        }
+        
         setBackButton("こんな場所にもう用はない！")
     }
     
@@ -44,9 +41,11 @@ class ShopScene: BaseScene {
         } else if name == "develop" {
             goDevelopScene()
         } else if name == "majan" {
-            goMajanScene()
-        } else if name == "jigen" {
-            goJigen()
+            if CommonData.getDataByInt("shoukai") == 1 {
+                goMajanScene()
+            } else {
+                showAlert("この店に入るには紹介状が必要だぜ", text: "金は命より重い。それを知ってる人間だけがギャンブルをする資格がある", ok_text: "そんなぁ")
+            }
         } else if name == "back" {
             goGameScene()
         }
@@ -85,12 +84,6 @@ class ShopScene: BaseScene {
         changeScene(secondScene, tr: tr)
     }
     
-    func goJigen() {
-        let secondScene = JigenScene(size: self.frame.size)
-        let tr = SKTransition.fadeWithColor(UIColor.grayColor(), duration: 3)
-        changeScene(secondScene, tr: tr)
-    }
-
     // 転職画面へ
     func goMajanScene(){
         let secondScene = MajanScene(size: self.frame.size)

@@ -11,9 +11,9 @@ class BigSlimeNode: SKSpriteNode {
         enemy.zPosition = 999
         var value : Int = 1
         if danjon_type == "hard" {
-            value = 3
-        } else if danjon_type == "special" {
             value = 2
+        } else if danjon_type == "special" {
+            value = 3
         }
         enemy.userData =
             [

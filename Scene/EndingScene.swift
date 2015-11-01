@@ -2,6 +2,7 @@
 // ここに関しては静的な画面なので、BaseSceneを継承しない
 
 import SpriteKit
+import Social
 
 class EndingScene: BaseScene {
     
@@ -24,8 +25,11 @@ class EndingScene: BaseScene {
         setSlimeDemo()
         setMetal()
         setMiku()
+        setMiira()
         
         setTitleLabel()
+        
+        setCenterButton("この感動を呟くしかない", key_name: "tweet", point_y: CGRectGetMidY(self.frame) - 150)
         setBackButton("再び冒険へ")
     }
     
@@ -110,9 +114,29 @@ class EndingScene: BaseScene {
     
     func setMiku(){
         let chara = SKSpriteNode(imageNamed: "miku_32_32")
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 100)
+        chara.position = point
+        self.addChild(chara)
+    }
+    
+    func setMiira(){
+        let chara = SKSpriteNode(imageNamed: "miira_32_32")
         let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) + 50, y:CGRectGetMidY(self.frame) - 100)
         chara.position = point
         self.addChild(chara)
+    }
+    
+    func setTweet(){
+        let twitterCmp : SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+        
+        let nickname = CommonUI.displayName()
+        twitterCmp.setInitialText("【朗報】\n\(nickname)\n世界を救う【この時を待ってたぜ】  #かっぱサーガ")
+        let image = CommonUtil.screenShot(self.view!)
+        twitterCmp.addImage(image)
+        let currentViewController : UIViewController? = UIApplication.sharedApplication().keyWindow?.rootViewController!
+ 
+        //ツイート画面を表示
+        currentViewController?.presentViewController(twitterCmp, animated: true, completion: nil)
     }
 
     override func setSword(from: CGPoint, to: CGPoint) {
@@ -156,6 +180,8 @@ class EndingScene: BaseScene {
     override func checkTochEvent(name: String) {
         if name == "back" {
             start()
+        } else if name == "tweet" {
+            setTweet()
         }
     }
     

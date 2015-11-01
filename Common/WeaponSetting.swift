@@ -29,6 +29,8 @@ class WeaponSetting {
             name = "金の匙"
         case "bringer":
             name = "たぬきブリンガー"
+        case "kappa_sword":
+            name = "かっぱソード"
         default:
             name = "テキストが用意されてません"
         }
@@ -95,6 +97,8 @@ class WeaponSetting {
             name = "定価\(getCost(key_name))ゴールド\n\nありがたいスプーン。\n\nブロックを壊せるようになる。ブロックを破壊した際に出現すするコインの金額が(1~幸運)ゴールドになる。"
         case "bringer":
             name = "定価\(getCost(key_name))ゴールド\n\n星神を裏切った罪で追放されたタヌキブリンガーの悲しみが込められた剣。手にしたものは緋色の恩恵を得ると言う。\n\n物理攻撃が５ダメージ固定になる。\n\n（ただし、クリティカルヒットの時は例外）\n\nスキル[ブロック壊し]\nブロックを破壊できる"
+        case "kappa_sword":
+            name = "伝説のカッパが使っていた伝説の剣。\n\n伝説的な威力がある。\n戦闘中は攻撃力が冒険日数と一緒の値になる。HPが30になってしまう。"
         default:
             name = "テキスト用意されてません"
         }

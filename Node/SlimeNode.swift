@@ -67,9 +67,9 @@ class SlimeNode: SKSpriteNode {
         enemy._dx = 200
         let value : Int
         if danjon_type == "hard" {
-            value = 3
-        } else if danjon_type == "special" {
             value = 2
+        } else if danjon_type == "special" {
+            value = 3
         } else {
             value = 1
         }
