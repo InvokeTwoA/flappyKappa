@@ -30,7 +30,7 @@ class StatusScene: BaseScene {
         lvLabel.position = CGPointMake(CGRectGetMidX(self.frame), y1)
         self.addChild(lvLabel)
 
-        setPicture("miku_32_32", key_name: "miku", point_y: y2)
+//        setPicture("miku_32_32", key_name: "miku", point_y: y2)
         
         showStatusWithoutUp("hp", display_key: "HP",  y: y3)
         showStatus("str",   display_key: "筋力", y: y4)

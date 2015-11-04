@@ -349,6 +349,9 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     
     // 衝突時など、火花を出す
     func makeSpark(location: CGPoint?){
+        if location == nil {
+            return
+        }
         let particle = SparkEmitterNode.makeSpark("Spark")
         particle.position = location!
         particle.zPosition = 1

@@ -8,28 +8,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        
-        
-        /*
-        let localPlayer = GKLocalPlayer.localPlayer()
-
-        // GameCenter機能は廃止
-        localPlayer.authenticateHandler = {(loginVC, error) -> Void in
-            if GKLocalPlayer.localPlayer().authenticated {
-            
-                // GameCenter 認証成功
-                print("game center authenticated")
-            } else if loginVC != nil {
-                print("game center sign in.")
-                self.window?.rootViewController?.presentViewController(loginVC, animated: true, completion: nil)
-            } else {
-                if error != nil {
-                    print("error : \(error.code)  ( \(error.description) )")
-                }
-            }
-        }
-        */
-        
         return true
     }
 

@@ -514,6 +514,13 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
         showMoney()
         coinBGM()
     }
+    
+    // 敵と衝突時
+    func hitEnemy(heroBody: SKPhysicsBody, enemyBody: SKPhysicsBody){
+        makeSpark(heroBody.node?.position)
+        let damage = enemyBody.node?.userData?.valueForKey("str") as! Int
+        damaged(damage, point: (heroBody.node?.position)!, color: UIColor.redColor())
+    }
 
     override func didBeginContact(contact: SKPhysicsContact) {
         var firstBody, secondBody: SKPhysicsBody
@@ -524,13 +531,14 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
             firstBody = contact.bodyB
             secondBody = contact.bodyA
         }
+        if firstBody.node == nil || secondBody.node == nil {
+            return
+        }
         
         // 主人公の衝突判定
         if (firstBody.categoryBitMask & heroCategory != 0 ) {
             if secondBody.categoryBitMask & enemyCategory != 0 {
-                makeSpark(firstBody.node?.position)
-                let damage = secondBody.node?.userData?.valueForKey("str") as! Int
-                damaged(damage, point: firstBody.node!.position, color: UIColor.redColor())
+                hitEnemy(firstBody, enemyBody: secondBody)
                 return
             } else if secondBody.categoryBitMask & itemCategory != 0 {
                 getApple(secondBody)
@@ -543,8 +551,8 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
                     val = val*3
                 }
                 getCoin(val)
-                secondBody.node?.removeFromParent()
                 displayDamage(val, point: secondBody.node!.position, color: UIColor.yellowColor())
+                secondBody.node?.removeFromParent()
                 return
             } else if secondBody.categoryBitMask & blockCategory != 0 {
                 makeSpark(firstBody.node?.position)
@@ -569,6 +577,7 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
                 firstBody.node?.removeFromParent()
             } else if secondBody.categoryBitMask & fireCategory != 0 {
                 makeSpark(firstBody.node?.position)
+                
                 displayDamage(_int, point: firstBody.node!.position, color: _textColor)
                 hitFire(firstBody, fireBody: secondBody)
             } else if secondBody.categoryBitMask & swordCategory != 0 {

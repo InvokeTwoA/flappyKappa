@@ -172,14 +172,13 @@ class TitleScene: BaseScene {
                 
                 var str = textField.text
                 if(str == ""){
-                    str = "ツンデレ"
-                }
-                if str!.utf16.count > 4 {
+                    self.setDefaultName()
+                } else if str!.utf16.count > 4 {
                     str = (str! as NSString).substringToIndex(4)
+                    CommonData.setData("name", value: str!)
+                    CommonData.setData("story", value: 1)
+                    self.goOpeningScene()
                 }
-                CommonData.setData("name", value: str!)
-                CommonData.setData("story", value: 1)
-                self.goOpeningScene()
         })
         let cancelAction: UIAlertAction = UIAlertAction(title: "名乗りたくない",
             style: UIAlertActionStyle.Cancel,
@@ -250,7 +249,7 @@ class TitleScene: BaseScene {
             showAlert("無理っす", text: "(´；ω；｀)", ok_text: "仕方ないな")
             _destroy_num += 1
         } else {
-            showAlert("地球の代わりにセーブデータを初期化しました", text: "もう物騒な事を言っちゃダメだよ", ok_text: "はーい。")
+            showAlert("地球の代わりにセーブデータを破壊しました！", text: "もう物騒な事を言っちゃダメだよ", ok_text: "はーい。")
             CommonData.initData()
         }
         
