@@ -12,10 +12,12 @@ class Equip3Scene: BaseScene {
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight * 2)
         let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight * 2)
         let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight * 2)
-        setWeapon("habel", point_y: point_y1)
-        setWeapon("kabuto", point_y: point_y2)
-        setWeapon("golden", point_y: point_y3)
-        setWeapon("bringer", point_y: point_y4)
+        
+        let weapon_name = WeaponSetting.getName(_equip)
+        setCenterText("現在の装備：\(weapon_name)", key_name: "equip", point_y: point_y1)        
+        setWeapon("habel", point_y: point_y2)
+        setWeapon("kabuto", point_y: point_y3)
+        setWeapon("golden", point_y: point_y4)
         setCenterButton("次へ", key_name: "next", point_y: point_y5)
     }
     
@@ -49,8 +51,6 @@ class Equip3Scene: BaseScene {
         }
     }
     
-    
-    
     // タッチイベント
     override func checkTochEvent(name: String) {
         if name == "back" {
@@ -63,29 +63,22 @@ class Equip3Scene: BaseScene {
             showAlert(WeaponSetting.getName("kabuto"), text: WeaponSetting.getExplain("kabuto"), ok_text: "へぇー")
         } else if name == "hatena_golden" {
             showAlert(WeaponSetting.getName("golden"), text: WeaponSetting.getExplain("golden"), ok_text: "ふむふむ")
-        } else if name == "hatena_bringer" {
-            showAlert(WeaponSetting.getName("bringer"), text: WeaponSetting.getExplain("bringer"), ok_text: "すげえ")
         } else if name == "equip_habel" {
             CommonData.setData("equip_weapon", value: "habel")
-            let secondScene = Equip3Scene(size: self.frame.size)
-            let tr = SKTransition.flipHorizontalWithDuration(1)
-            changeScene(secondScene, tr: tr)
+            reloadScene()
         } else if name == "equip_kabuto" {
             CommonData.setData("equip_weapon", value: "kabuto")
-            let secondScene = Equip3Scene(size: self.frame.size)
-            let tr = SKTransition.flipHorizontalWithDuration(1)
-            changeScene(secondScene, tr: tr)
+            reloadScene()
         } else if name == "equip_golden" {
             CommonData.setData("equip_weapon", value: "golden")
-            let secondScene = Equip3Scene(size: self.frame.size)
-            let tr = SKTransition.flipHorizontalWithDuration(1)
-            changeScene(secondScene, tr: tr)
-        } else if name == "equip_bringer" {
-            CommonData.setData("equip_weapon", value: "bringer")
-            let secondScene = Equip3Scene(size: self.frame.size)
-            let tr = SKTransition.flipHorizontalWithDuration(1)
-            changeScene(secondScene, tr: tr)
+            reloadScene()
         }
+    }
+    
+    func reloadScene(){
+        let secondScene = Equip3Scene(size: self.frame.size)
+        let tr = SKTransition.flipHorizontalWithDuration(1)
+        changeScene(secondScene, tr: tr)
     }
     
     func goNext(){

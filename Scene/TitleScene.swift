@@ -176,7 +176,6 @@ class TitleScene: BaseScene {
                 } else if str!.utf16.count > 4 {
                     str = (str! as NSString).substringToIndex(4)
                     CommonData.setData("name", value: str!)
-                    CommonData.setData("story", value: 1)
                     self.goOpeningScene()
                 }
         })
@@ -212,7 +211,6 @@ class TitleScene: BaseScene {
             handler:{
                 (action:UIAlertAction) -> Void in
                 CommonData.setData("name", value: "イケメン")
-                CommonData.setData("story", value: 1)
                 self.goOpeningScene()
         })
         alert.addAction(yesAction)
@@ -222,6 +220,7 @@ class TitleScene: BaseScene {
 
     
     func goOpeningScene(){
+        CommonData.setData("story", value: 1)
         let secondScene = OpeningScene(size: self.frame.size)
         let tr = SKTransition.doorwayWithDuration(2)
         changeScene(secondScene, tr: tr)

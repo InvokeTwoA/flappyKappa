@@ -4,9 +4,8 @@ import Foundation
 import SpriteKit
 import AVFoundation
 
-class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
+class BaseScene: SKScene, SKPhysicsContactDelegate {
     var _gold : Int = 0
-    var _nadView: NADView!
     
     // 各種ステータス
     var _agi : Int     = CommonData.getDataByInt("agi")
@@ -238,6 +237,14 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         picture.position = point
         self.addChild(picture)
     }
+    
+    func setRightPicture(path: String, key_name: String, point_y : CGFloat){
+        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:point_y)
+        let picture = SKSpriteNode(imageNamed: path)
+        picture.name = key_name
+        picture.position = point
+        self.addChild(picture)
+    }
 
     func setCenterPicture(path: String, key_name: String, point_y : CGFloat){
         let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame), y:point_y)
@@ -278,6 +285,7 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
         self.addChild(slime)
     }
     
+
     // タッチイベント
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch: AnyObject in touches {
@@ -286,6 +294,9 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
             if (touchedNode.name != nil) {
                 checkTochEvent(touchedNode.name!)
             }
+            
+            //CommonUtil.report_memory()
+            
             // カッパを飛ばす
             if (_kappa.parent == nil) {
                 return
@@ -296,7 +307,7 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
             setSword(from, to: location)
         }
     }
-    
+
     func setBattleTap(){
         return
     }
@@ -324,7 +335,6 @@ class BaseScene: SKScene, NADViewDelegate, SKPhysicsContactDelegate {
     
     func checkTochEvent(name :String){
     }
-    
     
     func didBeginContact(contact: SKPhysicsContact) {
         var firstBody, secondBody: SKPhysicsBody

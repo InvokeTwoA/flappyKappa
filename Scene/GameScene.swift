@@ -10,6 +10,7 @@ class GameScene: BaseScene {
 
         
         let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*2)
+        let point_y1_5 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight)
         let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight*3)
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight*2)
@@ -17,6 +18,11 @@ class GameScene: BaseScene {
         
 
         setPicture("miku_32_32", key_name: "miku", point_y: point_y1)
+        if(_day<3){
+            setCenterText("まずは町の酒場で情報集めだ！", key_name: "text", point_y: point_y1_5)
+        } else {
+            setCenterText("必ずや勇者になってみせる。", key_name: "text", point_y: point_y1_5)
+        }
         setButton("冒険する",     key_name: "adventure", point_y:  point_y2)
         setButton("街に出かける",  key_name: "shop", point_y:  point_y3)
         setButton("人生を見直す",  key_name: "status", point_y:  point_y4)

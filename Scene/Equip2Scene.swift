@@ -14,10 +14,12 @@ class Equip2Scene: BaseScene {
         let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight * 2)
         let point_y6 : CGFloat = point_y5 - CGFloat(CommonConst.textBlankHeight * 2)
         
-        setWeapon("oretue", point_y: point_y1)
-        setWeapon("soul", point_y: point_y2)
-        setWeapon("juryoku", point_y: point_y3)
-        setWeapon("shine", point_y: point_y4)
+        let weapon_name = WeaponSetting.getName(_equip)
+        setCenterText("現在の装備：\(weapon_name)", key_name: "equip", point_y: point_y1)
+        setWeapon("oretue", point_y: point_y2)
+        setWeapon("soul", point_y: point_y3)
+        setWeapon("juryoku", point_y: point_y4)
+
         setCenterButton("次ページへ", key_name: "next", point_y: point_y5)
         setCenterButton("装備を外す", key_name: "nothing", point_y: point_y6)
     }
@@ -71,29 +73,22 @@ class Equip2Scene: BaseScene {
             showAlert(WeaponSetting.getName("juryoku"), text: WeaponSetting.getExplain("juryoku"), ok_text: "へぇー")
         } else if name == "hatena_soul" {
             showAlert(WeaponSetting.getName("soul"), text: WeaponSetting.getExplain("soul"), ok_text: "ふむふむ")
-        } else if name == "hatena_shine" {
-            showAlert(WeaponSetting.getName("shine"), text: WeaponSetting.getExplain("shine"), ok_text: "すげえ")
         } else if name == "equip_oretue" {
             CommonData.setData("equip_weapon", value: "oretue")
-            let secondScene = Equip2Scene(size: self.frame.size)
-            let tr = SKTransition.flipHorizontalWithDuration(1)
-            changeScene(secondScene, tr: tr)
+            reloadScene()
         } else if name == "equip_soul" {
             CommonData.setData("equip_weapon", value: "soul")
-            let secondScene = Equip2Scene(size: self.frame.size)
-            let tr = SKTransition.flipHorizontalWithDuration(1)
-            changeScene(secondScene, tr: tr)
+            reloadScene()
         } else if name == "equip_juryoku" {
             CommonData.setData("equip_weapon", value: "juryoku")
-            let secondScene = Equip2Scene(size: self.frame.size)
-            let tr = SKTransition.flipHorizontalWithDuration(1)
-            changeScene(secondScene, tr: tr)
-        } else if name == "equip_shine" {
-            CommonData.setData("equip_weapon", value: "shine")
-            let secondScene = Equip2Scene(size: self.frame.size)
-            let tr = SKTransition.flipHorizontalWithDuration(1)
-            changeScene(secondScene, tr: tr)
+            reloadScene()
         }
+    }
+    
+    func reloadScene(){
+        let secondScene = Equip2Scene(size: self.frame.size)
+        let tr = SKTransition.flipHorizontalWithDuration(1)
+        changeScene(secondScene, tr: tr)
     }
     
     func goNext(){

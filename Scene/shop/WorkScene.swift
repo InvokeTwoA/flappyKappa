@@ -7,7 +7,8 @@ class WorkScene: BaseScene {
     override func didMoveToView(view: SKView) {
         setBaseSetting()
         
-        let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*2)
+        let point_y1 : CGFloat = CGRectGetMaxY(self.frame) - CGFloat(CommonConst.headerHeight + CommonConst.textBlankHeight*1)
+        let point_y1_5 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight*1)
         let point_y2 : CGFloat = point_y1 - CGFloat(CommonConst.textBlankHeight*2)
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight*1)
         let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight*1)
@@ -15,22 +16,31 @@ class WorkScene: BaseScene {
         let point_y6 : CGFloat = point_y5 - CGFloat(CommonConst.textBlankHeight*1)
         let point_y7 : CGFloat = point_y6 - CGFloat(CommonConst.textBlankHeight*1)
         let point_y8 : CGFloat = point_y7 - CGFloat(CommonConst.textBlankHeight*1)
-        
+        let point_y9 : CGFloat = point_y8 - CGFloat(CommonConst.textBlankHeight*1)
         setButton("おつかれさまでしたー", key_name: "teiji", point_y: point_y1)
-//        setCenterButton("スライム召喚", key_name: "call", point_y: point_y2)
-        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:point_y3)
+        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:point_y2)
         setGhostDemo(point)
+        setRightPicture("miku_32_32", key_name: "miku", point_y: point_y1_5)
         setCenterText("スライムをゴーストに当てるべし", key_name: "buhi", point_y: point_y4)
         setCenterText("当てた数に応じて給料をもらえるぞ", key_name: "buhi", point_y: point_y5)
-        setCenterText("疲れたら挨拶をして帰ろう", key_name: "buhi", point_y: point_y6)
-        setCenterText("ゴーストに当てた数：\(_hit)", key_name: "hit", point_y: point_y7)
-        setCenterText("最高記録：\(_highScore)", key_name: "highscore", point_y: point_y8)
+        setCenterText("ヒロインに触れればスライム召喚", key_name: "buhi", point_y: point_y6)
+        setCenterText("うまくカッパでスライムに体当たりだ！", key_name: "buhi", point_y: point_y7)
+        setCenterText("ゴーストに当てた数：\(_hit)", key_name: "hit", point_y: point_y8)
+        setCenterText("最高記録：\(_highScore)", key_name: "highscore", point_y: point_y9)
+    }
+    
+    override func setSlimeDemo(){
+        let slime = SlimeNode.makeDemo()
+        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) + 10, y:CGRectGetMinY(self.frame) + 150)
+        slime.position = point
+        
+        self.addChild(slime)
     }
     
     override func checkTochEvent(name: String) {
         if name == "teiji" {
             kaeru()
-        } else if name == "call" {
+        } else if name == "miku" {
             callSlime()
         }
     }
@@ -38,11 +48,13 @@ class WorkScene: BaseScene {
     func callSlime(){
         let slime : SlimeNode? = childNodeWithName("slime") as? SlimeNode
         let rnd = CommonUtil.rnd(2)
-        var point_x = CGRectGetMinX(self.frame) + 50
+        var point_x = CGRectGetMinX(self.frame) + 50 + CGFloat(CommonUtil.rnd(150))
         if(rnd == 0){
-            point_x = CGRectGetMaxX(self.frame) - 50
+            point_x = CGRectGetMaxX(self.frame) - 50 - CGFloat(CommonUtil.rnd(150))
         }
-        slime!.position = CGPoint(x:point_x, y:CGRectGetMidY(self.frame))
+        slime!.position = CGPoint(x:point_x, y:CGRectGetMinY(self.frame)+100)
+        slime!.physicsBody?.velocity = CGVector(dx: 0,dy: 0)
+        slime!.physicsBody!.applyImpulse(CGVectorMake(-1,0))
     }
     
     func kaeru(){
@@ -65,7 +77,6 @@ class WorkScene: BaseScene {
         if _hit > _highScore  {
             CommonData.setData("work_high_score", value: _hit)
         }
-        
         
         let buyAction: UIAlertAction = UIAlertAction(title: "失礼しまーす",
             style: UIAlertActionStyle.Default,

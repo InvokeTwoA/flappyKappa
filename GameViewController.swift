@@ -19,8 +19,6 @@ extension SKNode {
 }
 
 class GameViewController: UIViewController, NADViewDelegate, AVAudioPlayerDelegate  {
-
-//    var nadView: NADView!
     private var nadView: NADView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +51,7 @@ class GameViewController: UIViewController, NADViewDelegate, AVAudioPlayerDelega
     
     // タイトル画面へ移動
     func showTitleScene(){
-        let scene = TitleScene(size: UIScreen.mainScreen().bounds.size)
+        let scene = TitleScene(size: UIScreen.mainScreen().bounds.size)        
         let skView = self.view as! SKView
         scene.scaleMode = .AspectFill
         skView.presentScene(scene)

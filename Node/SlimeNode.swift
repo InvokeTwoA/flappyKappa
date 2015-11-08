@@ -104,11 +104,14 @@ class SlimeNode: SKSpriteNode {
     }
     
     class func SlimeAnimateNode() -> SlimeNode {
+        /*
         let s1 : SKTexture = SKTexture(imageNamed: "slime1")
         let s2 : SKTexture = SKTexture(imageNamed: "slime2")
         let action = SKAction.animateWithTextures([s1, s2], timePerFrame: 1.00)
         let enemy : SlimeNode = SlimeNode(imageNamed: "slime1")
         enemy.runAction(SKAction.repeatActionForever(action))
+*/
+        let enemy : SlimeNode = SlimeNode(imageNamed: "slime1")        
         return enemy
     }
     

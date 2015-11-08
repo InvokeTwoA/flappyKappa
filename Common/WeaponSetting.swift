@@ -32,7 +32,7 @@ class WeaponSetting {
         case "kappa_sword":
             name = "かっぱソード"
         default:
-            name = "テキストが用意されてません"
+            name = "全裸"
         }
         return name
     }

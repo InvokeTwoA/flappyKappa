@@ -18,6 +18,9 @@ class Map3Scene: BaseScene {
         if(CommonData.getDataByInt("story") > 1){
             setCenterButton("１対１の決闘",    key_name: "kettou", point_y: point_y4)
             setCenterButton("無限の住人",     key_name: "mugen",  point_y: point_y5)
+        } else {
+            setCenterText("???",    key_name: "text", point_y: point_y4)
+            setCenterText("???",     key_name: "text",  point_y: point_y5)
         }
         
         setBackButton("街に戻るンゴ")
@@ -38,6 +41,7 @@ class Map3Scene: BaseScene {
     override func checkTochEvent(name: String) {
         if name == "back" {
             backAdventure()
+        } else if name == "text"{
         } else if name == "kappa" {
         } else if name == "sword" {
             

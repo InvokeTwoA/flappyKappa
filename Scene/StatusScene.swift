@@ -22,16 +22,15 @@ class StatusScene: BaseScene {
         let y11 = y10 - CGFloat(CommonConst.textBlankHeight)
         let y12 = y11 - CGFloat(CommonConst.textBlankHeight)
         
-        
         let lvLabel : SKLabelNode = SKLabelNode(fontNamed: CommonConst.font_regular)
         let lv : Int = CommonData.getDataByInt("lv")
         lvLabel.text = "LV : \(lv)"
+        lvLabel.name = "lv"
         lvLabel.fontSize = CGFloat(CommonConst.font_size_normal)
         lvLabel.position = CGPointMake(CGRectGetMidX(self.frame), y1)
         self.addChild(lvLabel)
 
 //        setPicture("miku_32_32", key_name: "miku", point_y: y2)
-        
         showStatusWithoutUp("hp", display_key: "HP",  y: y3)
         showStatus("str",   display_key: "筋力", y: y4)
         showStatus("def",   display_key: "体力", y: y5)
@@ -142,6 +141,7 @@ class StatusScene: BaseScene {
         setCost()
         
         updateStatusWithoutUp("hp", display_key: "HP")
+        updateStatusWithoutUp("lv",   display_key: "LV")
         updateStatus("str",   display_key: "筋力")
         updateStatus("int",   display_key: "知恵")
         updateStatus("def",   display_key: "体力")
@@ -155,7 +155,6 @@ class StatusScene: BaseScene {
             let lv_up = childNodeWithName("lv_up")
             lv_up?.removeFromParent()
         }
-
     }
     
     func tweet(){

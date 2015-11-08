@@ -1,7 +1,7 @@
 // アイテム装備
 import SpriteKit
 class EquipScene: BaseScene {
-        
+    
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.1,green:0.0,blue:0.1,alpha:1.0)
         setBaseSetting()
@@ -15,10 +15,12 @@ class EquipScene: BaseScene {
         let point_y6 : CGFloat = point_y5 - CGFloat(CommonConst.textBlankHeight * 2)
 
         setCenterText("武器名をタップすれば装備します。", key_name: "explain", point_y: point_y1)
-        setWeapon("long", point_y: point_y2)
-        setWeapon("katana", point_y: point_y3)
-        setWeapon("shoes", point_y: point_y4)
-        setWeapon("hammer", point_y: point_y5)
+        let weapon_name = WeaponSetting.getName(_equip)
+        setCenterText("現在の装備：\(weapon_name)", key_name: "equip", point_y: point_y2)
+        setWeapon("long", point_y: point_y3)
+        setWeapon("katana", point_y: point_y4)
+        setWeapon("shoes", point_y: point_y5)
+
         setCenterButton("次ページへ", key_name: "next", point_y: point_y6)
     }
     
@@ -66,29 +68,22 @@ class EquipScene: BaseScene {
                 showAlert(WeaponSetting.getName("katana"), text: WeaponSetting.getExplain("katana"), ok_text: "へぇー")
         } else if name == "hatena_shoes" {
             showAlert(WeaponSetting.getName("shoes"), text: WeaponSetting.getExplain("shoes"), ok_text: "ふむふむ")
-        } else if name == "hatena_hammer" {
-            showAlert(WeaponSetting.getName("hammer"), text: WeaponSetting.getExplain("hammer"), ok_text: "それは良い")
         } else if name == "equip_long" {
             CommonData.setData("equip_weapon", value: "long")
-            let secondScene = EquipScene(size: self.frame.size)
-            let tr = SKTransition.flipHorizontalWithDuration(1)
-            changeScene(secondScene, tr: tr)
+            reloadScene()
         } else if name == "equip_katana" {
             CommonData.setData("equip_weapon", value: "katana")
-            let secondScene = EquipScene(size: self.frame.size)
-            let tr = SKTransition.flipHorizontalWithDuration(1)
-            changeScene(secondScene, tr: tr)
+            reloadScene()
         } else if name == "equip_shoes" {
             CommonData.setData("equip_weapon", value: "shoes")
-            let secondScene = EquipScene(size: self.frame.size)
-            let tr = SKTransition.flipHorizontalWithDuration(1)
-            changeScene(secondScene, tr: tr)
-        } else if name == "equip_hammer" {
-            CommonData.setData("equip_weapon", value: "hammer")
-            let secondScene = EquipScene(size: self.frame.size)
-            let tr = SKTransition.flipHorizontalWithDuration(1)
-            changeScene(secondScene, tr: tr)
+            reloadScene()
         }
+    }
+    
+    func reloadScene(){
+        let secondScene = EquipScene(size: self.frame.size)
+        let tr = SKTransition.flipHorizontalWithDuration(1)
+        changeScene(secondScene, tr: tr)
     }
     
     func goNext(){
