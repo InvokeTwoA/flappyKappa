@@ -41,13 +41,13 @@ class WeaponSetting {
         var cost : Int
         switch key_name {
         case "long":
-            cost = 40
+            cost = 20
         case "katana":
-            cost = 70
+            cost = 5
         case "shoes":
-            cost = 10
+            cost = 3
         case "hammer":
-            cost = 200
+            cost = 100
         case "oretue":
             cost = 0
         case "juryoku":
@@ -55,11 +55,11 @@ class WeaponSetting {
         case "shine":
             cost = 0
         case "habel":
-            cost = 333
+            cost = 222
         case "kabuto":
-            cost = 1100
+            cost = 500
         case "golden":
-            cost = 2200
+            cost = 1100
         case "bringer":
             cost = 7777
         default:
@@ -90,7 +90,7 @@ class WeaponSetting {
         case "shine":
             name = "物理ダメージの下限が、仕事の最高記録と同じ値になる"
         case "habel":
-            name = "定価\(getCost(key_name))ゴールド\n\n重たい鎧。ある世界ではこの装備が大人気だった。\n\n戦闘中のHPが50になる。"
+            name = "定価\(getCost(key_name))ゴールド\n\n重たい鎧。ある世界ではこの装備が大人気だった。\n\n戦闘中のHPが３倍になる。"
         case "kabuto":
             name = "定価\(getCost(key_name))ゴールド\n\n天井に頭をぶつけてもダメージを受けなくなる。\n\n連駄ゲーがしたいあなたに贈る一品。"
         case "golden":

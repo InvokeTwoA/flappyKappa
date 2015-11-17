@@ -10,8 +10,8 @@ class TanukiStageScene: PlayScene {
         makeApple()
         makeBlock(20)
         makeSlime(30)
-        makeGhost(15)
-        makeFighter(10)
+        makeGhost(20)
+//        makeFighter(10)
     }
     
     override func makeBoss(danjon_type : String){

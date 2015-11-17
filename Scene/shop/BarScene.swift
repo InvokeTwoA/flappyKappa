@@ -1,9 +1,6 @@
 // 酒場の画面
 import SpriteKit
 class BarScene: BaseScene {
-    
-    var _buy_name : String = "ぶひ"
-    
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor(red:0.0,green:0.5,blue:1.0,alpha:1.0)
         setBaseSetting()
@@ -63,7 +60,7 @@ class BarScene: BaseScene {
             style: UIAlertActionStyle.Default,
             handler:{
                 (action:UIAlertAction) -> Void in
-                self.showAlert("難易度について", text: "ノーマル、ハード、カッパ級が選べる。\nそれぞれ敵のHPと攻撃力が２倍、３倍になるが得られるゴールドも２倍、３倍になる。\n\nまた、レア報酬もノーマルだと5%で入手だが、ハードだと10%、カッパ級だと20%になる。\n\n盗賊ならさらに２倍だ。", ok_text: "サンキュー")
+                self.showAlert("難易度について", text: "ノーマル、ハード、カッパ級が選べる。\nそれぞれ敵のHPと攻撃力が２倍、３倍になるが得られるゴールドも２倍、３倍になる。\n\nまた、レア報酬もノーマルだと15%で入手だが、ハードだと30%、カッパ級だと45%になる。\n\n盗賊ならさらに２倍だ。", ok_text: "サンキュー")
         })
 
         let q5Action: UIAlertAction = UIAlertAction(title: "死ぬとどうなるの？",
@@ -226,7 +223,7 @@ class BarScene: BaseScene {
     }
     
     func talkRingo(){
-        showAlert("りんご売りの少女", text: "戦闘中、たまに出てくるリンゴを食べるとHPが回復します。\n（回復量は精神に依存）\n\nボスを倒した後はどんなにHPが減っても死なないのでゆっくりとコイン集めをしてください。", ok_text: "なるほどね")
+        showAlert("焼肉売りの少女", text: "戦闘中、たまに出てくる焼肉を食べるとHPが回復します。\n（回復量は精神に依存）\n\nボスを倒した後はどんなにHPが減っても死なないのでゆっくりとコイン集めをしてください。", ok_text: "なるほどね")
     }
 
     func goBar2Scene(){
@@ -234,7 +231,6 @@ class BarScene: BaseScene {
         let tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
         changeScene(secondScene, tr: tr)
     }
-
 
     func goShopScene(){
         let secondScene = ShopScene(size: self.frame.size)

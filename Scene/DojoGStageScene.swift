@@ -8,10 +8,10 @@ class DojoGStageScene: PlayScene {
     // 敵を作成
     override func generateEnemy(){
         makeApple()
-        makeSuperSlime(25)
-        makeSister(15)
-        makeWitch(25)
-        makeMiira(15)
+        makeSuperSlime(20)
+        makeSister(10)
+        makeWitch(20)
+        makeMiira(10)
     }
     
     override func makeBoss(danjon_type : String){

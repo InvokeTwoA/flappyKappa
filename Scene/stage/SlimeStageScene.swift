@@ -8,9 +8,9 @@ class SlimeStageScene: PlayScene {
     // 敵を作成
     override func generateEnemy(){
         makeApple()
-        makeBlock(10)
-        makeSlime(50)
-        makeGhost(15)
+        makeBlock(13)
+        makeSlime(40)
+//        makeGhost(15)
     }
     
     override func makeBoss(danjon_type : String){

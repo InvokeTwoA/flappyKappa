@@ -1,8 +1,8 @@
 import SpriteKit
 
 class AppleNode: SKSpriteNode {
-    let _width = 20
-    let _height = 20
+    let _width = 32
+    let _height = 32
     
     class func makeApple() -> AppleNode {
         let node : AppleNode = AppleNode(imageNamed: "apple")

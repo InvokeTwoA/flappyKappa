@@ -26,6 +26,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate {
     // お金の初期値を設定
     func setMoney(){
         _gold = CommonData.getDataByInt("gold")
+        print("set money  \(_gold)")
     }
     
     func setBaseSetting(){
@@ -200,9 +201,9 @@ class BaseScene: SKScene, SKPhysicsContactDelegate {
     
     }
     
-    
     // 画面遷移前など、所持金を記録
     func saveMoney(){
+        print("save money \(_gold)")
         CommonData.setData("gold", value: _gold)
     }
     
@@ -279,7 +280,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate {
         
     func setSlimeDemo(){
         let slime = SlimeNode.makeDemo()
-        let point : CGPoint = CGPoint(x:CGRectGetMidX(self.frame) + 10, y:CGRectGetMidY(self.frame) + 50)
+        let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 20, y:CGRectGetMidY(self.frame) + 50)
         slime.position = point
         
         self.addChild(slime)

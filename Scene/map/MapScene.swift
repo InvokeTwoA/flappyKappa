@@ -17,7 +17,7 @@ class MapScene: BaseScene {
         setCenterButton("アノーレ・ロンド遺跡",        key_name: "golem",     point_y: point_y3)
         setCenterButton("サイレント昼",     key_name: "dojo_g",    point_y: point_y4)
         setCenterButton("ラスボス（魔王城）", key_name: "maou",    point_y: point_y5)
-        setCenterButton("寄り道をする", key_name: "next",    point_y: point_y6)
+        setCenterButton("寄り道をする", key_name: "next",    point_y: point_y6)        
         setBackButton("街に戻るンゴ")
     }
     

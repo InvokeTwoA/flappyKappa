@@ -150,11 +150,11 @@ class GameClearScene: BaseScene, AVAudioPlayerDelegate {
             rnd = CommonUtil.rnd(50)
         }
         
-        if _danjon_type == "special" && rnd < 20 {
+        if _danjon_type == "special" && rnd < 45 {
             return true
-        } else if _danjon_type == "hard" && rnd < 10 {
+        } else if _danjon_type == "hard" && rnd < 30 {
             return true
-        } else if rnd < 5 {
+        } else if rnd < 15 {
             return true
         }
         return false

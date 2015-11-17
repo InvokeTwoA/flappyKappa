@@ -94,7 +94,6 @@ class WorkScene: BaseScene {
         let secondScene = ShopScene(size: self.frame.size)
         let tr = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
         changeScene(secondScene, tr: tr)
-    
     }
     
     

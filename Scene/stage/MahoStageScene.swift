@@ -8,8 +8,8 @@ class MahoStageScene: PlayScene {
     // 敵を作成
     override func generateEnemy(){
         makeApple()
-        makeSuperSlime(15)
-        makeSister(30)
+        makeSuperSlime(10)
+        makeSister(25)
         makeWitch(5)
         makeMetalSlime()
     }

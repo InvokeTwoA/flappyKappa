@@ -8,9 +8,8 @@ class NoukinStageScene: PlayScene {
     // 敵を作成
     override func generateEnemy(){
         makeApple()
-        makeBlock(13)
-        makeSuperSlime(15)
-        makeSkelton(20)
+        makeSuperSlime(10)
+        makeSkelton(15)
         makeMiira(15)
         makeMetalSlime()
     }

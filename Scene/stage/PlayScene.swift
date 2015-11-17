@@ -189,8 +189,8 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
             _maxhp *= 2
             _hp *= 2
         case "habel":
-            _maxhp = 50
-            _hp = 50
+            _maxhp = _maxhp*3
+            _hp = _hp*3
         case "kappa_sword":
             _maxhp = 30
             _hp = 30
@@ -600,12 +600,12 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
                 makeSpark(firstBody.node?.position)
                 attackBGM()
                 if _break_block_flag {
-                    secondBody.node?.removeFromParent()
                     if (_equip == "golden") {
                         makeCoin(1+CommonUtil.rnd(_luck), location: secondBody.node?.position)
                     } else {
                         makeCoin(1, location: secondBody.node?.position)
                     }
+                    secondBody.node?.removeFromParent()
                 }
                 firstBody.node?.removeFromParent()
             }

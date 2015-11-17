@@ -15,7 +15,7 @@ class TitleScene: BaseScene {
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight * 3)
         let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight * 3)
         let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight * 3)
-        
+//        let point_y6 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight * 3)
         let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:point_y1)
         setGhostDemo(point)
         
@@ -28,6 +28,8 @@ class TitleScene: BaseScene {
         setCenterButton("はじめる", key_name: "start", point_y: point_y3)
         setCenterButton("地球を破壊する", key_name: "break", point_y: point_y4)
         setCenterButton("せってい", key_name: "setting", point_y: point_y5)
+//        setCenterButton("他の神アプリで遊ぶ", key_name: "hoka", point_y: point_y6)
+        
         setFighter()
         setWitch()
         setSister()
@@ -39,10 +41,6 @@ class TitleScene: BaseScene {
         setMiira()
         
         setFireButton()
-    }
-    
-    override func setMoney(){
-        return
     }
     
     override func setHeader(){
@@ -127,8 +125,21 @@ class TitleScene: BaseScene {
             worldBreak()
         } else if name == "setting" {
             goSettingScene()
+        } else if name == "hoka" {
+            goHoka()
         }
     }
+  
+    // FIXME 遷移せず
+    func goHoka(){
+        /*
+        let itunesURL:String = "itms-apps://itunes.com/developer/\(artist)/id913430318"
+        let url = NSURL(string:itunesURL)
+        let app:UIApplication = UIApplication.sharedApplication()
+        app.openURL(url!)
+*/
+    }
+    
     
     func start() {
         // もしデータが存在しなかったら、全ての値を初期化
@@ -170,12 +181,15 @@ class TitleScene: BaseScene {
                 // 入力したテキストを保存
                 let textField = alert.textFields![0] 
                 
-                var str = textField.text
+                var str : String = textField.text!
                 if(str == ""){
                     self.setDefaultName()
-                } else if str!.utf16.count > 4 {
-                    str = (str! as NSString).substringToIndex(4)
-                    CommonData.setData("name", value: str!)
+                } else if str.utf16.count > 4 {
+                    str = (str as NSString).substringToIndex(4)
+                    CommonData.setData("name", value: str)
+                    self.goOpeningScene()
+                } else {
+                    CommonData.setData("name", value: str)
                     self.goOpeningScene()
                 }
         })
@@ -220,6 +234,7 @@ class TitleScene: BaseScene {
 
     
     func goOpeningScene(){
+        print("go opening")
         CommonData.setData("story", value: 1)
         let secondScene = OpeningScene(size: self.frame.size)
         let tr = SKTransition.doorwayWithDuration(2)
