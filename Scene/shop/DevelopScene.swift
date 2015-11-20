@@ -51,7 +51,8 @@ class DevelopScene: BaseScene {
     }
         
     func updateText(key: String, display_name: String){
-        let label = childNodeWithName(key) as! SKLabelNode
+        let box = childNodeWithName("box_\(key)") as! SKSpriteNode
+        let label = box.childNodeWithName(key) as! SKLabelNode
         let lv = CommonData.getDataByInt(key)
         label.text = "\(display_name) LV\(lv)"
     }

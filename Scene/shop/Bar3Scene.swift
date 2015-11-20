@@ -25,6 +25,8 @@ class Bar3Scene: BaseScene {
             talkGimei()
         } else if name == "shounen" {
             talkShounen()
+        } else if name == "jigen" {
+            goJigen()
         } else if name == "back" {
             goShopScene()
         }

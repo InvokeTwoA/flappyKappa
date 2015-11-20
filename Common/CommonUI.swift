@@ -30,7 +30,7 @@ class CommonUI {
         let background : SKSpriteNode = SKSpriteNode(color: UIColor.whiteColor(), size: size)
         background.position = point
         background.zPosition = 100
-        background.name = name
+        background.name = "box_\(name)"
         
         let physic = SKPhysicsBody(rectangleOfSize: CGSizeMake(width, height))
         physic.affectedByGravity = false

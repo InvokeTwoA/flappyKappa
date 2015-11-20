@@ -26,7 +26,6 @@ class BaseScene: SKScene, SKPhysicsContactDelegate {
     // お金の初期値を設定
     func setMoney(){
         _gold = CommonData.getDataByInt("gold")
-        print("set money  \(_gold)")
     }
     
     func setBaseSetting(){
@@ -203,7 +202,6 @@ class BaseScene: SKScene, SKPhysicsContactDelegate {
     
     // 画面遷移前など、所持金を記録
     func saveMoney(){
-        print("save money \(_gold)")
         CommonData.setData("gold", value: _gold)
     }
     
