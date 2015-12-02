@@ -41,11 +41,7 @@ class Map3Scene: BaseScene {
     override func checkTochEvent(name: String) {
         if name == "back" {
             backAdventure()
-        } else if name == "text"{
-        } else if name == "kappa" {
-        } else if name == "sword" {
-            
-        } else {
+        } else if name == "odon" || name == "seizon" || name == "white" || name == "kettou" || name == "mugen"{
             CommonData.setData("stage_name", value: name)
             changeScene(MapPrepareScene(size: self.frame.size), tr: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1))
         }

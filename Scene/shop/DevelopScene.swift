@@ -31,7 +31,7 @@ class DevelopScene: BaseScene {
     override func checkTochEvent(name: String) {
         if name == "back" {
             goShopScene()
-        } else {
+        } else if name == "str_dev" || name == "def_dev" || name == "int_dev" || name == "pri_dev" || name == "luck_dev" {
             develop(name)
         }
     }

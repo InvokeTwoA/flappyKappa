@@ -38,8 +38,9 @@ class MapScene: BaseScene {
             backAdventure()
         } else if name == "next" {
             goNext()
-        } else if name == "kappa" {
-        } else if name == "sword" {
+        } else if name == "slime" || name == "tanuki" || name == "golem" || name == "dojo_g" {
+            CommonData.setData("stage_name", value: name)
+            changeScene(MapPrepareScene(size: self.frame.size), tr: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1))
         } else if name == "maou" {
             if CommonData.getDataByInt("mao_key") == 1 {
                 CommonData.setData("stage_name", value: name)
@@ -47,9 +48,6 @@ class MapScene: BaseScene {
             } else {
                 showAlert("鍵がかかっていて入れない！", text: "魔王め、なんて用心深いんだ", ok_text: "他の場所へ行こう")
             }
-        } else {
-            CommonData.setData("stage_name", value: name)
-            changeScene(MapPrepareScene(size: self.frame.size), tr: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1))
         }
     }
     

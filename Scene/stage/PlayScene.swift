@@ -126,16 +126,6 @@ class PlayScene: BaseScene, AVAudioPlayerDelegate {
     
     func setBackGroundImage(){
         return
-        /*
-        let backView = SKSpriteNode(imageNamed: "background_map")
-        backView.position = CGPointMake(self.size.width, self.size.height - CGFloat(CommonConst.headerHeight))
-        backView.zPosition = 0
-        backView.runAction(SKAction.repeatActionForever(
-            SKAction.sequence([
-                SKAction.moveToX(-200.0, duration: 20.0),
-                SKAction.moveToX(self.size.width+200, duration: 0.0)])))
-        self.addChild(backView)
-*/
     }
     
     override func setSlimeDemo() {

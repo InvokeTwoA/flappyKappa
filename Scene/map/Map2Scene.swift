@@ -37,10 +37,7 @@ class Map2Scene: BaseScene {
             backAdventure()
         } else if name == "next" {
             goNext()
-        } else if name == "kappa" {
-        } else if name == "sword" {
-        
-        } else {
+        } else if name == "noukin" || name == "taiman" || name == "maho" || name == "kabe" {
             CommonData.setData("stage_name", value: name)
             changeScene(MapPrepareScene(size: self.frame.size), tr: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1))
         }

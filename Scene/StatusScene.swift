@@ -152,11 +152,14 @@ class StatusScene: BaseScene {
         let costLabel : SKLabelNode = childNodeWithName("cost") as! SKLabelNode
         costLabel.text = "LVアップに必要な金： \(_cost)"
         if CommonData.getDataByInt("gold") < _cost {
-            let lv_up = childNodeWithName("lv_up")
-            lv_up?.removeFromParent()
+            let box = childNodeWithName("box_lv_up") as! SKSpriteNode
+            let label = box.childNodeWithName("lv_up") as! SKLabelNode
+            label.removeFromParent()
+            box.removeFromParent()
         }
     }
     
+    // 今は未使用
     func tweet(){
         let twitterCmp : SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
         
@@ -171,7 +174,7 @@ class StatusScene: BaseScene {
         currentViewController?.presentViewController(twitterCmp, animated: true, completion: nil)
     }
     
-    // スキルページへと繊維。ページ数は1
+    // スキルページへと繊維。ページ数は1　今は未使用
     func goSkill(){
         CommonData.setData("skill_page", value: 1)
         let secondScene = SkillScene(size: self.frame.size)

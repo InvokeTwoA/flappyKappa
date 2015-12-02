@@ -1,10 +1,6 @@
 // タイトル表示クラス
-// ここに関しては静的な画面なので、BaseSceneを継承しない
-
 import SpriteKit
-
 class TitleScene: BaseScene {
-
     var _destroy_num : Int = 0
     override func didMoveToView(view: SKView) {
         setBaseSetting()
@@ -15,7 +11,7 @@ class TitleScene: BaseScene {
         let point_y3 : CGFloat = point_y2 - CGFloat(CommonConst.textBlankHeight * 3)
         let point_y4 : CGFloat = point_y3 - CGFloat(CommonConst.textBlankHeight * 3)
         let point_y5 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight * 3)
-//        let point_y6 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight * 3)
+        let point_y6 : CGFloat = point_y4 - CGFloat(CommonConst.textBlankHeight * 3)
         let point : CGPoint = CGPoint(x:CGRectGetMaxX(self.frame) - 50, y:point_y1)
         setGhostDemo(point)
         
@@ -28,8 +24,9 @@ class TitleScene: BaseScene {
         setCenterButton("はじめる", key_name: "start", point_y: point_y3)
         setCenterButton("地球を破壊する", key_name: "break", point_y: point_y4)
         setCenterButton("せってい", key_name: "setting", point_y: point_y5)
-//        setCenterButton("他の神アプリで遊ぶ", key_name: "hoka", point_y: point_y6)
+        setCenterButton("他のアプリ", key_name: "hoka", point_y: point_y6)
         
+        // 適当にキャラ画像を配置
         setFighter()
         setWitch()
         setSister()
@@ -130,14 +127,12 @@ class TitleScene: BaseScene {
         }
     }
   
-    // FIXME 遷移せず
     func goHoka(){
-        /*
-        let itunesURL:String = "itms-apps://itunes.com/developer/\(artist)/id913430318"
+        let appID = CommonConst.hasireId
+        let itunesURL:String = "itms-apps://itunes.apple.com/app/bars/id\(appID)"
         let url = NSURL(string:itunesURL)
         let app:UIApplication = UIApplication.sharedApplication()
         app.openURL(url!)
-*/
     }
     
     
@@ -146,13 +141,10 @@ class TitleScene: BaseScene {
         if (CommonData.getDataByInt("story") == 0)  {
             CommonData.initData()
             inputName()
-            
-            
         } else {
             goGameScene()
         }
     }
-    
     
     func changeTextField(sender: NSNotification) {
         /*

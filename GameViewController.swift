@@ -22,7 +22,6 @@ class GameViewController: UIViewController, NADViewDelegate, AVAudioPlayerDelega
     private var nadView: NADView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // skviewの設定
         /*
         let skView = self.view as! SKView
