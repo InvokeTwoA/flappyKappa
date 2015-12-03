@@ -58,6 +58,7 @@ class DevelopScene: BaseScene {
     }
     
     func reloadScene(){
+        setMoney()
         updateGoldText()
         
         updateText("str_dev", display_name: "武器屋")

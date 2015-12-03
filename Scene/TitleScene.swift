@@ -226,7 +226,6 @@ class TitleScene: BaseScene {
 
     
     func goOpeningScene(){
-        print("go opening")
         CommonData.setData("story", value: 1)
         let secondScene = OpeningScene(size: self.frame.size)
         let tr = SKTransition.doorwayWithDuration(2)
