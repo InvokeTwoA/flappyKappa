@@ -22,6 +22,8 @@ class GameViewController: UIViewController, NADViewDelegate, AVAudioPlayerDelega
     private var nadView: NADView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("init width = \(self.view.frame.width)")
+        
         // skviewの設定
         /*
         let skView = self.view as! SKView
@@ -46,11 +48,9 @@ class GameViewController: UIViewController, NADViewDelegate, AVAudioPlayerDelega
     func nadViewDidFinishLoad(adView: NADView!) {
     }
     
-    
-    
     // タイトル画面へ移動
     func showTitleScene(){
-        let scene = TitleScene(size: UIScreen.mainScreen().bounds.size)        
+        let scene = TitleScene(size: UIScreen.mainScreen().bounds.size)
         let skView = self.view as! SKView
         scene.scaleMode = .AspectFill
         skView.presentScene(scene)
